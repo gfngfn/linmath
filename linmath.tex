@@ -1,0 +1,93 @@
+\documentclass[a4paper]{jsarticle}
+  \input{settings.tex}
+  \usepackage{style}
+%
+  \title{線型数理要論}
+  \author{\texttt{@bd\string_gfngfn}}
+\begin{document}
+  \maketitle
+%
+  \section{導入}
+    \subsection{ブロック行列}
+    \thmpar[thm:block-fundamental]{}{
+      正方行列
+      $\DS
+        M =
+        \text{\raisebox{0.75em}{$\DS
+          \begin{array}{@{}r@{}r@{}c@{}c@{}l@{}}
+            &
+            & \tikz \draw[latex-latex] (0, 0) -- (2em, 0) node[midway, above] {$m$};
+            & \tikz \draw[latex-latex] (0, 0) -- (2em, 0) node[midway, above] {$n$};
+            &
+          \\
+            m
+            \begin{tikzpicture}
+              \path[use as bounding box] (-0.2em, 0) -- (0, 0) -- (0, 1em) -- (-0.2em, 1em) -- cycle;
+              \draw[latex-latex] (0, -0.4em) -- (0, 1.1em);
+            \end{tikzpicture} &
+            \multirow{2}{*}{$\DS \left(\rule[-1.25em]{0pt}{3em}\right.$}
+              & \multicolumn{1}{c|}{A} & \multicolumn{1}{c}{B} &
+            \multirow{2}{*}{$\DS \left.\rule[-1.25em]{0pt}{3em}\right)$}
+          \\\cline{3-4}
+            n
+            \begin{tikzpicture}
+              \path[use as bounding box] (-0.2em, 0) -- (0, 0) -- (0, 1em) -- (-0.2em, 1em) -- cycle;
+              \draw[latex-latex] (0, -0.4em) -- (0, 1.1em);
+            \end{tikzpicture} &
+            & \multicolumn{1}{c|}{C} & \multicolumn{1}{c}{D} &
+          \end{array}
+        $}}
+        \in \setMatrix{m + n}{m + n}{K}
+      $
+      に対し，$A$ が正則ならば
+      \begin{align*}
+        \det M = \det A \cdot \det \paren{D - C A^{-1} B}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{
+      \begin{align*}
+        \begin{genmat}{c|c}
+          I_{m} & O
+        \\\hline
+          -C A^{-1} & I_{n}
+        \end{genmat}
+        \begin{genmat}{c|c}
+          A & B
+        \\\hline
+          C & D
+        \end{genmat}
+      &=
+        \begin{genmat}{c|c}
+          A & B
+        \\\hline
+          O & D - C A^{-1} B
+        \end{genmat}
+      \end{align*}
+      ……
+    }
+    \corpar{}{
+      $A \in \setMatrix{n}{m}{K}$，$B \in \setMatrix{m}{n}{K}$ に対し，
+      \begin{align*}
+        \det \paren{I_{n} + A B} = \det \paren{I_{m} + B A}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{
+      $\DS
+        M \defeq
+        \begin{genmat}{c|c}
+          I_{m} & -B
+        \\\hline
+          A & I_{n}
+        \end{genmat}
+      $
+      とおくと，定理~\ref{thm:block-fundamental}より
+      \begin{align*}
+        \det M
+          &= \det I_{m} \cdot \det \paren{I_{n} - A I_{m}^{-1} \paren{-B}}
+      \\
+          &= \det \paren{I_{n} + A B}
+      \end{align*}
+    }
+\end{document}
