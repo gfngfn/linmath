@@ -1,3 +1,15 @@
 \let\DS\displaystyle
 \newenvironment{genmat}[1]{\left(\begin{array}{#1}}{\end{array}\right)}
-
+\def\holdby#1{\tag*{$\because$#1}}
+%
+\def\cofactor#1{\Tilde{#1}}
+\def\cofactorDelta#1{\Delta^{#1}}
+\def\colvec#1#2{#1_{\mathord{\downarrow} #2}}
+\def\coloverwrite#1#2#3{#1\sqbracket{\mathord{\downarrow} #2 : #3}}
+%
+%\def\veca{\bm{a}}
+\def\vecb{\bm{b}}
+\def\vecx{\bm{x}}
+\def\submatrix#1#2#3{\colsubmatrix{\rowsubmatrix{#1}{#2}}{#3}}
+\def\colsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\rightarrow}} #2}}
+\def\rowsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\downarrow}} #2}}

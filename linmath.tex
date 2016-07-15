@@ -5,10 +5,57 @@
   \title{線型数理要論}
   \author{\texttt{@bd\string_gfngfn}}
 \begin{document}
-  \maketitle
+\maketitle
 %
-  \section{導入}
-    \subsection{ブロック行列}
+\section{行列と行列式}
+  \subsection{ブロック行列}
+    \thmpar[thm:det-mult-homomorphism]{行列式演算と積の準同型性}{
+      正方行列 $A, B \in \setMatrix{n}{n}{K}$ に対して
+      \begin{align*}
+        \det \paren{A B} = \det A \cdot \det B
+      \end{align*}
+      が成り立つ．
+    }
+    \thmpar[thm:block-det-ignore-upper-right]{ブロック零行列による行列式の簡単化}{
+      正方行列
+      $\DS
+        M =
+        \text{\raisebox{0.75em}{$\DS
+          \begin{array}{@{}r@{}r@{}c@{}c@{}l@{}}
+            &
+            & \tikz \draw[latex-latex] (0, 0) -- (2em, 0) node[midway, above] {$m$};
+            & \tikz \draw[latex-latex] (0, 0) -- (2em, 0) node[midway, above] {$n$};
+            &
+          \\
+            m
+            \begin{tikzpicture}
+              \path[use as bounding box] (-0.2em, 0) -- (0, 0) -- (0, 1em) -- (-0.2em, 1em) -- cycle;
+              \draw[latex-latex] (0, -0.4em) -- (0, 1.1em);
+            \end{tikzpicture} &
+            \multirow{2}{*}{$\DS \left(\rule[-1.25em]{0pt}{3em}\right.$}
+              & \multicolumn{1}{c|}{A}
+              & \begin{tikzpicture}
+                  \path[use as bounding box] (-1em, 0) rectangle (1em, 1em);
+                  \fill[pattern=north west lines] (-1em, -0.5em) rectangle (1em, 1.1em);
+                \end{tikzpicture} &
+            \multirow{2}{*}{$\DS \left.\rule[-1.25em]{0pt}{3em}\right)$}
+          \\\cline{3-4}
+            n
+            \begin{tikzpicture}
+              \path[use as bounding box] (-0.2em, 0) -- (0, 0) -- (0, 1em) -- (-0.2em, 1em) -- cycle;
+              \draw[latex-latex] (0, -0.4em) -- (0, 1.1em);
+            \end{tikzpicture} &
+            & \multicolumn{1}{c|}{O} & \multicolumn{1}{c}{B} &
+          \end{array}
+        $}}
+        \in \setMatrix{\paren{m + n}}{\paren{m + n}}{K}
+      $
+      に対して
+      \begin{align*}
+        \det M = \det A \cdot \det B
+      \end{align*}
+      が成り立つ．
+    }
     \thmpar[thm:block-fundamental]{}{
       正方行列
       $\DS
@@ -37,7 +84,7 @@
             & \multicolumn{1}{c|}{C} & \multicolumn{1}{c}{D} &
           \end{array}
         $}}
-        \in \setMatrix{m + n}{m + n}{K}
+        \in \setMatrix{\paren{m + n}}{\paren{m + n}}{K}
       $
       に対し，$A$ が正則ならば
       \begin{align*}
@@ -46,6 +93,7 @@
       が成り立つ．
     }
     \proof{}{
+      $A$ が正則であるという仮定より $A$ の逆行列 $A^{-1}$ が一意的に存在し，
       \begin{align*}
         \begin{genmat}{c|c}
           I_{m} & O
@@ -64,7 +112,50 @@
           O & D - C A^{-1} B
         \end{genmat}
       \end{align*}
-      ……
+      が成り立つ．ここで左辺の行列式は
+      \begin{align*}
+        \det \paren{
+          \begin{genmat}{c|c}
+            I_{m} & O
+          \\\hline
+            -C A^{-1} & I_{n}
+          \end{genmat}
+          \begin{genmat}{c|c}
+            A & B
+          \\\hline
+            C & D
+          \end{genmat}
+        }
+      &=
+        \det
+          \begin{genmat}{c|c}
+            I_{m} & O
+          \\\hline
+            -C A^{-1} & I_{n}
+          \end{genmat}
+        \cdot \det
+          \begin{genmat}{c|c}
+            A & B
+          \\\hline
+            C & D
+          \end{genmat}
+            \holdby{定理~\ref{thm:block-det-ignore-upper-right}}
+      \\&=
+        1 \cdot \det M
+      \\&= \det M
+      \end{align*}
+      であり，一方右辺の行列式は
+      \begin{align*}
+        \det
+          \begin{genmat}{c|c}
+            A & B
+          \\\hline
+            O & D - C A^{-1} B
+          \end{genmat}
+        &=
+          \det A \cdot \det \paren{D - C A^{-1} B} \holdby{定理~\ref{thm:block-det-ignore-upper-right}}
+      \end{align*}
+      であるから，以上より $\det M = \det A \cdot \det \paren{D - C A^{-1} B}$ が成り立つ．\qed
     }
     \corpar{}{
       $A \in \setMatrix{n}{m}{K}$，$B \in \setMatrix{m}{n}{K}$ に対し，
@@ -82,12 +173,129 @@
           A & I_{n}
         \end{genmat}
       $
-      とおくと，定理~\ref{thm:block-fundamental}より
+      とおくと
       \begin{align*}
         \det M
-          &= \det I_{m} \cdot \det \paren{I_{n} - A I_{m}^{-1} \paren{-B}}
+        &= \det I_{m} \cdot \det \paren{I_{n} - A I_{m}^{-1} \paren{-B}}
+          \holdby{定理~\ref{thm:block-fundamental}}
+      \\&= \det \paren{I_{n} + A B}
+      \end{align*}
+      が成り立ち，一方で
+      $\DS
+        N \defeq
+        \begin{genmat}{c|c}
+          I_{n} & A
+        \\\hline
+          -B & I_{m}
+        \end{genmat}
+      $
+      とおくと同様に
+      \begin{align*}
+        \det N
+        &= \det I_{n} \cdot \paren{I_{m} - \paren{-B} I_{n}^{-1} A}
+          \holdby{定理~\ref{thm:block-fundamental}}
+      \\&= \det \paren{I_{m} + B A}
+      \end{align*}
+      が成り立つ．$M$ と $N$ は偶数回の行・列交換により移り合うので $\det M = \det N$ であり，
+      ゆえに $\det \paren{I_{n} + A B} = \det \paren{I_{m} + B A}$ である．\qed
+    }
+  \subsection{餘因子}
+    \defpar{餘因子}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ の行列式 $\det A$ を $a_{i j}$ に関する多項式と看なしたときの係数 $\cofactorDelta{A}_{i j}$ を
+      $A$ の第 $\seqprn{i, j}$ 成分の\newword{餘因子}と呼ぶ．より形式的には
+      \begin{align*}
+        \cofactorDelta{A}_{i j} \defeq \paren{-1}^{i + j} \det \submatrix{A}{\Natleq{n} \setmns \setprn{i}}{\Natleq{n} \setmns \setprn{j}}
+      \end{align*}
+      である．
+    }
+    \thmpar[thm:laplace-expansion]{Laplace展開}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ と $p, q \in \Natleq{n}$ に対し，以下がそれぞれ成り立つ：
+      \begin{align*}
+        \det A &= \sum_{j = 1}^{n} A_{p j} \cofactorDelta{A}_{p j}
       \\
-          &= \det \paren{I_{n} + A B}
+        \det A &= \sum_{i = 1}^{n} A_{i q} \cofactorDelta{A}_{i q}
+      \end{align*}
+    }
+    \defpar{餘因子行列}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ の\newword{餘因子行列} $\cofactor{A} \in \setMatrix{n}{n}{K}$ を
+      \begin{align*}
+        \cofactor{A}_{i j} \defeq \cofactorDelta{A}_{j i}
+      \end{align*}
+      で定める．餘因子を並べたものの転置であることに注意せよ．
+    }
+    \lempar[lem:cofactor-and-inverse]{餘因子行列と逆行列}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ に対し，$\cofactor{A} A = A \cofactor{A} = \paren{\det A} I_{n}$ が成り立つ．
+    }
+    \proof{}{
+      \begin{align*}
+        \paren{\cofactor{A} A}_{i j}
+        &= \sum_{k = 1}^{n} \cofactor{A}_{i k} A_{k j}
+      \\&= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k i}
+      \end{align*}
+      であるから，
+      \begin{itemize}
+      \item $i = j$ のとき，
+        \begin{align*}
+          \paren{\cofactor{A} A}_{i j} = \paren{\cofactor{A} A}_{j j}
+          &= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k j}
+          = \det A
+            \holdby{定理~\ref{thm:laplace-expansion}：Laplace展開}
+        \end{align*}
+      \item $i \neq j$ のとき，
+%        $\DS
+%          \colvec{B}{k} \defeq
+%          \begin{cases}
+%            \colvec{A}{j} &\caseif{k = i}\\
+%            \colvec{A}{k} &\caseow
+%          \end{cases}
+%        $
+        $B \defeq \coloverwrite{A}{i}{\colvec{A}{j}}$
+        とする．すなわち $A$ の第 $i$ 列を第 $j$ 列の各成分で上書きした行列が $B$ である．
+        このとき，第 $i$ 列に関するLaplace展開は第 $i$ 列の成分に依存しないから，$\cofactorDelta{B}_{k i} = \cofactorDelta{A}_{k i}$ が成り立つ．
+        また $B$ は第 $i$ 列と第 $j$ 列が同一なので $\det B = 0$ であり，これらから
+        \begin{align*}
+          \paren{\cofactor{A} A}_{i j}
+          &= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k j}
+        \\&= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{B}_{k j}
+        \\&= \det B
+            \holdby{定理~\ref{thm:laplace-expansion}：Laplace展開}
+        \\&= 0
+        \end{align*}
+        が成り立つ．
+      \end{itemize}
+      以上より，$\cofactor{A} A = \paren{\det A} I$ である．$A \cofactor{A}$ についても同様．\qed
+    }
+    \thmpar{Cramerの公式}{
+      正則行列 $A \in \setMatrix{n}{n}{K}$，ベクトル $\vecb \in K^{n}$ に対して
+      $\vecx \in K^{n}$ が $A \vecx = \vecb$ を満たすならば，各 $i \in \Natleq{n}$ に対して
+      \begin{align*}
+        \vecx_{i}
+        &= \frac{\det \coloverwrite{A}{i}{\vecb}}{\det A}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{
+      \begin{align*}
+        \vecx_{i}
+        = \paren{A^{-1} \vecb}_{i}
+        &= \sum_{j = 1}^{n} \paren{A^{-1}}_{i j} \vecb_{j}
+      \\&= \sum_{j = 1}^{n} \frac{\cofactor{A}_{i j}}{\det A} \vecb_{j}
+        \holdby{補題~\ref{lem:cofactor-and-inverse}}
+      \\&= \frac{1}{\det A} \sum_{j = 1}^{n} \cofactorDelta{A}_{j i} \vecb_{j}
+      \end{align*}
+      であり，一方で
+      \begin{align*}
+        \det \coloverwrite{A}{i}{\vecb}
+        &= \sum_{j = 1}^{n} \paren{\coloverwrite{A}{i}{\vecb}}_{i j} \cofactorDelta{\coloverwrite{A}{i}{\vecb}}_{j i}
+          \holdby{定理~\ref{thm:laplace-expansion}：第 $i$ 列に関するLaplace展開}
+      \\&= \sum_{j = 1}^{n} \vecb_{j} \cofactorDelta{A}_{j i}
+      \end{align*}
+      より $\DS \vecx_{i} = \frac{\det \coloverwrite{A}{i}{\vecb}}{\det A}$ である．\qed
+    }
+    \thmpar{Binet--Cauchyの公式}{
+      $m \leq n$ なる行列 $A \in \setMatrix{m}{n}{K}$，$B \in \setMatrix{n}{m}{K}$ に対して
+      \begin{align*}
+        \det \paren{A B} &= \sum_{\scriptrange{J \in {\Natleq{n} \choose m}}} \det \colsubmatrix{A}{J} \cdot \det \rowsubmatrix{B}{J}
       \end{align*}
     }
 \end{document}
