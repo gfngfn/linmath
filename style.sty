@@ -1,3 +1,5 @@
+\def\REMAINS{\textcolor{red}{\textgt{Åqóvâ¡ïMÅr}}}
+\def\NEEDPICTURE{\textcolor{red}{\textgt{Åqóvó™ê}År}}}
 \let\DS\displaystyle
 \newenvironment{genmat}[1]{\left(\begin{array}{#1}}{\end{array}\right)}
 \def\holdby#1{\tag*{$\because$#1}}
@@ -6,10 +8,15 @@
 \def\cofactorDelta#1{\Delta^{#1}}
 \def\colvec#1#2{#1_{\mathord{\downarrow} #2}}
 \def\coloverwrite#1#2#3{#1\sqbracket{\mathord{\downarrow} #2 : #3}}
+\def\submatrix#1#2#3{\colsubmatrix{\rowsubmatrix{#1}{#2}}{#3}}
+\def\colsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\rightarrow}} #2}}
+\def\rowsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\downarrow}} #2}}
+\def\Perm#1{\mathfrak{S}_{#1}}
+\def\sgn{\mathop{\operator@font sgn}}
+\def\rank{\mathop{\operator@font rank}}
+\def\Img{\mathop{\operator@font Im}}
+\def\Ker{\mathop{\operator@font Ker}}
 %
 %\def\veca{\bm{a}}
 \def\vecb{\bm{b}}
 \def\vecx{\bm{x}}
-\def\submatrix#1#2#3{\colsubmatrix{\rowsubmatrix{#1}{#2}}{#3}}
-\def\colsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\rightarrow}} #2}}
-\def\rowsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\downarrow}} #2}}

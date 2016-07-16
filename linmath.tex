@@ -7,6 +7,37 @@
 \begin{document}
 \maketitle
 %
+\section{はじめに}
+  \subsection{概要}
+    \plainpar{}{
+      この文書では，あまり基底のとり方や線型写像といった一般の議論を意識せず，
+      行列を単に「体 $K$ の元が $m \times n$ に並んだもの」として捉えてその性質を見ていく方針をとる．
+    }
+  \subsection{基本的定義}
+    \defpar{}{
+      非負整数を\newword{自然数}といい，自然数全体からなる集合を $\setN$，また正整数全体からなる集合を $\setNpos$ と書く．
+      自然数 $n \in \setN$ に対し，
+      $\Natleq{n} \defeq \setprnsep{k \in \setNpos}{k \leq n}$ とする．
+    }
+    \defpar{行列に関する記法}{
+      体 $\seqprn{K, +, \cdot; 0, 1, \paren{\dummysign}^{-1}}$ の元を並べた
+      $m \times n$ 行列全体からなる集合を $\setMatrix{m}{n}{K}$ と書く．
+      行列 $A \in \setMatrix{m}{n}{K}$ の $\seqprn{i, j}$ 成分を $A_{i j}$，第 $j$ 列を $\colvec{A}{j}$ と書く．
+      $A \in \setMatrix{m}{n}{K}$ に対し，各 $j \in \Natleq{n}$ に於いて
+      \begin{align*}
+        \colvec{B}{j} &\defeq
+          \begin{cases}
+            \vecb         &\caseif{j = k}\\
+            \colvec{A}{j} &\caseow
+          \end{cases}
+      \end{align*}
+      で定められる行列 $B \in \setMatrix{m}{n}{K}$，すなわち“$A$ の第 $k$ 列をベクトル $\vecb$ で上書きした行列”を
+      $\coloverwrite{A}{k}{\vecb}$ と書く．
+      また $A \in \setMatrix{m}{n}{K}$ と $I \subseteq \Natleq{m}$ に対して
+      “$A$ のうち $I$ に属する行番号だけ取り出した $\card{I} \times n$ 行列”を $\rowsubmatrix{A}{I}$ と書き，
+      $J \subseteq \Natleq{n}$ に対して
+      “$A$ のうち $J$ に属する列番号だけ取り出した $m \times \card{J}$ 行列”を $\colsubmatrix{A}{J}$ と書く．
+    }
 \section{行列と行列式}
   \subsection{ブロック行列}
     \thmpar[thm:det-mult-homomorphism]{行列式演算と積の準同型性}{
@@ -286,7 +317,7 @@
       であり，一方で
       \begin{align*}
         \det \coloverwrite{A}{i}{\vecb}
-        &= \sum_{j = 1}^{n} \paren{\coloverwrite{A}{i}{\vecb}}_{i j} \cofactorDelta{\coloverwrite{A}{i}{\vecb}}_{j i}
+        &= \sum_{j = 1}^{n} \paren{\coloverwrite{A}{i}{\vecb}}_{i j} \cofactorDelta{\scriptrange{\coloverwrite{A}{i}{\vecb}}}_{j i}
           \holdby{定理~\ref{thm:laplace-expansion}：第 $i$ 列に関するLaplace展開}
       \\&= \sum_{j = 1}^{n} \vecb_{j} \cofactorDelta{A}_{j i}
       \end{align*}
@@ -297,5 +328,81 @@
       \begin{align*}
         \det \paren{A B} &= \sum_{\scriptrange{J \in {\Natleq{n} \choose m}}} \det \colsubmatrix{A}{J} \cdot \det \rowsubmatrix{B}{J}
       \end{align*}
+    }
+    \proof{}{
+      $\DS M \defeq
+        \begin{genmat}{c|c}
+          I & B
+        \\\hline
+          A & O
+        \end{genmat}
+      $ とすると
+      \begin{align*}
+        \det M
+        &= \det I \cdot \det \paren{o - A I^{-1} B}
+          \holdby{定理~\ref{thm:block-fundamental}}
+      \\&= \det \paren{- A B}
+        = \paren{-1}^{m} \det \paren{A B}
+      \end{align*}
+      が成り立つ．一方，行列式の定義に基づくと
+      \begin{align*}
+        \det M &= \sum_{\sigma \in \Perm{m + n}} \sgn \sigma \prod_{i = 1}^{m + n} M_{\scriptrange{i \app{\sigma}{i}}}
+      \end{align*}
+      であり，これを実際に各 $\sigma \in \Perm{m + n}$ について和をとって求めてみる．
+      $\DS \prod_{i = 1}^{m + n} M_{\scriptrange{i \app{\sigma}{i}}} \neq 0$ なる $\sigma \in \Perm{m + n}$ についてのみ考えればよい．
+      このような $\sigma$ に対し，$\DS J \in {\Natleq{n} \choose m}$ が存在して $\forallin{j}{\Natleq{n} \setmns J}{\app{\sigma}{j} = j}$
+      を満たす．\REMAINS \NEEDPICTURE
+    }
+  \subsection{階数}
+    \defpar{行列の階数}{
+      簡単のためここでは線型写像と行列を同一視することにすると，
+      $\funcdoms{A}{V}{U}$ に対して $A$ の\newword{階数}は
+      $\rank A \defeq \dim \paren{\Img A} = \dim V - \dim \paren{\Ker A}$ で定められる．
+      行列の直観としては「掃き出した後に対角に並ぶ非零成分の個数」である．
+    }
+    \lempar[lem:rank-fundamental-ineq]{}{
+      以下がそれぞれ成り立つ：
+      \begin{thmenum}
+      \thmenumitem\label{lem:rank-fundamental-ineq|1}
+        $\forallin{A}{\setMatrix{m}{l}{K}}{\forallin{B}{\setMatrix{l}{n}{K}}{
+          \rank \paren{A B} \leq \min \setprn{\rank A, \rank B}}}$
+      \thmenumitem\label{lem:rank-fundamental-ineq|2}
+        正則行列 $S \in \setMatrix{m}{m}{K}$，$T \in \setMatrix{l}{l}{K}$ に対して
+        $\rank A = \rank \paren{S A T}$
+      \thmenumitem\label{lem:rank-fundamental-ineq|3}
+        $\forallin{A|B}{\setMatrix{m}{n}{K}}{
+          \rank \paren{A + B} \leq \rank A + \rank B}$
+      \end{thmenum}
+    }
+    \proof{}{
+      \subproof{\ref{lem:rank-fundamental-ineq|1}}{
+        $\Img \paren{A B} \subseteq \Img A$ より $\rank \paren{A B} \leq \rank A$．また，
+        $\rank \paren{A B} = \rank \trsps{\paren{A B}} = \rank \paren{\trsps{B} \trsps{A}} \leq \rank \trsps{B} = \rank B$．\qed
+      }
+      \subproof{\ref{lem:rank-fundamental-ineq|2}}{
+        \ref{lem:rank-fundamental-ineq|1}より $\rank \paren{S A T} \leq \rank \paren{A}$，
+        一方で同様に $\rank A = \rank \paren{S^{-1} S A T T^{-1}} \leq \rank \paren{S A T}$ が成り立ち，
+        $\rank A = \rank \paren{S A T}$．\qed
+      }
+      \subproof{\ref{lem:rank-fundamental-ineq|3}}{
+        掃き出しにより
+        \begin{align*}
+          \rank
+          \begin{genmat}{c|c}
+            I & A
+          \\\hline
+            -I & B
+          \end{genmat}
+        &=
+          \rank
+          \begin{genmat}{c|c}
+            I & A
+          \\\hline
+            O & A + B
+          \end{genmat}
+        = m + \rank \paren{A + B}
+        \end{align*}
+        \REMAINS \NEEDPICTURE
+      }
     }
 \end{document}
