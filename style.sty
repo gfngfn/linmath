@@ -22,6 +22,8 @@
 \def\expandHV#1{\expandH{\expandV{#1}}}
 \def\expandH#1{\quad#1\quad}
 \def\expandV#1{\rule[-1em]{0pt}{2.5em}#1}
+\def\expandSH#1{\qquad#1\qquad}
+\def\expandSV#1{\rule[-2em]{0pt}{4.5em}#1}
 \def\conj#1{\overline{#1}}
 \def\conjtrsps#1{#1^{\ast}}
 \let\norm\distprn
@@ -31,8 +33,8 @@
 \def\subarea#1{%
   \par{%
     \leftskip=4em\relax
-    \rightskip=2em\relax
-    \advance\textwidth-6em\relax
+    %\rightskip=2em\relax
+    \advance\textwidth-4em\relax
     #1%
   }\noindent
 }

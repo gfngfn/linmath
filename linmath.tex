@@ -258,11 +258,11 @@
       正方行列 $A \in \setMatrix{n}{n}{K}$ に対し，$\cofactor{A} A = A \cofactor{A} = \paren{\det A} I_{n}$ が成り立つ．
     }
     \proof{}{
-      \begin{align*}
+      $\DS
         \paren{\cofactor{A} A}_{i j}
-        &= \sum_{k = 1}^{n} \cofactor{A}_{i k} A_{k j}
-      \\&= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k i}
-      \end{align*}
+        = \sum_{k = 1}^{n} \cofactor{A}_{i k} A_{k j}
+        = \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k i}
+      $
       であるから，
       \begin{itemize}
       \item $i = j$ のとき，
@@ -279,8 +279,9 @@
         また $B$ は第 $i$ 列と第 $j$ 列が同一なので $\det B = 0$ であり，これらから
         \begin{align*}
           \paren{\cofactor{A} A}_{i j}
-          &= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k j}
-        \\&= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{B}_{k j}
+          = \sum_{k = 1}^{n} A_{k j} \cofactorDelta{A}_{k i}
+          &= \sum_{k = 1}^{n} A_{k j} \cofactorDelta{B}_{k i}
+            \holdby{$\cofactorDelta{A}_{k i} = \cofactorDelta{B}_{k i}$}
         \\&= \det B
             \holdby{定理~\ref{thm:laplace-expansion}：Laplace展開}
         \\&= 0
@@ -614,9 +615,9 @@
         とおくと，この $U$ は構成方法からしてユニタリ行列であって
         \begin{align*}
           \conjtrsps{U} A U
-          =
+          &=
             \begin{genmat}{@{}c@{}}
-              \expandH{\conjtrsps{\vecu}}
+              \expandSH{\conjtrsps{\vecu}}
             \\\hline
               \conjtrsps{\vecv_{1}}
             \\\hline
@@ -626,24 +627,11 @@
             \end{genmat}
             A
             \begin{genmat}{@{}c|c|c|c@{}}
-              \expandV{\vecu} & \vecv_{1} & \cdots & \vecv_{n - 1}
-            \end{genmat}
-          &=
-            \begin{genmat}{@{}c@{}}
-              \expandH{\conjtrsps{\vecu}}
-            \\\hline
-              \conjtrsps{\vecv_{1}}
-            \\\hline
-              \vdots
-            \\\hline
-              \conjtrsps{\vecv_{n - 1}}
-            \end{genmat}
-            \begin{genmat}{@{}c|c|c|c@{}}
-              \expandV{A \vecu} & A \vecv_{1} & \cdots & A \vecv_{n - 1}
+              \expandSV{\vecu} & \vecv_{1} & \cdots & \vecv_{n - 1}
             \end{genmat}
         \\&=
             \begin{genmat}{@{}c@{}}
-              \expandH{\conjtrsps{\vecu}}
+              \expandSH{\conjtrsps{\vecu}}
             \\\hline
               \conjtrsps{\vecv_{1}}
             \\\hline
@@ -652,7 +640,20 @@
               \conjtrsps{\vecv_{n - 1}}
             \end{genmat}
             \begin{genmat}{@{}c|c|c|c@{}}
-              \expandV{\lambda \vecu} & \lambda \vecv_{1} & \cdots & \lambda \vecv_{n - 1}
+              \expandSV{A \vecu} & A \vecv_{1} & \cdots & A \vecv_{n - 1}
+            \end{genmat}
+        \\&=
+            \begin{genmat}{@{}c@{}}
+              \expandSH{\conjtrsps{\vecu}}
+            \\\hline
+              \conjtrsps{\vecv_{1}}
+            \\\hline
+              \vdots
+            \\\hline
+              \conjtrsps{\vecv_{n - 1}}
+            \end{genmat}
+            \begin{genmat}{@{}c|c|c|c@{}}
+              \expandSV{\lambda \vecu} & \lambda \vecv_{1} & \cdots & \lambda \vecv_{n - 1}
             \end{genmat}
         \\&=
             \begin{genmat}{c|@{}c@{}}
@@ -952,7 +953,9 @@
           $\forallin{\vecx}{V_{k} \setmns \setprn{\veczero}}{\lambda_{1} \geq \app{\Rayleigh{A}}{\vecx} \geq \lambda_{k}}$
         }
         \proof{}{
+          $\vecx \in V_{k} \setmns \setprn{\veczero}$ とする．
           $\vecx = \alpha_{1} \vecu_{1} + \cdots + \alpha_{k} \vecu_{k}$ とおくと，
+          $\vecx \neq \veczero$ より $\conjtrsps{\vecx} \vecx > 0$ であるから
           \begin{align*}
             \app{\Rayleigh{A}}{\vecx}
             = \frac{\conjtrsps{\vecx} A \vecx}{\conjtrsps{\vecx} \vecx}
@@ -962,7 +965,7 @@
                 \absprn{\alpha_{1}}^{2} + \cdots + \absprn{\alpha_{k}}^{2}} = \lambda_{1}
               \holdby{$\lambda_{1} \geq \cdots \geq \lambda_{k}$}
           \end{align*}
-          より $\app{\Rayleigh{A}}{\vecx} \leq \lambda_{1}$ が成り立つ．
+          であり，$\app{\Rayleigh{A}}{\vecx} \leq \lambda_{1}$ が成り立つ．
           同様にして $\app{\Rayleigh{A}}{\vecx} \geq \lambda_{k}$ も示せる．\qed
         }
         \sublempar{}{
@@ -983,10 +986,10 @@
       \end{align*}
       が成り立つ．
     }
-  \subsection{行列の標準形}
-    \plainpar{}{\REMAINS}
-  \subsection{整数行列}
-    \plainpar{}{\REMAINS}
-  \subsection{線型計画法}
-    \plainpar{}{\REMAINS}
+\section{行列の標準形}
+  \plainpar{}{\REMAINS}
+\section{整数行列}
+  \plainpar{}{\REMAINS}
+\section{線型計画法}
+  \plainpar{}{\REMAINS}
 \end{document}
