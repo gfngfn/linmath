@@ -8,6 +8,7 @@
 \def\cofactorDelta#1{\Delta^{#1}}
 \def\colvec#1#2{#1_{\mathord{\downarrow} #2}}
 \def\coloverwrite#1#2#3{#1\sqbracket{\mathord{\downarrow} #2 : #3}}
+\def\rowvec#1#2{#1_{#2 \mathord{\rightarrow}}}
 \def\submatrix#1#2#3{\colsubmatrix{\rowsubmatrix{#1}{#2}}{#3}}
 \def\colsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\rightarrow}} #2}}
 \def\rowsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\downarrow}} #2}}
@@ -22,10 +23,13 @@
 \def\expandH#1{\quad#1\quad}
 \def\expandV#1{\rule[-1em]{0pt}{2.5em}#1}
 \def\conj#1{\overline{#1}}
-\def\conjtrsps#1{{#1}^{\ast}}
+\def\conjtrsps#1{#1^{\ast}}
+\let\norm\distprn
 %
 %\def\veca{\bm{a}}
 \def\vecb{\bm{b}}
 \def\vecc{\bm{c}}
+\def\vecu{\bm{u}}
+\def\vecv{\bm{v}}
 \def\vecx{\bm{x}}
 \def\vecz{\bm{z}}

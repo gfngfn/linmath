@@ -433,7 +433,7 @@
             \\\hline
               \vecc & \expandHV{D}
             \end{genmat}
-            \begin{genmat}{c}
+            \begin{genmat}{@{}c@{}}
               1
             \\\hline
               \expandV{\veczero}
@@ -460,7 +460,7 @@
           \\\hline
             \veczero & \DS\expandHV{D - \frac{1}{a} \vecc \trsps{\vecc}}
           \end{genmat}
-          \begin{genmat}{c}
+          \begin{genmat}{@{}c@{}}
             y
           \\\hline
             \expandV{\vecz}
@@ -475,7 +475,7 @@
           \\\hline
             \vecc & \expandHV{D}
           \end{genmat}
-          \begin{genmat}{c}
+          \begin{genmat}{@{}c@{}}
             y
           \\\hline
             \expandV{\vecz}
@@ -522,13 +522,13 @@
         とする．仮に $D$ が正定値でないとすると，或る $\vecx \in K^{n - 1} \setmns \setprn{\veczero}$ が存在して
         $\trsps{\vecx} D \vecx \leq 0$ を満たすが，この $\vecx$ を用いると
         \begin{align*}
-          \begin{genmat}{c}
+          \begin{genmat}{@{}c@{}}
             0
           \\\hline
             \expandV{\vecx}
           \end{genmat}
           A
-          \begin{genmat}{c}
+          \begin{genmat}{@{}c@{}}
             0
           \\\hline
             \expandV{\vecx}
@@ -578,5 +578,345 @@
       $A \conjtrsps{A} = \conjtrsps{A} A$ なる正方行列 $A$ を\newword{正規行列}，
       $A \conjtrsps{A} = I$ なる正方行列 $A$ を\newword{ユニタリ行列}，
       $A = \conjtrsps{A}$ なる正方行列 $A$ を\newword{Hermite行列}と呼ぶ．
+    }
+    \lempar{}{
+      以下がそれぞれ成り立つ：
+      \begin{thmenum}
+      \thmenumitem ユニタリ行列ならば正規行列．
+      \thmenumitem Hermite行列ならば正規行列．
+      \thmenumitem 実ユニタリ行列ならば直交行列．
+      \thmenumitem 実Hermite行列ならば対称行列．
+      \end{thmenum}
+    }
+    \proof{}{
+      いずれも定義より明らかである．\qed
+    }
+    \thmpar[thm:trans-by-unitary-into-uptriangle]{}{
+      複素正方行列 $A \in \setMatrix{n}{n}{\setC}$ に対し，
+      或るユニタリ行列 $Q \in \setMatrix{n}{n}{\setC}$　と上三角行列 $R \in \setMatrix{n}{n}{\setC}$ が存在して
+      $\conjtrsps{Q} A Q = R$ を満たす．
+    }
+    \proof{}{
+      $A$ の大きさ $n$ に関する帰納法による．
+      \begin{itemize}
+      \item $n = 1$ のときは $Q \defeq \begin{genmat}{c} 1 \end{genmat}$，$R \defeq A$ が満たすので明らか．
+      \item $n \geq 2$ のとき，
+        代数学の基本定理より $A$ の固有値 $\lambda$ が存在する．この $\lambda$ に対応する $A$ の固有ベクトルを規格化したもののひとつを
+        $\vecu$ とおく．すなわち $A \vecu = \lambda \vecu$，$\norm{\vecu}^{2} = \conjtrsps{\vecu} \vecu = 1$ である．
+        ここで $W \defeq \setprnsep{\vecx \in \setC^{n}}{\conjtrsps{\vecu} \vecx = 0}$，
+        すなわち $\vecu$ の直交補空間を $W$ とし，$W$ の正規直交基底を $\seqprn{\vecv_{1}, \ldots, \vecv_{n - 1}}$ とおく．
+        これをもとに
+        $\DS U \defeq
+          \begin{genmat}{@{}c|c|c|c@{}}
+            \expandV{\vecu} & \vecv_{1} & \cdots & \vecv_{n - 1}
+          \end{genmat}
+        $
+        とおくと，この $U$ は構成方法からしてユニタリ行列であって
+        \begin{align*}
+          \conjtrsps{U} A U
+          =
+            \begin{genmat}{@{}c@{}}
+              \expandH{\conjtrsps{\vecu}}
+            \\\hline
+              \conjtrsps{\vecv_{1}}
+            \\\hline
+              \vdots
+            \\\hline
+              \conjtrsps{\vecv_{n - 1}}
+            \end{genmat}
+            A
+            \begin{genmat}{@{}c|c|c|c@{}}
+              \expandV{\vecu} & \vecv_{1} & \cdots & \vecv_{n - 1}
+            \end{genmat}
+          &=
+            \begin{genmat}{@{}c@{}}
+              \expandH{\conjtrsps{\vecu}}
+            \\\hline
+              \conjtrsps{\vecv_{1}}
+            \\\hline
+              \vdots
+            \\\hline
+              \conjtrsps{\vecv_{n - 1}}
+            \end{genmat}
+            \begin{genmat}{@{}c|c|c|c@{}}
+              \expandV{A \vecu} & A \vecv_{1} & \cdots & A \vecv_{n - 1}
+            \end{genmat}
+        \\&=
+            \begin{genmat}{@{}c@{}}
+              \expandH{\conjtrsps{\vecu}}
+            \\\hline
+              \conjtrsps{\vecv_{1}}
+            \\\hline
+              \vdots
+            \\\hline
+              \conjtrsps{\vecv_{n - 1}}
+            \end{genmat}
+            \begin{genmat}{@{}c|c|c|c@{}}
+              \expandV{\lambda \vecu} & \lambda \vecv_{1} & \cdots & \lambda \vecv_{n - 1}
+            \end{genmat}
+        \\&=
+            \begin{genmat}{c|@{}c@{}}
+              \lambda \conjtrsps{\vecu} \vecu &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (4em, 1em);
+                \fill[pattern=north west lines] (-0.25em, -0.25em) rectangle (4.25em, 1em);
+              \end{tikzpicture}
+            \\\hline
+              \lambda \conjtrsps{\vecv_{1}} \vecu & \multirow{3}{*}{
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (4em, 4em);
+                  \fill[pattern=north west lines] (-0.25em, -0.25em) rectangle (4.25em, 3.95em);
+                \end{tikzpicture}
+              }
+            \\
+              \vdots &
+            \\
+              \lambda \conjtrsps{\vecv_{n - 1}} \vecu
+            \end{genmat}
+        \\&=
+            \begin{genmat}{c|@{}c@{}}
+              \lambda &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (4em, 1em);
+                \fill[pattern=north west lines] (0.1em, -0.25em) rectangle (4em, 1em);
+              \end{tikzpicture}
+            \\\hline
+              \expandV{\veczero} & \expandHV{A'}
+            \end{genmat}
+        \end{align*}
+        を満たす．ここで $A' \in \setMatrix{\paren{n - 1}}{\paren{n - 1}}{\setC}$ とおいた行列に対し，
+        帰納法の仮定より或るユニタリ行列 $Q' \in \setMatrix{\paren{n - 1}}{\paren{n - 1}}{\setC}$ と
+        上三角行列 $R' \in \setMatrix{\paren{n - 1}}{\paren{n - 1}}{\setC}$ が存在して $\conjtrsps{Q'} A' Q' = R'$ が成り立つ．
+        この $Q'$ を用いて
+        $\DS Q \defeq
+          \begin{genmat}{c|c}
+            1 & \trsps{\veczero}
+          \\\hline
+            \veczero & \expandHV{Q'}
+          \end{genmat}
+        $
+        とすると $Q$ は明らかにユニタリ行列で
+        \begin{align*}
+          \conjtrsps{Q} A Q
+          =
+            \begin{genmat}{c|c}
+              1 & \trsps{\veczero}
+            \\\hline
+              \veczero & \expandHV{\conjtrsps{Q'}}
+            \end{genmat}
+            \begin{genmat}{c|@{}c@{}}
+              \lambda &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (4em, 1em);
+                \fill[pattern=north west lines] (0.1em, -0.25em) rectangle (4em, 1em);
+              \end{tikzpicture}
+            \\\hline
+              \expandV{\veczero} & \expandHV{A'}
+            \end{genmat}
+            \begin{genmat}{c|c}
+              1 & \trsps{\veczero}
+            \\\hline
+              \veczero & \expandHV{Q'}
+            \end{genmat}
+          &=
+          \begin{genmat}{c|@{}c@{}}
+            \lambda &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (4em, 1em);
+                \fill[pattern=north west lines] (0.1em, -0.25em) rectangle (4em, 1em);
+              \end{tikzpicture}
+          \\\hline
+            \veczero & \expandHV{R'}
+          \end{genmat}
+          \backdefeq R
+        \end{align*}
+        となり，これは上三角行列である．
+      \end{itemize}
+      以上より，$\conjtrsps{Q} A Q = R$ なるユニタリ行列 $Q$ と上三角行列 $R$ が存在する．\qed
+    }
+    \defpar{Schur標準形}{
+      複素正方行列 $A$ に対して定理~\ref{thm:trans-by-unitary-into-uptriangle}により存在する $R$ は，
+      $A$ の\newword{Schur標準形}と呼ばれる．
+    }
+    \lempar{}{
+      複素正方行列 $A$ のSchur標準形 $R$ の対角成分は $A$ の固有値である．
+    }
+    \proof{}{
+      定理~\ref{thm:trans-by-unitary-into-uptriangle}より $\conjtrsps{Q} A Q = R$ なるユニタリ行列 $Q$ が存在する．
+      この $Q$ を用いると
+      \begin{align*}
+        \det \paren{\lambda I - A}
+        &= \det \paren{\lambda I - A} \cdot \det I
+      \\&= \det \paren{\lambda I - A} \cdot \det \paren{\conjtrsps{Q} Q}
+      \\&= \det \paren{\lambda I - A} \cdot \det \conjtrsps{Q} \cdot \det Q
+          \holdby{定理~\ref{thm:det-mult-homomorphism}}
+      \\&= \det \conjtrsps{Q} \cdot \det \paren{\lambda I - A} \cdot \det Q
+      \\&= \det \paren{\conjtrsps{Q} \paren{\lambda I - A} Q}
+          \holdby{定理~\ref{thm:det-mult-homomorphism}}
+      \\&= \det \paren{\lambda I - \conjtrsps{Q} A Q}
+      \\&= \det \paren{\lambda I - R}
+      \\&= \prod_{i = 1}^{n} \paren{\lambda - R_{i i}}
+          \holdby{$R$ は上三角行列}
+      \end{align*}
+      であるから，確かに $R$ の各対角成分は重複度も含めて $A$ の固有値に一致する．\qed
+    }
+    \thmpar{}{
+      正規行列 $A \in \setMatrix{n}{n}{K}$ に対し，
+      或るユニタリ行列 $Q \in \setMatrix{n}{n}{K}$ と対角行列 $\Lambda \in \setMatrix{n}{n}{K}$ が存在して
+      $\conjtrsps{Q} A Q = \Lambda$ が成り立つ．
+    }
+    \proof{}{
+      \subproof{$\limpl$}{
+        定理~\ref{thm:trans-by-unitary-into-uptriangle}より或るユニタリ行列 $Q$ と上三角行列 $R$ が存在して
+        $\conjtrsps{Q} A Q = R$ が成り立つ．この $R$ が対角行列であることを示せばよい．
+        \begin{align*}
+          R \conjtrsps{R}
+          = \paren{\conjtrsps{Q} A Q} \paren{\conjtrsps{Q} \conjtrsps{A} Q}
+          = \conjtrsps{Q} A \paren{Q \conjtrsps{Q}} \conjtrsps{A} Q
+          &= \conjtrsps{Q} A \conjtrsps{A} Q
+            \holdby{$Q$ はユニタリ行列}
+        \\&= \conjtrsps{Q} \conjtrsps{A} A Q
+            \holdby{$A$ は正規行列}
+        \\&= \conjtrsps{Q} \conjtrsps{A} \paren{Q \conjtrsps{Q}} A Q
+            \holdby{$Q$ はユニタリ行列}
+        \\&= \paren{Q \conjtrsps{A} Q} \paren{\conjtrsps{Q} A Q}
+          = \conjtrsps{R} R
+        \end{align*}
+        より $R$ も正規行列である．ここで
+        $\DS R =
+          \begin{genmat}{@{}ccc@{}}
+            \lambda_{1} & &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                \fill[pattern=north west lines] (0, 0) -- (-4.8em, 0) -- (0, -4.1em) -- cycle;
+              \end{tikzpicture}
+          \\
+            & \ddots &
+          \\
+            \begin{tikzpicture}
+              \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+              \draw node at (1em, 1em) {\Huge $O$};
+            \end{tikzpicture}
+            & & \lambda_{n}
+          \end{genmat}
+        $
+        とおくと，$R \conjtrsps{R} = \conjtrsps{R} R$ より
+        \begin{align*}
+            \begin{genmat}{@{}ccc@{}}
+              \lambda_{1} & &
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                  \fill[pattern=north west lines] (0, 0) -- (-4.8em, 0) -- (0, -3.9em) -- cycle;
+                \end{tikzpicture}
+            \\
+              & \ddots &
+            \\
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+                \draw node at (1em, 1em) {\Huge $O$};
+              \end{tikzpicture}
+              & & \lambda_{n}
+            \end{genmat}
+            \begin{genmat}{@{}ccc@{}}
+              \conj{\lambda_{1}} & &
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                  \draw node at (-1em, -1em) {\Huge $O$};
+                \end{tikzpicture}
+            \\
+              & \ddots &
+            \\
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+                \fill[pattern=north west lines] (0, -0.25em) -- (4.2em, -0.25em) -- (0, 3.1em) -- cycle;
+              \end{tikzpicture}
+              & & \conj{\lambda_{n}}
+            \end{genmat}
+          &=
+            \begin{genmat}{@{}ccc@{}}
+              \conj{\lambda_{1}} & &
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                  \draw node at (-1em, -1em) {\Huge $O$};
+                \end{tikzpicture}
+            \\
+              & \ddots &
+            \\
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+                \fill[pattern=north west lines] (0, -0.25em) -- (4.2em, -0.25em) -- (0, 3.1em) -- cycle;
+              \end{tikzpicture}
+              & & \conj{\lambda_{n}}
+            \end{genmat}
+            \begin{genmat}{@{}ccc@{}}
+              \lambda_{1} & &
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                  \fill[pattern=north west lines] (0, 0) -- (-4.8em, 0) -- (0, -3.9em) -- cycle;
+                \end{tikzpicture}
+            \\
+              & \ddots &
+            \\
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+                \draw node at (1em, 1em) {\Huge $O$};
+              \end{tikzpicture}
+              & & \lambda_{n}
+            \end{genmat}
+        \end{align*}
+        であり，%さらに $\rowvec{R}{1} = \begin{genmat}{@{}c|c|c|c@{}} \lambda_{1} & R_{1 2} & \cdot & R_{1 n}\end{genmat}$ より
+        両辺の $\seqprn{1, 1}$ 成分の比較により $\rowvec{R}{1} \conjtrsps{\paren{\rowvec{R}{1}}} = \conj{\lambda_{1}} \lambda_{1}$，
+        すなわち $\absprn{\lambda_{1}}^{2} + \absprn{R_{1 2}}^{2} + \cdots + \absprn{R_{1 n}}^{2} = \absprn{\lambda_{1}}^{2}$，
+        よって $R_{1 2} = \cdots = R_{1 n} = 0$ が成り立つ．第 $2$ 行以降も同様にして非対角成分が $0$ とわかり，
+        ゆえに $R$ は対角行列である．\qed
+      }
+      \subproof{$\backlimpl$}{
+        対角行列 $\Lambda$ に対して明らかに $\conjtrsps{\Lambda} \Lambda = \Lambda \conjtrsps{\Lambda}$ が成り立つ．ゆえに
+        \begin{align*}
+          A \conjtrsps{A}
+          = \paren{\conjtrsps{Q} \Lambda Q} \paren{\conjtrsps{Q} \conjtrsps{\Lambda} Q}
+          &= \conjtrsps{Q} \Lambda \conjtrsps{\Lambda} Q
+            \holdby{$Q$ はユニタリ行列}
+        \\&= \conjtrsps{Q} \conjtrsps{\Lambda} \Lambda Q
+            \holdby{$\conjtrsps{\Lambda} \Lambda = \Lambda \conjtrsps{\Lambda}$}
+        \\&= \paren{\conjtrsps{Q} \conjtrsps{\Lambda} Q} \paren{\conjtrsps{Q} \Lambda Q}
+            \holdby{$Q$ はユニタリ行列}
+        \\&= \conjtrsps{A} A
+        \end{align*}
+        であり $A$ は正規行列である．\qed
+      }
+    }
+    \lempar{}{
+      Hermite行列の固有値はすべて実数である．
+    }
+    \proof{}{
+      複素正方行列 $A \in \setMatrix{n}{n}{\setC}$ をHermite行列とする．
+      $\lambda \in \setC$ が $A$ の固有値，$\vecx \in \setC^{n} \setmns \setprn{\veczero}$ が
+      $\lambda$ に対応する固有ベクトルのひとつであるとすると
+      \begin{align}
+        \conjtrsps{\vecx} A \vecx
+        = \conjtrsps{\vecx} \paren{\lambda \vecx}
+        = \lambda \conjtrsps{\vecx} \vecx
+          \label{eq:eigenval-of-hermite}
+      \end{align}
+      が成り立つ．ここで\eqref{eq:eigenval-of-hermite}の左辺の複素共軛をとると
+      \begin{align*}
+        \conj{\conjtrsps{\vecx} A \vecx}
+        &= \conjtrsps{\paren{\conjtrsps{\vecx} A \vecx}}
+        = \conjtrsps{\vecx} \conjtrsps{A} \vecx
+        = \conjtrsps{\vecx} A \vecx
+          \holdby{$A$ はHermite行列}
+      \end{align*}
+      であり，一方で\eqref{eq:eigenval-of-hermite}の右辺も複素共軛をとると
+      \begin{align*}
+        \conj{\lambda \conjtrsps{\vecx} \vecx}
+        &= \conj{\lambda} \conjtrsps{\paren{\conjtrsps{\vecx} \vecx}}
+        = \conj{\lambda} \conjtrsps{\vecx} \vecx
+      \end{align*}
+      であるから $\conjtrsps{\vecx} A \vecx = \conj{\lambda} \conjtrsps{\vecx} \vecx$，
+      よって\eqref{eq:eigenval-of-hermite}と合わせて
+      $\lambda \conjtrsps{\vecx} \vecx = \conj{\lambda} \conjtrsps{\vecx} \vecx$ が成り立つ．
+      $\vecx \neq \veczero$ より $\conjtrsps{\vecx} \vecx \neq 0$ であるから $\lambda = \conj{\lambda}$．
+      ゆえに $A$ の固有値は実数である．\qed
     }
 \end{document}
