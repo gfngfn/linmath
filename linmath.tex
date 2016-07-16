@@ -273,13 +273,6 @@
             \holdby{定理~\ref{thm:laplace-expansion}：Laplace展開}
         \end{align*}
       \item $i \neq j$ のとき，
-%        $\DS
-%          \colvec{B}{k} \defeq
-%          \begin{cases}
-%            \colvec{A}{j} &\caseif{k = i}\\
-%            \colvec{A}{k} &\caseow
-%          \end{cases}
-%        $
         $B \defeq \coloverwrite{A}{i}{\colvec{A}{j}}$
         とする．すなわち $A$ の第 $i$ 列を第 $j$ 列の各成分で上書きした行列が $B$ である．
         このとき，第 $i$ 列に関するLaplace展開は第 $i$ 列の成分に依存しないから，$\cofactorDelta{B}_{k i} = \cofactorDelta{A}_{k i}$ が成り立つ．
@@ -404,5 +397,186 @@
         \end{align*}
         \REMAINS \NEEDPICTURE
       }
+    }
+  \subsection{正定値性}
+    \defpar{正定値性，半正定値性}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ が $\forallin{\vecx}{K^{n} \setmns \setprn{\veczero}}{\trsps{\vecx} A \vecx > 0}$ を満たすとき，
+      $A$ は\newword{正定値}であるといい，また $A$ が $\forallin{\vecx}{K^{n}}{\trsps{\vecx} A \vecx \geq 0}$ を満たすとき，
+      $A$ は\newword{半正定値}であるという．
+    }
+    \lempar[lem:definite-sym-positive-det]{}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値対称ならば $\det A > 0$ である．
+    }
+    \proof{}{
+      $A$ の大きさ $n$ に関する帰納法による．
+      \begin{itemize}
+      \item $n = 1$ のときは明らか．
+      \item $n = k\geq 2$ のとき，
+        $\DS A =
+          \begin{genmat}{c|c}
+            a & \trsps{\vecc}
+          \\\hline
+            \vecc & \expandHV{D}
+          \end{genmat}
+        $
+        とおくと，$A$ が正定値である仮定より
+        \begin{align*}
+          0
+          &<
+            \trsps{\vecsglone{1}} A \vecsglone{1}
+        \\&=
+            \begin{genmat}{c|c}
+              1 & \expandH{\trsps{\veczero}}
+            \end{genmat}
+            \begin{genmat}{c|c}
+              a & \trsps{\vecc}
+            \\\hline
+              \vecc & \expandHV{D}
+            \end{genmat}
+            \begin{genmat}{c}
+              1
+            \\\hline
+              \expandV{\veczero}
+            \end{genmat}
+          = a
+        \end{align*}
+        であるから $a > 0$．また定理~\ref{thm:block-fundamental}より
+        $\DS \det A = a \cdot \det \paren{D - \frac{1}{a} \vecc \trsps{\vecc}}$ が成り立つ．ここで
+        \begin{align*}
+          A' \defeq
+          \begin{genmat}{c|c}
+            a & \trsps{\veczero}
+          \\\hline
+            \veczero & \DS\expandHV{D - \frac{1}{a} \vecc \trsps{\vecc}}
+          \end{genmat}
+        \end{align*}
+        とすると $\det A = \det A'$．このとき
+        \begin{align*}
+          \begin{genmat}{c|c}
+            y & \expandH{\trsps{\vecz}}
+          \end{genmat}
+          \begin{genmat}{c|c}
+            a & \trsps{\veczero}
+          \\\hline
+            \veczero & \DS\expandHV{D - \frac{1}{a} \vecc \trsps{\vecc}}
+          \end{genmat}
+          \begin{genmat}{c}
+            y
+          \\\hline
+            \expandV{\vecz}
+          \end{genmat}
+          &= a y^{2} + \trsps{\vecz} D \vecz - \frac{1}{a} \paren{\trsps{\vecc} \vecz}^{2}
+        \\
+          \begin{genmat}{c|c}
+            y & \expandH{\trsps{\vecz}}
+          \end{genmat}
+          \begin{genmat}{c|c}
+            a & \trsps{\vecc}
+          \\\hline
+            \vecc & \expandHV{D}
+          \end{genmat}
+          \begin{genmat}{c}
+            y
+          \\\hline
+            \expandV{\vecz}
+          \end{genmat}
+          &= a y^{2} + 2 y \trsps{\vecc} \vecz + \trsps{\vecz} D \vecz
+        \end{align*}
+        \REMAINS
+      \end{itemize}
+    }
+    \thmpar{}{
+      対称行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値であることと $A$ の任意の首座小行列式が正であることは同値．
+    }
+    \thmpar[thm:definite-sym-inverse]{}{
+      行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値対称ならば $A^{-1}$ も正定値対称．
+    }
+    \proof{}{
+      $A$ を正定値対称とすると，$A$ は正則であるから逆行列 $A^{-1}$ をもつ．
+      $\vecx \in K^{m} \setmns \setprn{\veczero}$ とすると
+      \begin{align*}
+        \trsps{\vecx} A \vecx
+        &= \trsps{\vecx} A^{-1} A A^{-1} \vecx
+      \\&= \trsps{\paren{A \vecx}} A \paren{A \vecx} > 0
+          \holdby{$A$ は正定値}
+      \end{align*}
+      であるから，$A^{-1}$ は正定値．対称性は
+      $\trsps{\paren{A^{-1}}} = \paren{\trsps{A}}^{-1} = A^{-1}$
+      より明らか．\qed
+    }
+    \thmpar{}{
+      行列 $A \in \setMatrix{n}{n}{K}$ が正定値対称ならば，$\DS \det A \leq \prod_{i = 1}^{n} A_{i i}$ が成り立つ．
+    }
+    \proof{}{
+      $A$ の大きさ $n$ に関する帰納法による．
+      \begin{itemize}
+      \item $n = 1$ のときは $\det A = A_{1 1}$ より自明．
+      \item $n \geq 2$ のとき，
+        $\DS A =
+          \begin{genmat}{c|c}
+            a & \trsps{\vecc}
+          \\\hline
+            \vecc & \expandHV{D}
+          \end{genmat}
+        $
+        とする．仮に $D$ が正定値でないとすると，或る $\vecx \in K^{n - 1} \setmns \setprn{\veczero}$ が存在して
+        $\trsps{\vecx} D \vecx \leq 0$ を満たすが，この $\vecx$ を用いると
+        \begin{align*}
+          \begin{genmat}{c}
+            0
+          \\\hline
+            \expandV{\vecx}
+          \end{genmat}
+          A
+          \begin{genmat}{c}
+            0
+          \\\hline
+            \expandV{\vecx}
+          \end{genmat}
+          &=
+            \trsps{\vecx} D \vecx
+          < 0
+        \end{align*}
+        より $A$ の正定値性に反するから $D$ は正定値．よって $D$ は正則であり，
+        \begin{align*}
+          \det A
+          = \det
+            \begin{genmat}{c|c}
+              a & \trsps{\vecc}
+            \\\hline
+              \vecc & \expandHV{D}            
+            \end{genmat}
+          &= \det
+            \begin{genmat}{c|c}
+              \expandHV{D} & \vecc
+            \\\hline
+              \trsps{\vecc} & a
+            \end{genmat}
+          \holdby{$1$ 回の行交換と $1$ 回の列交換}
+        \\&= \det D \cdot \det \paren{a - \trsps{\vecc} D^{-1} \vecc}
+          \holdby{定理~\ref{thm:block-fundamental}}
+        \end{align*}
+        が成り立つ．定理~\ref{thm:definite-sym-inverse}より $D^{-1}$ も正定値対称であるから
+        $\trsps{\vecc} D^{-1} \vecc \geq 0$，また定理~\ref{lem:definite-sym-positive-det}より $\det D > 0$ が成り立ち，よって
+        $\det A = \det D \cdot \paren{a - \trsps{\vecc} D^{-1} \vecc} \leq \det D \cdot a$ である．
+        ここで帰納法の仮定より $\DS D \leq \prod_{i = 1}^{n - 1} D_{i i} = \prod_{i = 2}^{n} A_{i i}$ であり，ゆえに
+        \begin{align*}
+          \det A
+          \leq \det D \cdot a
+          \leq \paren{\prod_{i = 2}^{n} A_{i i}} \cdot a
+          &= \paren{\prod_{i = 2}^{n} A_{i i}} \cdot A_{1 1}
+          = \prod_{i = 1}^{n} A_{i i}
+        \end{align*}
+        が成り立つ．
+      \end{itemize}
+      以上より，$\DS \det A \leq \prod_{i = 1}^{n} A_{i i}$ が成り立つ．\qed
+    }
+  \subsection{固有値と固有ベクトル}
+    \defpar{共軛転置行列，正規行列，ユニタリ行列，Hermite行列}{
+      行列 $A \in \setMatrix{m}{n}{\setC}$ に対し，$\paren{\conjtrsps{A}}_{i j} \defeq \conj{A_{j i}}$ で
+      定義される $\conjtrsps{A} \in \setMatrix{n}{m}{\setC}$ を $A$ の\newword{共軛転置行列}と呼ぶ．
+      $A \conjtrsps{A} = \conjtrsps{A} A$ なる正方行列 $A$ を\newword{正規行列}，
+      $A \conjtrsps{A} = I$ なる正方行列 $A$ を\newword{ユニタリ行列}，
+      $A = \conjtrsps{A}$ なる正方行列 $A$ を\newword{Hermite行列}と呼ぶ．
     }
 \end{document}

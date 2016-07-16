@@ -2,7 +2,7 @@
 \def\NEEDPICTURE{\textcolor{red}{\textgt{〈要略図〉}}}
 \let\DS\displaystyle
 \newenvironment{genmat}[1]{\left(\begin{array}{#1}}{\end{array}\right)}
-\def\holdby#1{\tag*{$\because$#1}}
+\def\holdby#1{\tag*{$\because$\ #1}}
 %
 \def\cofactor#1{\Tilde{#1}}
 \def\cofactorDelta#1{\Delta^{#1}}
@@ -16,7 +16,16 @@
 \def\rank{\mathop{\operator@font rank}}
 \def\Img{\mathop{\operator@font Im}}
 \def\Ker{\mathop{\operator@font Ker}}
+\def\veczero{\bm{0}}
+\def\vecsglone#1{\mathbf{e}_{\scriptrange{#1}}}
+\def\expandHV#1{\expandH{\expandV{#1}}}
+\def\expandH#1{\quad#1\quad}
+\def\expandV#1{\rule[-1em]{0pt}{2.5em}#1}
+\def\conj#1{\overline{#1}}
+\def\conjtrsps#1{{#1}^{\ast}}
 %
 %\def\veca{\bm{a}}
 \def\vecb{\bm{b}}
+\def\vecc{\bm{c}}
 \def\vecx{\bm{x}}
+\def\vecz{\bm{z}}
