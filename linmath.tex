@@ -919,4 +919,74 @@
       $\vecx \neq \veczero$ より $\conjtrsps{\vecx} \vecx \neq 0$ であるから $\lambda = \conj{\lambda}$．
       ゆえに $A$ の固有値は実数である．\qed
     }
+    \defpar{Rayleigh商}{
+      Hermite行列 $A \in \setMatrix{n}{n}{\setC}$ に対して
+      写像 $\funcdoms{\Rayleigh{A}}{\setC^{n} \setmns \setprn{\veczero}}{\setC}$ を
+      \begin{align*}
+        \app{\Rayleigh{A}}{\vecx} \defeq \frac{\conjtrsps{\vecx} A \vecx}{\conjtrsps{\vecx} \vecx}
+      \end{align*}
+      で定める．$\app{\Rayleigh{A}}{x}$ を $A$ による $\vecx$ の\newword{Rayleigh商}と呼ぶ．
+    }
+    \plainpar{}{
+      $A$ の固有値 $\lambda$ と対応する固有ベクトルのひとつ $\vecu$ に対して
+      $\app{\Rayleigh{A}}{\vecu} = \lambda$ が成り立つ．
+    }
+    \thmpar{Courant--Fischerの定理}{
+      Hermite行列 $A \in \setMatrix{n}{n}{\setC}$ の固有値 $\lambda_{1} \geq \cdots \geq \lambda_{n}$ に対して
+      \begin{align*}
+        \lambda_{k} &= \max \setprnsep{\min \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in U \setmns \setprn{\veczero}}}{%
+          U \in \subspaceof{k}{\setC^{n}, +, \cdot}}
+      \\
+        \lambda_{k} &= \min \setprnsep{\max \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in U \setmns \setprn{\veczero}}}{%
+          U \in \subspaceof{k}{\setC^{n}, +, \cdot}}
+      \end{align*}
+      がそれぞれ成り立つ．
+    }
+    \proof{}{
+      $\lambda_{1}, \ldots, \lambda_{n}$ の各々に対応する規格化された固有ベクトルのひとつをそれぞれ $\vecu_{1}, \ldots, \vecu_{n}$ とおいて
+      $V_{k} \defeq \spanop \setprn{\vecu_{1}, \ldots, \vecu_{k}}$，
+      $W_{l} \defeq \spanop \setprn{\vecu_{n - l + 1}, \ldots, \vecu_{n}}$
+      と定める．このとき，次の副補題が成り立つ：
+      \subarea{
+        \sublempar{}{
+          $\forallin{\vecx}{V_{k} \setmns \setprn{\veczero}}{\lambda_{1} \geq \app{\Rayleigh{A}}{\vecx} \geq \lambda_{k}}$
+        }
+        \proof{}{
+          $\vecx = \alpha_{1} \vecu_{1} + \cdots + \alpha_{k} \vecu_{k}$ とおくと，
+          \begin{align*}
+            \app{\Rayleigh{A}}{\vecx}
+            = \frac{\conjtrsps{\vecx} A \vecx}{\conjtrsps{\vecx} \vecx}
+            &= \frac{\lambda_{1} \absprn{\alpha_{1}}^{2} + \cdots + \lambda_{k} \absprn{\alpha_{k}}^{2}}{%
+                \absprn{\alpha_{1}}^{2} + \cdots + \absprn{\alpha_{k}}^{2}}
+          \\&\leq \frac{\lambda_{1} \absprn{\alpha_{1}}^{2} + \cdots + \lambda_{1} \absprn{\alpha_{k}}^{2}}{%
+                \absprn{\alpha_{1}}^{2} + \cdots + \absprn{\alpha_{k}}^{2}} = \lambda_{1}
+              \holdby{$\lambda_{1} \geq \cdots \geq \lambda_{k}$}
+          \end{align*}
+          より $\app{\Rayleigh{A}}{\vecx} \leq \lambda_{1}$ が成り立つ．
+          同様にして $\app{\Rayleigh{A}}{\vecx} \geq \lambda_{k}$ も示せる．\qed
+        }
+        \sublempar{}{
+          $\forallin{\vecx}{W_{l} \setmns \setprn{\veczero}}{\lambda_{n - l + 1} \geq \app{\Rayleigh{A}}{\vecx} \geq \lambda_{n}}$
+        }
+        \proof{}{上と同様．\qed}
+      }
+      任意の $k$ 次元部分空間 $U \in \subspaceof{k}{\setC^{n}, +, \cdot}$ に対し，明らかに
+      \REMAINS
+    }
+    \corpar{最大固有値と最小固有値のRayleigh商による表現}{
+      Hermite行列 $A \in \setMatrix{n}{n}{\setC}$
+      の最大固有値を $\lambda_{\mathrm{max}}$，最小固有値を $\lambda_{\mathrm{min}}$ とおくと，
+      \begin{align*}
+        \lambda_{\mathrm{max}} &= \max \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in \setC^{n} \setmns \setprn{\veczero}}
+      \\
+        \lambda_{\mathrm{min}} &= \min \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in \setC^{n} \setmns \setprn{\veczero}}
+      \end{align*}
+      が成り立つ．
+    }
+  \subsection{行列の標準形}
+    \plainpar{}{\REMAINS}
+  \subsection{整数行列}
+    \plainpar{}{\REMAINS}
+  \subsection{線型計画法}
+    \plainpar{}{\REMAINS}
 \end{document}

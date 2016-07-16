@@ -25,6 +25,17 @@
 \def\conj#1{\overline{#1}}
 \def\conjtrsps#1{#1^{\ast}}
 \let\norm\distprn
+\def\subspaceof#1#2{\mathrm{Sub}_{\scriptrange{#1}}\paren{#2}}
+\def\Rayleigh#1{\mathrm{R}_{\scriptrange{#1}}}
+\def\spanop{\mathop{\operator@font span}}
+\def\subarea#1{%
+  \par{%
+    \leftskip=4em\relax
+    \rightskip=2em\relax
+    \advance\textwidth-6em\relax
+    #1%
+  }\noindent
+}
 %
 %\def\veca{\bm{a}}
 \def\vecb{\bm{b}}
