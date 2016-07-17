@@ -991,5 +991,289 @@
 \section{整数行列}
   \plainpar{}{\REMAINS}
 \section{線型計画法}
-  \plainpar{}{\REMAINS}
+  \subsection{概要}
+    \defpar{線型計画問題}{
+      線型等式/不等式制約のもとで線型の目的函数を最適化する問題，すなわち
+      $A \in \setMatrix{m}{n}{K}$，$\vecb \in \setMatrix{m}{1}{K}$，$\vecc \in \setMatrix{1}{n}{K}$ に対し，
+      $A \vecx \leq \vecb$ かつ $\vecx \geq \veczero$ なる $\vecx \in \setMatrix{n}{1}{K}$ で
+      $\vecc \vecx$ を最大にするようなものを求める問題を\newword{線型計画問題}と呼び，この問題を
+      \begin{align*}
+        \text{\parbox[c]{0.5\textwidth}{\Maximize{
+          \vecc \vecx
+        }{
+          A \vecx &\leq \vecb
+        | \vecx &\geq \veczero
+        }{}}}
+        \tag{P}\label{linprob:P}
+      \end{align*}
+      と表す．この線型計画問題に於いて
+      $A \vecx \leq \vecb$ かつ $\vecx \geq \veczero$ なる $\vecx \in \setMatrix{n}{1}{K}$ を\newword{実行可能解}と呼び，
+      実行可能解が存在する線型計画問題は\newword{実行可能}であるという．
+    }
+  \subsection{双対性}
+    \plainpar{}{
+      線型計画問題~\eqref{linprob:P}の最適解の上界をできるだけタイトに与えようという動機から，
+      $A$ の行ベクトルの非負結合で $\vecc$ よりも各成分が大きいものを与えてやることを考える．
+      $\vecy A \geq \vecc$ かつ $\vecy \geq \veczero$ なる $\vecy \in \setMatrix{1}{m}{K}$ に対して
+      \begin{align*}
+        \vecc \vecx \leq \vecy A \vecx &\leq \vecy \vecb
+      \end{align*}
+      が成り立つことから
+      \begin{align*}
+        \text{\parbox[c]{0.5\textwidth}{\Maximize{
+          \vecy \vecb
+        }{
+          \vecy A &\geq \vecc
+        | \vecy &\geq \veczero
+        }{}}}
+        \tag{D}\label{linprob:D}
+      \end{align*}
+      という\eqref{linprob:P}の\newword{双対問題}~\eqref{linprob:D}が生じる．
+    }
+    \thmpar{弱双対定理}{
+      $\vecx \in \setMatrix{n}{1}{K}$ が\eqref{linprob:P}の実行可能解，
+      $\vecy \in \setMatrix{1}{m}{K}$ が\eqref{linprob:D}の実行可能解であるとき，
+      $\vecc \vecx \leq \vecy \vecb$ が成り立つ．
+    }
+    \proof{}{
+      上記の説明による．\qed
+    }
+    \thmpar[thm:farkas-lemma]{Farkasの補題}{
+      以下が成り立つ：
+      \begin{multline*}
+        \forallin{A}{\setMatrix{m}{n}{K}}{\forallin[2]{\vecb}{\setMatrix{m}{1}{K} \setmns \setprn{\veczero}}{
+          \lflimpleqv{
+            \existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx = \vecb}{\vecx \geq \veczero}}
+          }{
+            \forallin{\vecy}{\setMatrix{1}{m}{K}}{\lflimpl{\vecy A \geq \veczero}{\vecy \vecb \geq 0}}
+          }
+        }}
+      \end{multline*}
+    }
+    \proof{}{
+      \subproof{$\limpl$}{
+        $A \vecx = \vecb$ かつ $\vecx \geq \veczero$ なる $\vecx$ をとり，$\vecy A \geq \veczero$ とすると
+        $\vecy \vecb = \vecy A \vecx \geq 0$．\qed
+      }
+      \subproof{$\backlimpl$}{
+        $\vecb \in \setprnsep{A \vecx}{\lfland{\vecx \in \setMatrix{n}{1}{K}}{\vecx \geq \veczero}}$，
+        すなわち $\vecb$ が $A$ の列ベクトルの非負結合全体のなす凸錐に含まれることを示せばよい．
+        仮にこれが成り立たないとすると，$A$ のなす凸錐と $b$ を分離する $m$ 次元超平面 $H$ が存在する．
+        図~\ref{fig:H-separates-b-and-A}に概略図を示す．
+        このとき，$H$ の法線ベクトルのうち“$A$ 側”に伸びるもののひとつを $\vecy$ とおくと，
+        明らかに $\vecy A \geq \veczero$ かつ $\vecy \vecb < 0$ を満たし，仮定に矛盾する．
+        ゆえに $\vecb \in \setprnsep{A \vecx}{\lfland{\vecx \in \setMatrix{n}{1}{K}}{\vecx \geq \veczero}}$ が成り立ち，
+        したがって $\existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx = \vecb}{\vecx \geq \veczero}}$ である．\qed
+      }
+    }
+    \begin{figure}[tb]
+    \centering
+      \begin{tikzpicture}
+        \draw[dotted, line width=2pt] (0, 0) -- (-1.2, 0.4);
+        \draw[-latex, line width=2pt] (-1.2, 0.4) -- (-3, 1) node[above] {$\vecb$};
+      %
+        \fill[pattern=horizontal lines] (0, 0) -- (1.5, 4.5) -- (3, 3.75) -- cycle;
+        \fill[pattern=north west lines] (0, 0) -- (3, 3.75) -- (4.5, 1.5) -- cycle;
+      %
+        \draw[-latex, line width=2pt] (0, 0) -- (1, 3);
+        \draw[-latex, line width=2pt] (0, 0) -- (2, 2.5);
+        \draw[-latex, line width=2pt] (0, 0) -- (3, 1);
+        \draw[dashed] (1, 3) -- (1.5, 4.5);
+        \draw[dashed] (2, 2.5) -- (3, 3.75) node[above=1em,right] {$A$};
+        \draw[dashed] (3, 1) -- (4.5, 1.5);
+      %
+        \draw (-2, 2) -- (-0.5, -1) -- (2, -2) node[above=1em,right] {$H$} -- (0.5, 1) -- cycle;
+      \end{tikzpicture}
+      \caption{$\vecb$ と $A$ の凸錐を分離する $m$ 次元超平面 $H$ の概略図}\label{fig:H-separates-b-and-A}
+    \end{figure}
+    \thmpar[thm:expansion-of-farkas-lemma]{}{
+      以下が成り立つ：
+      \begin{multline*}
+        \forallin{A}{\setMatrix{m}{n}{K}}{\forallin[2]{\vecb}{\setMatrix{m}{1}{K} \setmns \setprn{\veczero}}{
+          \lflimpleqv{
+            \existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}
+          }{
+            \forallin{\vecy}{\setMatrix{1}{m}{K}}{\lflimpl{\lfland{\vecy A \geq \veczero}{\vecy \geq \veczero}}{\vecy \vecb \geq 0}}
+          }
+        }}
+      \end{multline*}
+    }
+    \proof{}{
+      \begin{align*}
+        &\existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}
+      \\&\iff
+          \existsin{\vecx}{\setMatrix{n}{1}{K}}{\existsin{\vecs}{\setMatrix{m}{1}{K}}{
+            \lfland{\lfland{A \vecx + \vecs = \vecb}{\vecs \geq \veczero}}{\vecx \geq \veczero}
+          }}
+      \\&\iff
+          \existsin{
+            \begin{genmat}{@{}c@{}}
+              \vecx
+            \\\hline
+              \vecs
+            \end{genmat}
+          }{\setMatrix{\paren{m + n}}{1}{K}}{
+            \lfland{
+              {\begin{genmat}{c|c}
+                A & I
+              \end{genmat}}
+              {\begin{genmat}{@{}c@{}}
+                \vecx
+              \\\hline
+                \vecs
+              \end{genmat}}
+              = \vecb
+            }{
+              {\begin{genmat}{@{}c@{}}
+                \vecx
+              \\\hline
+                \vecs
+              \end{genmat}}
+              \geq \veczero
+            }
+          }
+      \\&\iff
+          \forallin{\vecy}{\setMatrix{1}{m}{K}}{
+            \lflimpl{
+              \vecy
+                {\begin{genmat}{c|c}
+                  A & I
+                \end{genmat}}
+              \geq \veczero
+            }{
+              \vecy \vecb \geq 0
+            }
+          }
+        \holdby{定理~\ref{thm:farkas-lemma}：Farkasの補題}
+      \\&\iff
+          \forallin{\vecy}{\setMatrix{1}{m}{K}}{
+            \lflimpl{
+                {\begin{genmat}{c|c}
+                  \vecy A & \vecy
+                \end{genmat}}
+              \geq \veczero
+            }{
+              \vecy \vecb \geq 0
+            }
+          }
+      \\&\iff
+          \forallin{\vecy}{\setMatrix{1}{m}{K}}{
+            \lflimpl{
+              \lfland{
+                \vecy \geq \veczero
+              }{
+                \vecy A \geq \veczero
+              }
+            }{
+              \vecy \vecb \geq 0
+            }
+          }
+      \end{align*}
+      \qed
+    }
+    \thmpar{強双対定理}{
+      主問題~\eqref{linprob:P}とその双対問題~\eqref{linprob:D}が共に実行可能であるとき，
+      それぞれに最適解 $\vecxopt$，$\vecyopt$ が存在して $\vecc \vecxopt = \vecyopt \vecb$ を満たす．
+    }
+    \proof{}{
+      弱双対定理より，或る実行可能解 $\vecx$，$\vecy$ が存在して $\vecc \vecx \geq \vecy \vecb$ を満たすこと，すなわち
+      \begin{align*}
+        \existsin{\vecx}{\setMatrix{n}{1}{K}}{\existsin{\vecy}{\setMatrix{1}{m}{K}}{
+          \lfland{
+            \lfland{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}{\lfland{\vecy A \geq \vecc}{\vecy \geq \veczero}}
+          }{
+            \vecc \vecx \geq \vecy \vecb
+          }
+        }}
+      \end{align*}
+      を示せばよい．さらにこれは
+      \begin{align*}
+        &\existsin{\vecx}{\setMatrix{n}{1}{K}}{\existsin{\vecy}{\setMatrix{1}{m}{K}}{
+          \lfland{
+            \lfland{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}{\lfland{\vecy A \geq \vecc}{\vecy \geq \veczero}}
+          }{
+            \vecc \vecx \geq \vecy \vecb
+          }
+        }}
+      \\&\iff
+          \existsin{
+            {\begin{genmat}{@{}c@{}}
+              \vecx
+            \\\hline
+              \vecy
+            \end{genmat}}
+          }{\setMatrix{\paren{m + n}}{1}{K}}{
+            \lfland{
+              {\begin{genmat}{c|c}
+                A & O
+              \\\hline
+                O & -\trsps{A}
+              \\\hline
+                - \vecc & \trsps{\vecb}
+              \end{genmat}}
+              {\begin{genmat}{@{}c@{}}
+                \vecx
+              \\\hline
+                \vecy
+              \end{genmat}}
+              \leq
+              {\begin{genmat}{@{}c@{}}
+                \vecb
+              \\\hline
+                - \trsps{\vecc}
+              \\\hline
+                0
+              \end{genmat}}
+            }{
+            {\begin{genmat}{@{}c@{}}
+              \vecx
+            \\\hline
+              \vecy
+            \end{genmat}}
+            \geq \veczero
+            }
+          }
+      \\&\iff
+          \forallin{
+            {\begin{genmat}{c|c|c}
+              \vecu & \trsps{\vecv} & \theta
+            \end{genmat}}
+          }{\setMatrix{1}{\paren{m + n + 1}}{K}}{
+            \lflimpl{
+              \lfland{
+                {\begin{genmat}{c|c|c}
+                  \vecu & \trsps{\vecv} & \theta
+                \end{genmat}}
+                \geq \veczero
+              }{
+                {\begin{genmat}{c|c|c}
+                  \vecu & \trsps{\vecv} & \theta
+                \end{genmat}}
+                {\begin{genmat}{c|c}
+                  A & O
+                \\\hline
+                  O & -\trsps{A}
+                \\\hline
+                  - \vecc & \trsps{\vecb}
+                \end{genmat}}
+                \geq \veczero
+              }
+            \midbreak\midtab\hspace{10em}}{
+              {\begin{genmat}{c|c|c}
+                \vecu & \trsps{\vecv} & \theta
+              \end{genmat}}
+              {\begin{genmat}{@{}c@{}}
+                \vecb
+              \\\hline
+                - \trsps{\vecc}
+              \\\hline
+                0
+              \end{genmat}}
+              \geq 0
+            }
+          }
+            \holdby{定理~\ref{thm:expansion-of-farkas-lemma}}
+      \end{align*}
+      と同値変形できる．\REMAINS
+    }
 \end{document}
