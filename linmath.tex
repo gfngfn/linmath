@@ -572,7 +572,8 @@
       \end{itemize}
       以上より，$\DS \det A \leq \prod_{i = 1}^{n} A_{i i}$ が成り立つ．\qed
     }
-  \subsection{固有値と固有ベクトル}
+\section{固有値と固有ベクトル}
+  \subsection{Schur標準形}
     \defpar{共軛転置行列，正規行列，ユニタリ行列，Hermite行列}{
       行列 $A \in \setMatrix{m}{n}{\setC}$ に対し，$\paren{\conjtrsps{A}}_{i j} \defeq \conj{A_{j i}}$ で
       定義される $\conjtrsps{A} \in \setMatrix{n}{m}{\setC}$ を $A$ の\newword{共軛転置行列}と呼ぶ．
@@ -920,6 +921,7 @@
       $\vecx \neq \veczero$ より $\conjtrsps{\vecx} \vecx \neq 0$ であるから $\lambda = \conj{\lambda}$．
       ゆえに $A$ の固有値は実数である．\qed
     }
+  \subsection{固有値計算}
     \defpar{Rayleigh商}{
       Hermite行列 $A \in \setMatrix{n}{n}{\setC}$ に対して
       写像 $\funcdoms{\Rayleigh{A}}{\setC^{n} \setmns \setprn{\veczero}}{\setC}$ を
@@ -988,8 +990,61 @@
     }
 \section{行列の標準形}
   \plainpar{}{\REMAINS}
+\section{\REMAINS}
+  \subsection{確率行列}
+    \plainpar{}{\REMAINS}
+    \defpar{確率行列，二重確率行列}{
+      正方行列 $A \in \setMatrix{n}{n}{\setR}$ が $A \geq O$ かつ $A \vecone = \vecone$ を満たすとき，
+      $A$ を\newword{確率行列}と呼ぶ．また正方行列 $A$ に対して $A$ と $\trsps{A}$ が共に確率行列であるとき，
+      $A$ を\newword{二重確率行列}と呼ぶ．
+    }
+    \thmpar{Gershgorinの定理}{
+      正方行列 $A \in \setMatrix{n}{n}{\setR}$ に対し，$A$ の任意の固有値は
+      \begin{align*}
+        r_{i} &\defeq \sum_{j \in \Natleq{n} \setmns \setprn{i}} \absprn{A_{i j}}
+      &
+        D_{i} &\defeq \setprnsep{z \in \setC}{\absprn{z - A_{i i}} \leq r_{i}}
+      \end{align*}
+      で定められる各円板の和集合 $\DS \bigcup \setprnsep{D_{i}}{i \in \Natleq{n}}$ に含まれる．
+    }
+    \proof{}{\REMAINS}
+    \corpar{}{
+      任意の確率行列のすべての固有値は絶対値が $1$ 以下である．
+    }
+    \thmpar{Birkhoff--von Neumannの定理}{
+      任意の二重確率行列は置換行列の凸結合である．
+    }
+    \proof{}{\REMAINS}
 \section{整数行列}
-  \plainpar{}{\REMAINS}
+  \plainpar{}{
+    整数行列はグラフなどの構造から現れ，これを用いてグラフに関する議論を行列に関する議論に帰着することができる．
+    しかし，実数一般に於ける基本変形は整数性を保存しない．ここでは整数性を維持した基本変形について考える．
+  }
+  \subsection{単模行列とHermite標準形}
+    \plainpar{}{\REMAINS}
+    \defpar{単模行列}{
+      整数正方行列 $Q \in \setMatrix{n}{n}{\setZ}$ が $\det Q = 1$ を満たすとき，
+      $Q$ を\newword{単模行列}あるいは\newword{ユニモジュラ行列}と呼ぶ．
+    }
+    \lempar{}{
+      整数正方行列 $Q \in \setMatrix{n}{n}{\setZ}$ に対し，
+      $Q$ が単模行列であることと $Q$ が整数正方行列を逆行列にもつことは同値．
+    }
+    \proof{}{\REMAINS}
+    \thmpar{Hermite標準形}{
+      \REMAINS
+    }
+    \proof{}{
+      \REMAINS
+    }
+    \corpar{}{
+      任意の単模行列は列基本変形を表す行列の積．
+    }
+    \proof{}{
+      \REMAINS
+    }
+    \plainpar{}{\REMAINS}
+  \subsection{行列式因子}
 \section{線型計画法}
   \subsection{概要}
     \defpar{線型計画問題}{
@@ -1305,9 +1360,23 @@
       主問題~\eqref{linprob:P}と双対問題~\eqref{linprob:D}の実行可能解 $\vecx$，$\vecy$ に対し，
       $\vecx$ と $\vecy$ がそれぞれ\eqref{linprob:P}と\eqref{linprob:D}の最適解であることと
       \begin{align*}
-        \forallin[1]{j}{\Natleq{n}}{\lflimpl{\vecx_{j} > 0}{\paren{\vecy A}_{j} = \vecc_{j}}}
-      \\
-        \forallin[1]{i}{\Natleq{m}}{\lflimpl{\vecy_{i} > 0}{\paren{A \vecx}_{i} = \vecb_{i}}}
+        \lfland{
+          \forallin{j}{\Natleq{n}}{\lflimpl{\vecx_{j} > 0}{\paren{\vecy A}_{j} = \vecc_{j}}}
+        }{
+          \forallin{i}{\Natleq{m}}{\lflimpl{\vecy_{i} > 0}{\paren{A \vecx}_{i} = \vecb_{i}}}
+        }
       \end{align*}
+      が成り立つことは同値．
+    }
+    \proof{}{
+      \subproof{$\limpl$}{
+        $\vecx$ と $\vecy$ がそれぞれ\eqref{linprob:P}と\eqref{linprob:D}の最適解であるとすると，
+        定理~\ref{thm:strong-duality}：強双対定理より $\vecc \vecx = \vecy A \vecx = \vecy \vecb$ が成り立つ．
+        したがって $\paren{\vecy A - \vecc} \vecx = 0$ であるが，
+        $\vecy A - \vecc \geq \veczero$ かつ $\vecx \geq \veczero$ より
+        各 $j \in \Natleq{n}$ に対して $\paren{\vecy A - \vecc}_{j} \geq 0$ かつ $\vecx_{j} \geq 0$ である．
+        よって $\vecx_{j} > 0$ とすると $\paren{\vecy A - \vecc}_{j} = 0$，すなわち $\paren{\vecy A}_{j} = \vecc_{j}$．
+        同様に $\vecy \paren{A \vecx - \vecb} = 0$ からも $\vecy_{i} > 0$ ならば $\paren{A \vecx}_{i} = \vecb_{i}$ が成り立つ．\qed
+      }
     }
 \end{document}
