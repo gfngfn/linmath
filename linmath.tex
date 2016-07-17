@@ -1030,7 +1030,7 @@
       \end{align*}
       という\eqref{linprob:P}の\newword{双対問題}~\eqref{linprob:D}が生じる．
     }
-    \thmpar{弱双対定理}{
+    \thmpar[thm:weak-duality]{弱双対定理}{
       $\vecx \in \setMatrix{n}{1}{K}$ が\eqref{linprob:P}の実行可能解，
       $\vecy \in \setMatrix{1}{m}{K}$ が\eqref{linprob:D}の実行可能解であるとき，
       $\vecc \vecx \leq \vecy \vecb$ が成り立つ．
@@ -1089,20 +1089,20 @@
     \thmpar[thm:expansion-of-farkas-lemma]{}{
       以下が成り立つ：
       \begin{multline*}
-        \forallin{A}{\setMatrix{m}{n}{K}}{\forallin[2]{\vecb}{\setMatrix{m}{1}{K} \setmns \setprn{\veczero}}{
+        \forallin{A}{\setMatrix{m}{n}{K}}{\forallin[2]{\vecb}{\setcolvec{\setR}{m} \setmns \setprn{\veczero}}{
           \lflimpleqv{
-            \existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}
+            \existsin{\vecx}{\setcolvec{\setR}{n}}{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}
           }{
-            \forallin{\vecy}{\setMatrix{1}{m}{K}}{\lflimpl{\lfland{\vecy A \geq \veczero}{\vecy \geq \veczero}}{\vecy \vecb \geq 0}}
+            \forallin{\vecy}{\setrowvec{\setR}{m}}{\lflimpl{\lfland{\vecy A \geq \veczero}{\vecy \geq \veczero}}{\vecy \vecb \geq 0}}
           }
         }}
       \end{multline*}
     }
     \proof{}{
       \begin{align*}
-        &\existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}
+        &\existsin{\vecx}{\setcolvec{\setR}{n}}{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}
       \\&\iff
-          \existsin{\vecx}{\setMatrix{n}{1}{K}}{\existsin{\vecs}{\setMatrix{m}{1}{K}}{
+          \existsin{\vecx}{\setcolvec{\setR}{n}}{\existsin{\vecs}{\setcolvec{\setR}{m}}{
             \lfland{\lfland{A \vecx + \vecs = \vecb}{\vecs \geq \veczero}}{\vecx \geq \veczero}
           }}
       \\&\iff
@@ -1112,7 +1112,7 @@
             \\\hline
               \vecs
             \end{genmat}
-          }{\setMatrix{\paren{m + n}}{1}{K}}{
+          }{\setcolvec{\setR}{\paren{m + n}}}{
             \lfland{
               {\begin{genmat}{c|c}
                 A & I
@@ -1133,7 +1133,7 @@
             }
           }
       \\&\iff
-          \forallin{\vecy}{\setMatrix{1}{m}{K}}{
+          \forallin{\vecy}{\setrowvec{\setR}{m}}{
             \lflimpl{
               \vecy
                 {\begin{genmat}{c|c}
@@ -1146,7 +1146,7 @@
           }
         \holdby{定理~\ref{thm:farkas-lemma}：Farkasの補題}
       \\&\iff
-          \forallin{\vecy}{\setMatrix{1}{m}{K}}{
+          \forallin{\vecy}{\setrowvec{\setR}{m}}{
             \lflimpl{
                 {\begin{genmat}{c|c}
                   \vecy A & \vecy
@@ -1157,7 +1157,7 @@
             }
           }
       \\&\iff
-          \forallin{\vecy}{\setMatrix{1}{m}{K}}{
+          \forallin{\vecy}{\setrowvec{\setR}{m}}{
             \lflimpl{
               \lfland{
                 \vecy \geq \veczero
@@ -1171,14 +1171,15 @@
       \end{align*}
       \qed
     }
-    \thmpar{強双対定理}{
+    \thmpar[thm:strong-duality]{強双対定理}{
       主問題~\eqref{linprob:P}とその双対問題~\eqref{linprob:D}が共に実行可能であるとき，
       それぞれに最適解 $\vecxopt$，$\vecyopt$ が存在して $\vecc \vecxopt = \vecyopt \vecb$ を満たす．
     }
     \proof{}{
-      弱双対定理より，或る実行可能解 $\vecx$，$\vecy$ が存在して $\vecc \vecx \geq \vecy \vecb$ を満たすこと，すなわち
+      定理~\ref{thm:weak-duality}：弱双対定理より，
+      或る実行可能解 $\vecx$，$\vecy$ が存在して $\vecc \vecx \geq \vecy \vecb$ を満たすこと，すなわち
       \begin{align*}
-        \existsin{\vecx}{\setMatrix{n}{1}{K}}{\existsin{\vecy}{\setMatrix{1}{m}{K}}{
+        \existsin{\vecx}{\setcolvec{\setR}{n}}{\existsin{\vecy}{\setrowvec{\setR}{m}}{
           \lfland{
             \lfland{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}{\lfland{\vecy A \geq \vecc}{\vecy \geq \veczero}}
           }{
@@ -1188,7 +1189,7 @@
       \end{align*}
       を示せばよい．さらにこれは
       \begin{align*}
-        &\existsin{\vecx}{\setMatrix{n}{1}{K}}{\existsin{\vecy}{\setMatrix{1}{m}{K}}{
+        &\existsin{\vecx}{\setcolvec{\setR}{n}}{\existsin{\vecy}{\setrowvec{\setR}{m}}{
           \lfland{
             \lfland{\lfland{A \vecx \leq \vecb}{\vecx \geq \veczero}}{\lfland{\vecy A \geq \vecc}{\vecy \geq \veczero}}
           }{
@@ -1200,9 +1201,9 @@
             {\begin{genmat}{@{}c@{}}
               \vecx
             \\\hline
-              \vecy
+              \trsps{\vecy}
             \end{genmat}}
-          }{\setMatrix{\paren{m + n}}{1}{K}}{
+          }{\setcolvec{\setR}{\paren{m + n}}}{
             \lfland{
               {\begin{genmat}{c|c}
                 A & O
@@ -1214,7 +1215,7 @@
               {\begin{genmat}{@{}c@{}}
                 \vecx
               \\\hline
-                \vecy
+                \trsps{\vecy}
               \end{genmat}}
               \leq
               {\begin{genmat}{@{}c@{}}
@@ -1228,7 +1229,7 @@
             {\begin{genmat}{@{}c@{}}
               \vecx
             \\\hline
-              \vecy
+              \trsps{\vecy}
             \end{genmat}}
             \geq \veczero
             }
@@ -1238,7 +1239,7 @@
             {\begin{genmat}{c|c|c}
               \vecu & \trsps{\vecv} & \theta
             \end{genmat}}
-          }{\setMatrix{1}{\paren{m + n + 1}}{K}}{
+          }{\setrowvec{\setR}{\paren{m + n + 1}}}{
             \lflimpl{
               \lfland{
                 {\begin{genmat}{c|c|c}
@@ -1258,7 +1259,8 @@
                 \end{genmat}}
                 \geq \veczero
               }
-            \midbreak\midtab\hspace{10em}}{
+            \midbreak\midtab\hspace{10em}%(nonsemantic)
+            }{
               {\begin{genmat}{c|c|c}
                 \vecu & \trsps{\vecv} & \theta
               \end{genmat}}
@@ -1273,7 +1275,39 @@
             }
           }
             \holdby{定理~\ref{thm:expansion-of-farkas-lemma}}
+    \\&\iff
+        \forallin{\theta}{\setR}{\forallin{\vecu}{\setrowvec{\setR}{m}}{\forallin[3=\hspace{4em}]{\vecv}{\setcolvec{\setR}{n}}{
+          \lflimpl{
+            \lfland{
+              \lfland{\lfland{\vecu \geq \veczero}{\vecv \geq \veczero}}{\theta \geq 0}
+            }{
+              \lfland{\vecu A \geq \theta \vecc}{A \vecv \leq \theta \vecb}
+            }
+          }{
+            \vecc \vecv \leq \vecu \vecb
+          }
+        }}}
       \end{align*}
-      と同値変形できる．\REMAINS
+      と同値変形できるので，この最後の命題を示せばよい．
+      \begin{itemize}
+      \item $\theta = 0$ のとき，\REMAINS
+      \item $\theta > 0$ のとき，
+        $\vecu \geq \veczero$ かつ $\vecu A \geq \theta \vecc$ なる $\vecu \in \setrowvec{\setR}{m}$，および
+        $\vecv \geq \veczero$ かつ $A \vecv \leq \theta \vecb$ なる $\vecv \in \setcolvec{\setR}{n}$ に対して
+        $\DS \vecp \defeq \frac{1}{\theta} \vecu$，$\DS \vecq \defeq \frac{1}{\theta} \vecv$ とすると，
+        $\vecp \geq \veczero$，$\vecq \geq \veczero$，および $\vecp A \geq \vecc$，$A \vecq \leq \vecb$ が成り立つ．
+        すなわち，$\vecq$ と $\vecp$ はそれぞれ主問題~\eqref{linprob:P}とその双対問題~\eqref{linprob:D}の実行可能解である．
+        したがって定理~\ref{thm:weak-duality}：弱双対定理より $\vecc \vecq \leq \vecp \vecb$ が成り立ち，
+        これの両辺に $\theta$ を乗じて $\vecc \vecv \leq \vecu \vecb$ を得る．
+      \end{itemize}
+    }
+    \thmpar{相補最適性}{
+      主問題~\eqref{linprob:P}と双対問題~\eqref{linprob:D}の実行可能解 $\vecx$，$\vecy$ に対し，
+      $\vecx$ と $\vecy$ がそれぞれ\eqref{linprob:P}と\eqref{linprob:D}の最適解であることと
+      \begin{align*}
+        \forallin[1]{j}{\Natleq{n}}{\lflimpl{\vecx_{j} > 0}{\paren{\vecy A}_{j} = \vecc_{j}}}
+      \\
+        \forallin[1]{i}{\Natleq{m}}{\lflimpl{\vecy_{i} > 0}{\paren{A \vecx}_{i} = \vecb_{i}}}
+      \end{align*}
     }
 \end{document}

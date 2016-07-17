@@ -16,7 +16,11 @@
 \makeparenwidthresized
 %
 \usepackage{gfnlf}
-\let\limpleqv\iff
+\let\limpleqv=\iff
+\makeatletter
+\let\temp@land=\land
+\def\land{\mathrel{\text{\Large$\temp@land$}}}
+\makeatother
 \useupperquantifierheight
 \makeleftparenomittable{lflimpleqv}{existsin}
 %
