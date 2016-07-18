@@ -523,10 +523,8 @@
         とする．仮に $D$ が正定値でないとすると，或る $\vecx \in K^{n - 1} \setmns \setprn{\veczero}$ が存在して
         $\trsps{\vecx} D \vecx \leq 0$ を満たすが，この $\vecx$ を用いると
         \begin{align*}
-          \begin{genmat}{@{}c@{}}
-            0
-          \\\hline
-            \expandV{\vecx}
+          \begin{genmat}{c|c}
+            0 & \expandH{\trsps{\vecx}}
           \end{genmat}
           A
           \begin{genmat}{@{}c@{}}
@@ -541,19 +539,19 @@
         より $A$ の正定値性に反するから $D$ は正定値．よって $D$ は正則であり，
         \begin{align*}
           \det A
-          = \det
+          &= \det
             \begin{genmat}{c|c}
               a & \trsps{\vecc}
             \\\hline
               \vecc & \expandHV{D}            
             \end{genmat}
-          &= \det
+        \\&= \det
             \begin{genmat}{c|c}
               \expandHV{D} & \vecc
             \\\hline
               \trsps{\vecc} & a
             \end{genmat}
-          \holdby{$1$ 回の行交換と $1$ 回の列交換}
+          \holdby{$\paren{n - 1}$ 回の行交換と $\paren{n - 1}$ 回の列交換}
         \\&= \det D \cdot \det \paren{a - \trsps{\vecc} D^{-1} \vecc}
           \holdby{定理~\ref{thm:block-fundamental}}
         \end{align*}
@@ -991,6 +989,49 @@
 \section{行列の標準形}
   \plainpar{}{\REMAINS}
 \section{グラフと行列}
+  \subsection{強連結成分分解}
+  \defpar{置換行列}{
+    各行各列にちょうど $1$ 個 $1$ があって，その他の成分は $0$ であるような正方行列を\newword{置換行列}と呼ぶ．
+  }
+  \subsection{二部グラフ}
+  \plainpar{}{
+    証明せず紹介のみに留まる形になるが，二部グラフに関する重要な定理を掲げる．
+  }
+  \defpar{二部グラフ，マッチング，完全マッチング}{
+    $U \cap V = \varnothing$ なる有限集合 $U$，$V$ と
+    二項関係 $E \subseteq U \times V$ の組 $G = \seqprn{U, V; E}$ を\newword{二部グラフ}と呼ぶ．
+    二部グラフ $G= \seqprn{U, V; E}$ と $X \subseteq U$ に対して
+    \begin{align*}
+      \app{\Gamma}{X} \defeq \setprnsep{v \in V}{\existsin{x}{X}{\seqprn{x, v} \in E}}
+    \end{align*}
+    で $\app{\Gamma}{X}$ を定める．$F \subseteq E$ に対して
+    \begin{align*}
+      \partial F \defeq \setprnsep{u \in U}{\existsin{v}{V}{\seqprn{u, v} \in E}} \cup \setprnsep{v \in V}{\existsin{u}{U}{\seqprn{u, v} \in E}}
+    \end{align*}
+    で $\partial F$ を定義する．$K \subseteq U$ と $L \subseteq V$ が
+    $\forallin{\seqprn{u, v}}{E}{\lflor{u \in K}{v \in L}}$ を満たすとき，$\seqprn{K, L}$ を $G$ の\newword{被覆}と呼ぶ．
+    また，二部グラフ $G = \seqprn{U, V; E}$ に対し，$M \subseteq E$ が $\card{\partial M} = 2 \card{M}$ を満たすとき，
+    $M$ を $G$ 上の\newword{マッチング}と呼び，特に $\card{U} = \card{V}$ なる二部グラフ $G = \seqprn{U, V; E}$ に対して
+    $G$ 上のマッチング $M$ が $\card{M} = \card{U} = \card{V}$ を満たすとき，$M$ を $G$ 上の\newword{完全マッチング}と呼ぶ．
+  }
+  \thmpar[thm:hall]{Hallの定理}{
+    $\card{U} = \card{V}$ なる二部グラフ $G = \seqprn{U, V; E}$ に対し，$G$ に完全マッチングが存在することと
+    \begin{align*}
+      \forallsub[1]{X}{U}{\card{\app{\Gamma}{X}} \geq \card{X}}
+    \end{align*}
+    が成り立つことは同値．
+  }
+  \proof{}{省略する．}
+  \thmpar[thm:hall-ore]{Hall--Oreの定理}{
+    二部グラフ $G = \seqprn{U, V; E}$ に対し，
+    \begin{align*}
+      \max \setprnsep{\card{M}}{\text{$M$ は $G$ のマッチング}}
+      =
+      \min \setprnsep{\card{\app{\Gamma}{X}} - \card{X}}{X \subseteq U} + \card{U}
+    \end{align*}
+    が成り立つ．
+  }
+  \proof{}{省略する．}
 \section{非負行列}
   \subsection{既約行列}
     \defpar{既約性}{
@@ -1084,8 +1125,8 @@
       $\DS \lim_{k \to \infty} \app{\mu_{A}}{\veca_{k}} = \alpha$ なるものが存在する．\QUESTION
       また，このような点列 $\seqprn{\veca_{k}}_{k \in \setNpos}$ に対し，
       $S$ は $\setcolvec{\setR}{n}$ 上の有界閉集合より点列コンパクトであるから，狭義単調増加な $\funcdoms{k}{\setNpos}{\setNpos}$ で表される
-      $\seqprn{\veca_{k}}_{k \in \setNpos}$ の収束部分列 $\seqprn{\veca_{\scriptrange{\app{k}{l}}}}_{i \in \setNpos}$ が存在し，
-      これを用いて $\DS \vecz \defeq lim_{l \to \infty} \veca_{\scriptrange{\app{k}{l}}} \in S$ とおける．
+      $\seqprn{\veca_{k}}_{k \in \setNpos}$ の収束部分列 $\seqprn{\veca_{\scriptrange{\app{k}{l}}}}_{l \in \setNpos}$ が存在し，
+      これを用いて $\DS \vecz \defeq \lim_{l \to \infty} \veca_{\scriptrange{\app{k}{l}}} \in S$ とおける．
       各 $l \in \setNpos$ に対して $\mu_{A}$ の定義より
       $A \veca_{\scriptrange{\app{k}{l}}} - \app{\mu_{A}}{\veca_{\scriptrange{\app{k}{l}}}} \veca_{\scriptrange{\app{k}{l}}} \geq \veczero$
       が成り立ち，したがって $A \vecz - \alpha \vecz \geq \veczero$ \QUESTION ．
@@ -1112,32 +1153,190 @@
       \end{align*}
       が展開した多項式を考えて成り立つから $\DS \vecz = \frac{1}{\paren{1 + \alpha}^{n - 1}} \vecw > \veczero$，
       よって $\alpha > 0$ かつ $\vecz > \veczero$ を得る．
-      ゆえに $A$ は正ベクトル $\veczero$ を固有ベクトルとする正の固有値 $\alpha$ をもつ．\qed
+      ゆえに $A$ は正ベクトル $\vecz$ を固有ベクトルとする正の固有値 $\alpha$ をもつ．\qed
     }
   \subsection{確率行列}
-    \plainpar{}{\REMAINS}
+    \plainpar{}{
+      確率行列は，Markov連鎖から現れてくる概念である．
+      \newword{状態集合}を $\Natleq{n}$ とし，各 $\seqprn{i, j} \in \Natleq{n} \times \Natleq{n}$ と $t \in \setN$ に対して
+      $P_{i j} \defeq \mathrm{Prob}\sqbracket{X_{t + 1} = j \mathrel{|} X_{t} = i}$ で定義される
+      非負正方行列 $P \in \setMatrix{n}{n}{\setR}$ は初期値を除いてMarkov連鎖の遷移規則をすべて表しており，
+      Markov連鎖に関する議論が行列に帰着できる．Markov連鎖そのものについては詳しく扱わないが，これに関連する線型代数的知見を掲げておく．
+    }
     \defpar{確率行列，二重確率行列}{
       正方行列 $A \in \setMatrix{n}{n}{\setR}$ が $A \geq O$ かつ $A \vecone = \vecone$ を満たすとき，
       $A$ を\newword{確率行列}と呼ぶ．また正方行列 $A$ に対して $A$ と $\trsps{A}$ が共に確率行列であるとき，
       $A$ を\newword{二重確率行列}と呼ぶ．
     }
-    \thmpar{Gershgorinの定理}{
+    \plainpar{}{
+      定理~\ref{thm:perron-frobenius}：Perron--Frobeniusの定理の意義は，ここに発揮される．
+      $A$ が既約な非負正方行列であるとき，
+      その正ベクトルである固有ベクトル $\vecz$ と対応する正の固有値 $\alpha$ を用いて
+      \begin{align*}
+        Z &\defeq \diag \vecz =
+          \begin{genmat}{ccc}
+            \vecz_{1} & &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+          \\
+            & \ddots &
+          \\
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+            & & \vecz_{n}
+          \end{genmat}
+      &
+        \Hat{A} &\defeq \frac{1}{\alpha} Z^{-1} A Z
+      \end{align*}
+      で $\Hat{A}$ を定めると
+      \begin{align*}
+        \Hat{A} \vecone
+        = \frac{1}{\alpha} Z^{-1} A Z \vecone
+        = \frac{1}{\alpha} Z^{-1} A \vecz
+        = \frac{1}{\alpha} Z^{-1} \paren{\alpha \vecz}
+        = Z^{-1} \vecz
+        = \vecone
+      \end{align*}
+      より $\Hat{A}$ は確率行列である．すなわち，既約な非負正方行列からは確率行列が構成される．
+    }
+    \thmpar[thm:gershgorin]{Gershgorinの定理}{
       正方行列 $A \in \setMatrix{n}{n}{\setR}$ に対し，$A$ の任意の固有値は
       \begin{align*}
-        r_{i} &\defeq \sum_{j \in \Natleq{n} \setmns \setprn{i}} \absprn{A_{i j}}
+        r_{i} &\defeq \sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{i}}} \absprn{A_{i j}}
       &
         D_{i} &\defeq \setprnsep{z \in \setC}{\absprn{z - A_{i i}} \leq r_{i}}
       \end{align*}
       で定められる各円板の和集合 $\DS \bigcup \setprnsep{D_{i}}{i \in \Natleq{n}}$ に含まれる．
     }
-    \proof{}{\REMAINS}
+    \proof{}{
+      $A$ の固有値 $\lambda$ とそれに対応する固有ベクトルのひとつ $\vecx$ に対し，各 $i \in \Natleq{n}$ に於いて
+      $\DS \sum_{j = 1}^{n} A_{i j} \vecx_{j} = \lambda \vecx_{j}$ である．
+      $\DS k \in \argmax_{\scriptrange{j \in \Natleq{n}}} \absprn{\vecx_{j}}$ とすると，
+      固有ベクトルの定義より $\vecx \neq \veczero$ であるから $\vecx_{j} \neq 0$ である．
+      また，移項により
+      $\DS \paren{\lambda - A_{k k}} \vecx_{k}
+        = \hspace{-1em}\sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{k}}}\hspace{-0.75em} A_{k j} \vecx_{j}$%(nonsemantic)
+      を得る．この両辺の絶対値をとって
+      \begin{align*}
+        \absprn{\lambda - A_{k k}} \cdot \absprn{\vecx_{k}}
+        = \absprn{\paren{\lambda - A_{k k}} \vecx_{k}}
+        &= \absprn{\sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{k}}}\hspace{-0.75em} A_{k j} \vecx_{j}}%(nonsemantic)
+      \\&\leq \sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{k}}}\hspace{-0.75em} \absprn{A_{k j}} \cdot \absprn{\vecx_{j}}%(nonsemantic)
+      \end{align*}
+      が成り立ち，したがって
+      \begin{align*}
+        \absprn{\lambda - A_{k k}}
+        &\leq \frac{1}{\absprn{\vecx_{k}}} \sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{k}}}\hspace{-0.75em}%(nonsemantic)
+                \absprn{A_{k j}} \cdot \absprn{\vecx_{j}}
+          \holdby{$\vecx_{k} \neq 0$}
+      \\&= \sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{k}}}\hspace{-0.75em}%(nonsemantic)
+             \absprn{A_{k j}} \cdot \frac{\absprn{\vecx_{j}}}{\absprn{\vecx_{k}}}
+      \\[0.5em]
+      &\leq \sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{k}}}\hspace{-1em} \absprn{A_{k j}}%(nonsemantic)
+          \holdby{$k$ の定義}
+      \end{align*}
+      である．これは $\lambda \in D_{k}$ と同値．ゆえに任意の $A$ の固有値 $\lambda$ に対して
+      $\lambda \in D_{k}$ なる $k \in \Natleq{n}$ が存在し，
+      すなわち $\DS \lambda \in \bigcup \setprnsep{D_{i}}{i \in \Natleq{n}}$ である．\qed
+    }
     \corpar{}{
       任意の確率行列のすべての固有値は絶対値が $1$ 以下である．
     }
+    \proof{}{
+      $A \in \setMatrix{n}{n}{\setR}$ を確率行列とする．定理~\ref{thm:gershgorin}より，
+      各円板 $D_{i}$ の中心 $A_{i i}$ は非負性より $A_{i i} \geq 0$，半径は
+      \begin{align*}
+        r_{i}
+        = \hspace{-0.75em}\sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{i}}}\hspace{-0.75em} \absprn{A_{i j}}%(nonsemantic)
+        &= \hspace{-0.75em}\sum_{\scriptrange{j \in \Natleq{n} \setmns \setprn{i}}}\hspace{-0.75em} A_{i j}%(nonsemantic)
+          \holdby{$A > O$}
+      \\&= 1 - A_{i i}
+          \holdby{$A$ は確率行列なので $A \vecone = \vecone$}
+      \end{align*}
+      であるから，この $D_{i}$ は複素平面上の単位円板 $S^{1}$ に包まれる（図~\ref{fig:disk-gershgorin}）．
+      ゆえに $A$ の任意の固有値 $\lambda \in \setC$ に対して
+      $\DS \lambda \in \bigcup \setprnsep{D_{i}}{i \in \Natleq{n}} \subseteq S^{1}$ が成り立ち，
+      $\absprn{\lambda} \leq 1$ である．\qed
+    }
+    \begin{figure}[tb]
+    \centering
+      \begin{tikzpicture}[x=2cm,y=2cm]
+        \draw[-latex] (0, -1.5) -- (0, 1.5) node[right=0.25em] {$\Im \lambda$};
+        \draw[-latex] (-1.5, 0) -- (1.5, 0) node[above=0.25em] {$\Re \lambda$};
+        \draw[line width=1pt,dashed] (0, 0) circle[radius=1];
+        \fill[pattern=north west lines] (0.3, 0) circle[radius=0.7];
+        \draw[line width=1pt] (0.3, 0) circle[radius=0.7];
+        \draw[fill=black] (0.3, 0) circle[radius=3pt] node[below=0.25em] {$A_{i i}$};
+        \draw (1, 0) node[right=0.5em,below] {$1$};
+        \draw (-1, 0) node[left=0.75em,below] {$-1$};
+        \draw (-0.45, 0.4) node {$D_{i}$};
+        \draw (-0.9, 0.7) node {$S^{1}$};
+      \end{tikzpicture}
+      \caption{円板 $D_{i i}$ の単位円板 $S^{1}$ による包含}\label{fig:disk-gershgorin}
+    \end{figure}
     \thmpar{Birkhoff--von Neumannの定理}{
       任意の二重確率行列は置換行列の凸結合である．
     }
-    \proof{}{\REMAINS}
+    \proof{}{
+      二重確率行列 $A \in \setMatrix{n}{n}{\setR}$ の非零成分の個数 $m$ に関する帰納法による．
+      $A \vecone = \vecone$ および $\trsps{\vecone} A = \trsps{\vecone}$ より，各行各列は少なくとも $1$ 個の非零成分をもち，
+      したがって $m \geq n$ である．
+      \begin{itemize}
+      \item $m = n$ のとき，
+        $A$ は明らかに置換行列であるから，置換行列の凸結合．
+      \item $m > n$ のとき，
+        二部グラフ $G = \seqprn{U, V; E}$ を $U \defeq V \defeq \Natleq{n}$，$E \defeq \setprnsep{\seqprn{i, j} \in U \times V}{A_{i j} > 0}$
+        で定めると，任意の $X \subseteq U$ に対して
+        \begin{align*}
+          \card{\app{\Gamma}{X}}
+          = \sum_{\scriptrange{j \in \app{\Gamma}{X}}} 1
+          &= \sum_{\scriptrange{j \in \app{\Gamma}{X}}} \sum_{i \in U} A_{i j}
+            \holdby{$A \vecone = \vecone$}
+        \\&= \sum_{i \in U} \sum_{\scriptrange{j \in \app{\Gamma}{X}}} A_{i j}
+        \\&\geq \sum_{i \in X} \sum_{\scriptrange{j \in \app{\Gamma}{X}}} A_{i j}
+            \holdby{$X \subseteq U$}
+        \\&= \sum_{i \in X} \sum_{j \in V} A_{i j}
+            \holdby{$E$ の定義より $\forallin{i}{X}{\forallin{j}{V \setmns \app{\Gamma}{X}}{A_{i j} = 0}}$}
+        \\&= \sum_{i \in X} 1
+            \holdby{$\trsps{\vecone} A = \trsps{\vecone}$}
+        \\&= \card{X}
+        \end{align*}
+        が成り立つ．したがって定理~\ref{thm:hall}：Hallの定理より $G$ に完全マッチング $M \subseteq E$ が存在する．
+        この $M$ に対応する行列 $P \in \setMatrix{n}{n}{\setR}$ を
+        \begin{align*}
+          P_{i j} &\defeq
+            \begin{cases}
+              1 &\caseif{\seqprn{i, j} \in M}
+            \\
+              0 &\caseow
+            \end{cases}
+        \end{align*}
+        で定めると，この $P$ は $M$ が完全マッチングであることから明らかに置換行列である．
+        ここで $\mu \defeq \min \setprnsep{A_{i j}}{\seqprn{i, j} \in U \times V}$ とおいて
+        $\DS A' \defeq \frac{1}{1 - \mu} \paren{A - \mu P}$ とすると，
+        $\mu$ の定義より $A' \geq O$ であり，また
+        \begin{align*}
+          A' \vecone
+          &= \frac{1}{1 - \mu} \paren{A \vecone - \mu P \vecone}
+          = \frac{1}{1 - \mu} \paren{\vecone - \mu \vecone}
+          = \vecone
+        \\
+          \trsps{\vecone} A'
+          &= \frac{1}{1 - \mu} \paren{\trsps{\vecone} A - \mu \trsps{\vecone} P}
+          = \frac{1}{1 - \mu} \paren{\trsps{\vecone} - \mu \trsps{\vecone}}
+          = \trsps{\vecone}
+        \end{align*}
+        より $A'$ は二重確率行列．
+        この $A'$ は $\mu$ の定義より $A$ よりも非零成分数の真に少ない確率行列であるから，
+        帰納法の仮定より $A'$ は置換行列の凸結合であり，
+        $A = \paren{1 - \mu} A' + \mu P$ より $A$ も置換行列の凸結合．
+      \end{itemize}
+      以上より，任意の二重確率行列は置換行列の凸結合である．\qed
+    }
 \section{整数行列}
   \plainpar{}{
     整数行列はグラフなどの構造から現れ，これを用いてグラフに関する議論を行列に関する議論に帰着することができる．

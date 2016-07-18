@@ -9,7 +9,6 @@
 }
 \let\DS\displaystyle
 \newenvironment{genmat}[1]{\left(\begin{array}{#1}}{\end{array}\right)}
-\def\holdby#1{\tag*{$\because$\ #1}}
 %
 \def\cofactor#1{\Tilde{#1}}
 \def\cofactorDelta#1{\Delta^{#1}}
@@ -19,21 +18,13 @@
 \def\submatrix#1#2#3{\colsubmatrix{\rowsubmatrix{#1}{#2}}{#3}}
 \def\colsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\rightarrow}} #2}}
 \def\rowsubmatrix#1#2{#1\sqbracket{{}^{\mathord{\downarrow}} #2}}
-\def\Perm#1{\mathfrak{S}_{#1}}
-\def\sgn{\mathop{\operator@font sgn}}
-\def\rank{\mathop{\operator@font rank}}
-\def\Img{\mathop{\operator@font Im}}
-\def\Ker{\mathop{\operator@font Ker}}
-\def\veczero{\bm{0}}
-\def\vecone{\bm{1}}
-\def\vecsglone#1{\mathbf{e}_{\scriptrange{#1}}}
+\def\conj#1{\overline{#1}}
+\def\conjtrsps#1{#1^{\ast}}
 \def\expandHV#1{\expandH{\expandV{#1}}}
 \def\expandH#1{\quad#1\quad}
 \def\expandV#1{\rule[-1em]{0pt}{2.5em}#1}
 \def\expandSH#1{\qquad#1\qquad}
 \def\expandSV#1{\rule[-2em]{0pt}{4.5em}#1}
-\def\conj#1{\overline{#1}}
-\def\conjtrsps#1{#1^{\ast}}
 \let\norm\distprn
 \def\subspaceof#1#2{\mathrm{Sub}_{\scriptrange{#1}}\paren{#2}}
 \def\Rayleigh#1{\mathrm{R}_{\scriptrange{#1}}}
