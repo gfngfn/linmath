@@ -990,48 +990,89 @@
   \plainpar{}{\REMAINS}
 \section{グラフと行列}
   \subsection{強連結成分分解}
-  \defpar{置換行列}{
-    各行各列にちょうど $1$ 個 $1$ があって，その他の成分は $0$ であるような正方行列を\newword{置換行列}と呼ぶ．
-  }
+    \defpar{置換行列}{
+      各行各列にちょうど $1$ 個 $1$ があって，その他の成分は $0$ であるような正方行列を\newword{置換行列}と呼ぶ．
+    }
   \subsection{二部グラフ}
-  \plainpar{}{
-    証明せず紹介のみに留まる形になるが，二部グラフに関する重要な定理を掲げる．
-  }
-  \defpar{二部グラフ，マッチング，完全マッチング}{
-    $U \cap V = \varnothing$ なる有限集合 $U$，$V$ と
-    二項関係 $E \subseteq U \times V$ の組 $G = \seqprn{U, V; E}$ を\newword{二部グラフ}と呼ぶ．
-    二部グラフ $G= \seqprn{U, V; E}$ と $X \subseteq U$ に対して
-    \begin{align*}
-      \app{\Gamma}{X} \defeq \setprnsep{v \in V}{\existsin{x}{X}{\seqprn{x, v} \in E}}
-    \end{align*}
-    で $\app{\Gamma}{X}$ を定める．$F \subseteq E$ に対して
-    \begin{align*}
-      \partial F \defeq \setprnsep{u \in U}{\existsin{v}{V}{\seqprn{u, v} \in E}} \cup \setprnsep{v \in V}{\existsin{u}{U}{\seqprn{u, v} \in E}}
-    \end{align*}
-    で $\partial F$ を定義する．$K \subseteq U$ と $L \subseteq V$ が
-    $\forallin{\seqprn{u, v}}{E}{\lflor{u \in K}{v \in L}}$ を満たすとき，$\seqprn{K, L}$ を $G$ の\newword{被覆}と呼ぶ．
-    また，二部グラフ $G = \seqprn{U, V; E}$ に対し，$M \subseteq E$ が $\card{\partial M} = 2 \card{M}$ を満たすとき，
-    $M$ を $G$ 上の\newword{マッチング}と呼び，特に $\card{U} = \card{V}$ なる二部グラフ $G = \seqprn{U, V; E}$ に対して
-    $G$ 上のマッチング $M$ が $\card{M} = \card{U} = \card{V}$ を満たすとき，$M$ を $G$ 上の\newword{完全マッチング}と呼ぶ．
-  }
-  \thmpar[thm:hall]{Hallの定理}{
-    $\card{U} = \card{V}$ なる二部グラフ $G = \seqprn{U, V; E}$ に対し，$G$ に完全マッチングが存在することと
-    \begin{align*}
-      \forallsub[1]{X}{U}{\card{\app{\Gamma}{X}} \geq \card{X}}
-    \end{align*}
-    が成り立つことは同値．
-  }
-  \proof{}{省略する．}
-  \thmpar[thm:hall-ore]{Hall--Oreの定理}{
-    二部グラフ $G = \seqprn{U, V; E}$ に対し，
-    \begin{align*}
-      \max \setprnsep{\card{M}}{\text{$M$ は $G$ のマッチング}}
-      =
-      \min \setprnsep{\card{\app{\Gamma}{X}} - \card{X}}{X \subseteq U} + \card{U}
-    \end{align*}
-    が成り立つ．
-  }
-  \proof{}{省略する．}
+    \plainpar{}{
+      証明せず紹介のみに留まる形になるが，二部グラフに関する重要な定理を掲げる．
+    }
+    \defpar{二部グラフ，マッチング，完全マッチング}{
+      $U \cap V = \varnothing$ なる有限集合 $U$，$V$ と
+      二項関係 $E \subseteq U \times V$ の組 $G = \seqprn{U, V; E}$ を\newword{二部グラフ}と呼ぶ．
+      二部グラフ $G= \seqprn{U, V; E}$ と $X \subseteq U$ に対して
+      \begin{align*}
+        \app{\Gamma}{X} \defeq \setprnsep{v \in V}{\existsin{x}{X}{\seqprn{x, v} \in E}}
+      \end{align*}
+      で $\app{\Gamma}{X}$ を定める．$F \subseteq E$ に対して
+      \begin{align*}
+        \partial F \defeq \setprnsep{u \in U}{\existsin{v}{V}{\seqprn{u, v} \in E}} \cup \setprnsep{v \in V}{\existsin{u}{U}{\seqprn{u, v} \in E}}
+      \end{align*}
+      で $\partial F$ を定義する．$K \subseteq U$ と $L \subseteq V$ が
+      $\forallin{\seqprn{u, v}}{E}{\lflor{u \in K}{v \in L}}$ を満たすとき，$\seqprn{K, L}$ を $G$ の\newword{被覆}と呼ぶ．
+      また，二部グラフ $G = \seqprn{U, V; E}$ に対し，$M \subseteq E$ が $\card{\partial M} = 2 \card{M}$ を満たすとき，
+      $M$ を $G$ 上の\newword{マッチング}と呼び，特に $\card{U} = \card{V}$ なる二部グラフ $G = \seqprn{U, V; E}$ に対して
+      $G$ 上のマッチング $M$ が $\card{M} = \card{U} = \card{V}$ を満たすとき，$M$ を $G$ 上の\newword{完全マッチング}と呼ぶ．
+    }
+    \thmpar[thm:koenig]{K\"onigの定理}{
+      二部グラフ $G = \seqprn{U, V; E}$ に対して
+      \begin{align*}
+        \max \setprnsep{\card{M}}{\text{$M$ は $G$ のマッチング}}
+        =
+        \min \setprnsep{\card{K} + \card{L}}{\text{$\seqprn{K, L}$ は $G$ の被覆}}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{
+      省略する．
+    }
+    \thmpar[thm:hall]{Hallの定理}{
+      $\card{U} = \card{V}$ なる二部グラフ $G = \seqprn{U, V; E}$ に対し，$G$ に完全マッチングが存在することと
+      \begin{align*}
+        \forallsub[1]{X}{U}{\card{\app{\Gamma}{X}} \geq \card{X}}
+      \end{align*}
+      が成り立つことは同値．
+    }
+    \proof{}{省略する．}
+    \thmpar[thm:hall-ore]{Hall--Oreの定理}{
+      二部グラフ $G = \seqprn{U, V; E}$ に対して
+      \begin{align*}
+        \max \setprnsep{\card{M}}{\text{$M$ は $G$ のマッチング}}
+        =
+        \min \setprnsep{\card{\app{\Gamma}{X}} - \card{X}}{X \subseteq U} + \card{U}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{省略する．}
+  \subsection{Dulmage--Mendelsohn分解}
+    \lempar{}{
+      二部グラフ $G = \seqprn{U, V; E}$ に対して $\app{f_{G}}{X} \defeq \card{\app{\Gamma}{X}} - \card{X}$ で
+      $\funcdoms{f_{G}}{\Power{U}}{\setZ}$ を定めると，$f_{G}$ は\newword{劣模律}：
+      \begin{align*}
+        \forallsub[1]{X|Y}{U}{\app{f_{G}}{X} + \app{f_{G}}{Y} \geq \app{f_{G}}{X \cap Y} + \app{f_{G}}{X \cup Y}}
+      \end{align*}
+      を満たす．
+    }
+    \lempar{最小化集合族の $\cap$, $\cup$-閉性}{
+      二部グラフ $G = \seqprn{U, V; E}$ に対して $f_{G}$ を最小化する集合全体からなる集合族を $\Dminzr{f_{G}}$，すなわち
+      $\Dminzr{f_{G}} \defeq \setprnsep{X \subseteq U}{\forallsub{Y}{U}{\app{f_{G}}{X} \leq \app{f_{G}}{Y}}}$
+      とおくと，
+      \begin{align*}
+        \forallin{X|Y}{\Dminzr{f_{G}}}{\lfland{X \cap Y \in \Dminzr{f_{G}}}{X \cup Y \in \Dminzr{f_{G}}}}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{
+      $f_{G}$ の最小値を $\alpha$，すなわち $\alpha \defeq \min \setprnsep{\app{f_{G}}{Z}}{Z \subseteq U}$ とおき，
+      $X, Y \in \Dminzr{f_{G}}$ とする．
+      仮に $X \cap Y \not\in \Dminzr{f_{G}}$ であるとすると，$\app{f_{G}}{X \cap Y} > \alpha$ であるが，
+      劣模律より
+      \begin{align*}
+        2 \alpha = \app{f_{G}}{X} + \app{F_{G}}{Y} \geq \app{f_{G}}{X \cap Y} + \app{f_{G}}{X \cup Y}
+      \end{align*}
+      であるから $\app{f_{G}}{X \cup Y} \leq 2 \alpha - \app{f_{G}}{X \cap Y} < \alpha$ となり，$\alpha$ の定義に矛盾．
+      ゆえに $X \cap Y \in \Dminzr{f_{G}}$．劣模律の対称性より $X \cup Y$ についても同様である．\qed
+    }
 \section{非負行列}
   \subsection{既約行列}
     \defpar{既約性}{
@@ -1047,7 +1088,7 @@
       \begin{itemize}
       \item $\vecx$ のすべての成分が非零であるとき，すなわち $\vecx > \veczero$ が成り立つとき，
         $\vecy \defeq \paren{I + A} \vecx$ とおくと $\vecy = \vecx + A \vecx$，
-        $\vecx > \veczero$，および $A$ の既約性より $A$ はどの行にも正の成分を少なくともひとつもつから $A \veczero > \veczero$．
+        $\vecx > \veczero$，および $A$ の既約性より $A$ はどの行にも正の成分を少なくともひとつもつから $A \vecx > \veczero$．
         ゆえに $\vecy > \veczero$ であり，$\vecy$ もすべての成分が非零である．
       \item $\vecx$ が $0$ を成分にもつとき，積と既約性は対応する行・列の交換で保存するから
         $\DS \vecx =
