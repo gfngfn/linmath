@@ -1,5 +1,12 @@
 \def\REMAINS{\textcolor{red}{\textgt{〈要加筆〉}}}
 \def\NEEDPICTURE{\textcolor{red}{\textgt{〈要略図〉}}}
+\def\QUESTION{%
+  \begin{tikzpicture}
+    \path[use as bounding box] (-0.8em, -0.5em) rectangle (0.8em, 0.5em);
+    \draw (0, 0) node {\LARGE\textcolor{red}{\textsf{?}}};
+    \draw[color=red,line width=2pt] (0, 0) circle[radius=0.8em];
+  \end{tikzpicture}%
+}
 \let\DS\displaystyle
 \newenvironment{genmat}[1]{\left(\begin{array}{#1}}{\end{array}\right)}
 \def\holdby#1{\tag*{$\because$\ #1}}
@@ -43,6 +50,7 @@
 }
 %
 %\def\veca{\bm{a}}
+\def\veca{\bm{a}}
 \def\vecb{\bm{b}}
 \def\vecc{\bm{c}}
 \def\vecp{\bm{p}}
@@ -50,6 +58,7 @@
 \def\vecs{\bm{s}}
 \def\vecu{\bm{u}}
 \def\vecv{\bm{v}}
+\def\vecw{\bm{w}}
 \def\vecx{\bm{x}}
 \def\vecy{\bm{y}}
 \def\vecz{\bm{z}}

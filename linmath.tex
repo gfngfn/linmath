@@ -990,7 +990,130 @@
     }
 \section{行列の標準形}
   \plainpar{}{\REMAINS}
-\section{\REMAINS}
+\section{グラフと行列}
+\section{非負行列}
+  \subsection{既約行列}
+    \defpar{既約性}{
+      正方行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ を零・非零で隣接行列とみた有向グラフが強連結であるとき，
+      $A$ は\newword{既約}であるという．
+    }
+    \lempar[lem:irreducible-to-positive]{}{
+      既約な非負正方行列 $A \in\setMatrix{n}{n}{\setR}$ に対し，$\paren{I + A}^{n - 1}$ は正正方行列である．
+    }
+    \proof{}{
+      任意の $\vecx \neq \veczero$ かつ $\vecx \geq \veczero$ なる $\vecx \in \setcolvec{\setR}{n}$ に対して
+      $\paren{I + A}^{n - 1} \vecx > \veczero$ を示せばよい．
+      \begin{itemize}
+      \item $\vecx$ のすべての成分が非零であるとき，すなわち $\vecx > \veczero$ が成り立つとき，
+        $\vecy \defeq \paren{I + A} \vecx$ とおくと $\vecy = \vecx + A \vecx$，
+        $\vecx > \veczero$，および $A$ の既約性より $A$ はどの行にも正の成分を少なくともひとつもつから $A \veczero > \veczero$．
+        ゆえに $\vecy > \veczero$ であり，$\vecy$ もすべての成分が非零である．
+      \item $\vecx$ が $0$ を成分にもつとき，積と既約性は対応する行・列の交換で保存するから
+        $\DS \vecx =
+          \begin{genmat}{@{}c@{}}
+            \vecx'
+          \\\hline
+            \veczero
+          \end{genmat}$，
+        $\vecx' > \veczero$ として一般性を失わない．やはり $\vecy \defeq \paren{I + A} \vecx$ とおくと
+        \begin{align*}
+          \vecy
+          =
+            \begin{genmat}{@{}c@{}}
+              \vecy^{(1)}
+            \\\hline
+              \vecy^{(2)}
+            \end{genmat}
+          =
+            \begin{genmat}{@{}c@{}}
+              \vecx'
+            \\\hline
+              \veczero
+            \end{genmat}
+            +
+            \begin{genmat}{c|c}
+              A^{(1 1)} & A^{(1 2)}
+            \\\hline
+              A^{(2 1)} & A^{(2 2)}
+            \end{genmat}
+            \begin{genmat}{@{}c@{}}
+              \vecx'
+            \\\hline
+              \veczero
+            \end{genmat}
+          =
+            \begin{genmat}{@{}c@{}}
+              \vecx' + A^{(1 1)} \vecx'
+            \\\hline
+              A^{(2 1)} \vecx'
+            \end{genmat}
+        \end{align*}
+        である．$\vecy^{(1)}$ は上と同様の議論により $\vecy^{(1)} > \veczero$ である．
+        ここで $A$ の既約性により $A^{(2 1)}$ には非零成分が存在し，$\vecx' > \veczero$ より
+        $A^{(2 1)} \vecx' \neq \veczero$ かつ $A^{(2 1)} \vecx' \geq \veczero$ が成り立つ．
+        よって $\vecy^{(2)}$ は非零成分をもち，$\vecy$ の非零成分の個数は $\vecx$ のそれよりも真に多い．
+      \end{itemize}
+      以上より $I + A$ を左から乗じることでベクトルの非零成分の個数は $n$ 未満の場合真に多くなりちょうど $n$ の場合は $n$ 個のままである．
+      “初期値”である $\vecx$ の非零成分は少なくとも $1$ 個あるので，$\paren{I + A}^{n - 1} \vecx$ はすべて非零成分である．
+      ゆえに $\vecx \neq \veczero$ かつ $\vecx \geq \veczero$ なるベクトル $\vecx$ に対して
+      $\paren{I + A}^{n - 1} \vecx > \veczero$ が成り立ち，$\paren{I + A}^{n - 1}$ は正正方行列である．\qed
+    }
+    \thmpar[thm:perron-frobenius]{Perron--Frobeniusの定理}{
+      既約な非負正方行列は，正ベクトルを固有ベクトルとする正の固有値をもつ．
+    }
+    \proof{}{
+      \begin{align*}
+        \app{\mu_{A}}{\vecx}
+        &\defeq \max \setprnsep{\lambda \in \setR}{A \vecx - \lambda \vecx \geq \veczero}
+      \\&\afterdefeq \min \setprnsep{\frac{\paren{A \vecx}_{i}}{\vecx_{i}}}{\lfland{i \in \Natleq{n}}{\vecx_{i} > 0}}
+      \end{align*}
+      で $\funcdoms{\mu_{A}}{\setcolvec{\setR}{n} \setmns \setprn{\veczero}}{\setR}$ を定める．また，
+      \begin{align*}
+        \alpha &\defeq \sup \setprnsep{\app{\mu_{A}}{\vecx}}{
+          \lfland{\vecx \in \setcolvec{\setR}{n}}{\lfland{\vecx \geq \veczero}{\vecx \neq \veczero}}}
+      \end{align*}
+      で $\alpha$ を定めると，$\mu_{A}$ はスカラー倍について保存，すなわち
+      $\forallin{\vecx}{\setcolvec{\setR}{n}}{\forallin{k}{\setR \setmns \setprn{0}}{\app{\mu_{A}}{\vecx} = \app{\mu_{A}}{k \vecx}}}$
+      を満たすから，$S \defeq \setprnsep{\vecx \in \setcolvec{\setR}{n}}{\lfland{\vecx \neq \veczero}{\norm{\vecx} = 1}}$ とおいて
+      $\alpha = \sup \setprnsep{\app{\mu_{A}}{\vecx}}{\vecx \in S}$ と規格化してよい．
+      また $\app{\mu_{A}}{\vecone} = \min \setprnsep{\paren{A \vecone}_{i}}{i \in \Natleq{n}}$ は
+      $A$ の行和のうち最小のものであるが，$A$ の既約性よりどの行にも非零成分があるので $\app{\mu_{A}}{\vecone} > 0$．
+      したがって $\alpha$ の定義より $\alpha \geq \app{\mu_{A}}{\vecone} > 0$ が成り立つ．
+      $S$ は $\setcolvec{\setR}{n}$ 上の有界閉集合であるからコンパクトであり，
+      ここで $S$ 上の点列 $\seqprn{\veca_{k}}_{k \in \setNpos}$ で
+      $\DS \lim_{k \to \infty} \app{\mu_{A}}{\veca_{k}} = \alpha$ なるものが存在する．\QUESTION
+      また，このような点列 $\seqprn{\veca_{k}}_{k \in \setNpos}$ に対し，
+      $S$ は $\setcolvec{\setR}{n}$ 上の有界閉集合より点列コンパクトであるから，狭義単調増加な $\funcdoms{k}{\setNpos}{\setNpos}$ で表される
+      $\seqprn{\veca_{k}}_{k \in \setNpos}$ の収束部分列 $\seqprn{\veca_{\scriptrange{\app{k}{l}}}}_{i \in \setNpos}$ が存在し，
+      これを用いて $\DS \vecz \defeq lim_{l \to \infty} \veca_{\scriptrange{\app{k}{l}}} \in S$ とおける．
+      各 $l \in \setNpos$ に対して $\mu_{A}$ の定義より
+      $A \veca_{\scriptrange{\app{k}{l}}} - \app{\mu_{A}}{\veca_{\scriptrange{\app{k}{l}}}} \veca_{\scriptrange{\app{k}{l}}} \geq \veczero$
+      が成り立ち，したがって $A \vecz - \alpha \vecz \geq \veczero$ \QUESTION ．
+      ここで仮に $A \vecz \neq \alpha \vecz$ であるとすると，
+      $\vecw \defeq \paren{I + A}^{n - 1} \vecz$ とおいて
+      \begin{align*}
+        A \vecw - \alpha \vecw
+        &= A \paren{I + A}^{n - 1} \vecz - \alpha \paren{I + A}^{n - 1} \vecz
+      \\&= \paren{I + A}^{n - 1} A \vecz - \paren{I + A}^{n - 1} \paren{\alpha \vecz}
+          \holdby{$A$ と $\paren{I + A}^{n - 1}$ は可換}
+      \\&= \paren{I + A}^{n - 1} \paren{A \vecz - \alpha \vecz}
+      \\&> \veczero
+          \holdby{$A \vecz - \alpha \vecz \geq \veczero$ および補題~\ref{lem:irreducible-to-positive}}
+      \end{align*}
+      が成り立ち，したがって $\vecw \geq \veczero$ および $\alpha > 0$ より
+      \begin{align*}
+        \app{\mu_{A}}{\vecw} &= \max \setprnsep{\lambda \in \setR}{A \vecw - \lambda \vecw \geq \veczero} > \alpha
+      \end{align*}
+      が成り立つことになるが，これは $\alpha$ の定義に反して矛盾．ゆえに $A \vecz = \alpha \vecz$ が成り立ち，
+      $\alpha$ と $\vecz$ は $A$ の固有値とそれに対応する固有ベクトルである．
+      またこの $\vecz$ に関して
+      \begin{align*}
+        \vecw = \paren{I + A}^{n - 1} \vecz = \paren{1 + \alpha}^{n - 1} \vecz
+      \end{align*}
+      が展開した多項式を考えて成り立つから $\DS \vecz = \frac{1}{\paren{1 + \alpha}^{n - 1}} \vecw > \veczero$，
+      よって $\alpha > 0$ かつ $\vecz > \veczero$ を得る．
+      ゆえに $A$ は正ベクトル $\veczero$ を固有ベクトルとする正の固有値 $\alpha$ をもつ．\qed
+    }
   \subsection{確率行列}
     \plainpar{}{\REMAINS}
     \defpar{確率行列，二重確率行列}{
