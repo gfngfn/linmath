@@ -7,6 +7,7 @@
 \begin{document}
 \maketitle
 %
+\setcounter{section}{-1}
 \section{はじめに}
   \subsection{概要}
     \plainpar{}{
@@ -1073,6 +1074,208 @@
       であるから $\app{f_{G}}{X \cup Y} \leq 2 \alpha - \app{f_{G}}{X \cap Y} < \alpha$ となり，$\alpha$ の定義に矛盾．
       ゆえに $X \cap Y \in \Dminzr{f_{G}}$．劣模律の対称性より $X \cup Y$ についても同様である．\qed
     }
+    \defpar{Dulmage--Mendelsohn分解}{
+      二部グラフ $G = \seqprn{U, V; E}$ に対し，$\seqprn{\Dminzr{f_{G}}, \cap, \cup}$ の極大鎖のひとつ，
+      $X_{0} \subsetcovered X_{1} \subsetcovered \cdots \subsetcovered X_{b}$ なる $\seqprn{X_{k}}_{k = 0}^{b}$ を用いて
+      \begin{align*}
+        U_{k} &\defeq
+          \begin{cases}
+            X_{0}                   &\caseif{k = 0}
+          \\
+            X_{k} \setmns X_{k - 1} &\caseif{k \in \Natleq{b}}
+          \\
+            U \setmns X_{b}         &\caseif{k = \infty}
+          \end{cases}
+      &
+        V_{k} &\defeq
+          \begin{cases}
+            \app{\Gamma}{X_{0}}                                 &\caseif{k = 0}
+          \\
+            \app{\Gamma}{X_{k}} \setmns \app{\Gamma}{X_{k - 1}} &\caseif{k \in \Natleq{b}}
+          \\
+            V \setmns \app{\Gamma}{X_{b}}                       &\caseif{k = \infty}
+          \end{cases}
+      \end{align*}
+      で $\seqprn{U_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}}$
+      と $\seqprn{V_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}}$ を定める．
+      これらの集合列の組を $G$ の\newword{Dulmage--Mendelsohn分解}と呼ぶ．
+    }
+    \begin{figure}[tb]
+    \centering
+      {\def\drawline#1#2{\draw[line width=1pt] (0, #1) -- (6, #2)}%
+       \def\drawUellipse#1#2#3#4{\draw ($(0, #1)!0.5!(0, #2)$) ellipse[y radius=#3,x radius=#4]}%
+       \def\drawVellipse#1#2#3#4{\draw ($(6, #1)!0.5!(6, #2)$) ellipse[y radius=#3,x radius=#4]}%
+       \def\drawUnode#1#2#3{\draw (-1.1, #1) -- (-1.25, #1) -- (-1.25, #2) node[midway,left=0.25em] {#3} -- (-1.1, #2)}%
+       \def\drawVnode#1#2#3{\draw (7.1, #1) -- (7.25, #1) -- (7.25, #2) node[midway,right=0.25em] {#3} -- (7.1, #2)}%
+      \begin{tikzpicture}
+        \drawline{0}{0};
+        \drawline{1}{0};
+        \drawline{2}{0};
+        \drawline{2}{1};
+        \drawline{3}{0};
+        \drawline{3}{1};
+        \drawline{3}{2};
+        \drawline{4}{1};
+        \drawline{4}{3};
+        \drawline{4}{4};
+        \drawline{5}{3};
+        \drawline{5}{4};
+        \drawline{6}{2};
+        \drawline{6}{5};
+        \drawline{6}{6};
+        \drawUellipse{0}{1}{0.75}{0.2};
+        \drawUellipse{0}{2}{1.35}{0.4};
+        \drawUellipse{0}{3}{1.95}{0.6};
+        \drawUellipse{0}{5}{3.05}{0.85};
+        \drawVellipse{0}{0}{0.2}{0.2};
+        \drawVellipse{0}{1}{0.8}{0.4};
+        \drawVellipse{0}{2}{1.4}{0.6};
+        \drawVellipse{0}{4}{2.5}{0.85};
+        \foreach \Ypos in {0,1,2,3,4,5,6} \fill[color=black] (0, \Ypos) circle[radius=2pt];
+        \foreach \Ypos in {0,1,2,3,4,5,6} \fill[color=black] (6, \Ypos) circle[radius=2pt];
+        \draw (0, 7) node {$U$};
+        \draw (6, 7) node {$V$};
+        \drawUnode{-0.3}{1.3}{$U_{0}$};
+        \drawUnode{1.7}{2.3}{$U_{1}$};
+        \drawUnode{2.7}{3.3}{$U_{2}$};
+        \drawUnode{3.7}{5.3}{$U_{3}$};
+        \drawUnode{5.7}{6.3}{$U_{\infty}$};
+        \drawVnode{-0.3}{0.3}{$V_{0}$};
+        \drawVnode{0.7}{1.3}{$V_{1}$};
+        \drawVnode{1.7}{2.3}{$V_{2}$};
+        \drawVnode{2.7}{4.3}{$V_{3}$};
+        \drawVnode{4.7}{6.3}{$V_{\infty}$};
+      \end{tikzpicture}}
+      \caption{Dulmage--Mendelsohn分解の例}\label{fig:dm-decomp}
+    \end{figure}
+    \plainpar{}{
+      Dulmage--Mendelsohn分解の例を図~\ref{fig:dm-decomp}に掲げる．
+      また，以下に掲げる補題は $\Dminzr{f_{G}}$ の性質より直観的にも簡単に導かれる．
+    }
+    \lempar{}{
+      二部グラフ $G = \seqprn{U, V; E}$ のDulmage--Mendelsohn分解
+      $\seqprn{\seqprn{U_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}},
+               \seqprn{V_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}}}$
+      に対し，以下がそれぞれ成り立つ：
+      \begin{thmenum}
+      \thmenumitem\label{lem:dm-decomp-fundamental|1}
+        $\forallin{k}{\Natleq{b}}{\card{V_{k}} = \card{U_{k}}}$
+      \thmenumitem\label{lem:dm-decomp-fundamental|2}
+        $\lflor{\card{U_{0}} > \card{V_{0}}}{\card{U_{0}} = \card{V_{0}} = 0}$
+      \end{thmenum}
+    }
+    \proof{}{
+      \subproof{\ref{lem:dm-decomp-fundamental|1}}{
+        $\seqprn{\seqprn{U_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}},
+         \seqprn{V_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}}}$
+        を形成するのに使われた $\seqprn{\Dminzr{f_{G}}, \cap, \cup}$ の極大鎖を $\seqprn{X_{k}}_{k = 0}^{b}$ とおき，
+        また $\alpha \defeq \min \setprnsep{\app{f_{G}}{X}}{X \subseteq U}$，すなわち $f_{G}$ の最小値を $\alpha$ とおく．
+        このとき $k \in \Natleq{b}$ に対して
+        \begin{align*}
+          \card{V_{k}}
+          = \card{\app{\Gamma}{X_{k}} \setmns \app{\Gamma}{X_{k - 1}}}
+          &= \card{\app{\Gamma}{X_{k}}} - \card{\app{\Gamma}{X_{k - 1}}}
+            \holdby{$X_{k - 1} \subseteq X_{k}$ より $\app{\Gamma}{X_{k - 1}} \subseteq \app{\Gamma}{X_{k}}$}
+        \\&= \paren{\app{f_{G}}{X_{k}} + \card{X_{k}}} - \paren{\app{f_{G}}{X_{k - 1}} + \card{X_{k - 1}}}
+        \\&= \paren{\alpha + \card{X_{k}}} - \paren{\alpha + \card{X_{k - 1}}}
+            \holdby{$X_{k}, X_{k - 1} \in \Dminzr{f_{G}}$}
+        \\&= \card{X_{k}} - \card{X_{k - 1}}
+          = \card{X_{k} \setmns X_{k - 1}}
+            \holdby{$X_{k - 1} \subseteq X_{k}$}
+        \\&= \card{U_{k}}
+        \end{align*}
+        であり，$\card{U_{k}} = \card{V_{k}}$．\qed
+      }
+      \subproof{\ref{lem:dm-decomp-fundamental|2}}{
+        $\app{f_{G}}{\varnothing} = \card{\app{\Gamma}{\varnothing}} - \card{\varnothing} = 0$ と $\alpha$ の定義より $\alpha \leq 0$ である．
+        したがって
+        \begin{align*}
+          \card{V_{0}} - \card{U_{0}}
+          = \card{\app{\Gamma}{X_{0}}} - \card{X_{0}}
+          = \app{f_{G}}{X_{0}}
+          &= \alpha
+            \holdby{$X_{0} \in \Dminzr{f_{G}}$}
+        \\&\leq 0
+        \end{align*}
+        であり，$\card{U_{0}} < \card{V_{0}}$ または $\card{U_{0}} = \card{V_{0}}$ が成り立つ．
+        $\card{U_{0}} = \card{V_{0}}$ が成り立つとき，
+        $\alpha = \card{V_{0}} - \card{U_{0}} = 0$ であるから $\app{f_{G}}{\varnothing} = 0 = \alpha$，
+        すなわち $\varnothing \in \Dminzr{f_{G}}$ が成り立つ．このとき $\seqprn{\Dminzr{f_{G}}, \cap, \cup}$ の極大鎖は
+        最小元 $\varnothing$ を含まなければ極大性に反するから，$X_{0} = \varnothing$ が成り立ち，よって
+        $\card{V_{0}} = \card{U_{0}} = \card{X_{0}} = \card{\varnothing} = 0$．
+        ゆえに $\card{U_{0}} < \card{V_{0}}$ または $\card{U_{0}} = \card{V_{0}} = 0$ が成り立つ．\qed
+      }
+    }
+    \plainpar{}{
+      Dulmage--Mendelsohn分解には，ブロック三角化の手法としての意義がある．行列 $A \in \setMatrix{m}{n}{K}$ に対して
+      $U \defeq \Natleq{m}$，$V \defeq \Natleq{n}$，$E \defeq \setprnsep{\seqprn{i, j} \in U \times V}{A_{i j} \neq 0}$ で
+      二部グラフ $G = \seqprn{U, V; E}$ を定め，これに対してDulmage--Mendelsohn分解
+      $\seqprn{\seqprn{U_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}},
+               \seqprn{V_{k}}_{\scriptrange{k \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}}}}$
+      を与えたとする．このとき，もとの行列 $A$ の行と列をこのDulmage--Mendelsohn分解に基づいて並べ替えると，
+      $k < l$ なる $k, l \in \setprn{0} \cup \Natleq{b} \cup \setprn{\infty}$ に対して
+      $U_{k}$ の元から $V_{l}$ の元へは $G$ 上で辺が存在しないから，
+      $A$ を並べ替えた行列の上ではすべての成分が $0$ のブロックに対応する．
+      すなわち，図~\ref{fig:block-lower-triangle}のように行列 $A$ のブロック下三角化ができていることになる．
+    }
+    \begin{figure}[tb]
+      {\def\slashes#1#2#3#4#5#6{
+         \begin{tikzpicture}
+           \path[use as bounding box] (0, 0) rectangle (#1, #2);
+           \fill[pattern=north west lines] (#3, #5) rectangle (#4, #6);
+         \end{tikzpicture}
+       }%
+       \def\varslashes#1#2#3#4#5#6{
+         \begin{tikzpicture}
+           \path[use as bounding box] (0, 0) rectangle (#1, #2);
+           \fill[pattern=north west lines] (#3, #5) rectangle (#4, #6);
+         \end{tikzpicture}
+       }%
+       \def\enclosedbylines#1{\multicolumn{1}{@{}|@{}c@{}|@{}}{#1}}%
+       \def\leftline#1{\multicolumn{1}{@{}|@{}c@{}}{#1}}%
+       \def\rightline#1{\multicolumn{1}{@{}c@{}|@{}}{#1}}%
+      \begin{align*}
+        P A Q =
+        \begin{array}{c@{}r@{}c@{}c@{}c@{}c@{}c@{}l}
+          & & V_{0} & V_{1} & V_{2} & \cdots & V_{\infty} &
+        \\
+          U_{0} & \multirow{5}{*}{\smash{\raisebox{-0.25em}{$\DS\left(\rule[-2.7em]{0pt}{6.5em}\right.$}}} &
+            \rightline{\varslashes{2em}{1em}{0em}{1.9em}{-0.3em}{0.9em}} & & &
+          &
+            \begin{tikzpicture}
+              \path[use as bounding box] (0, 0) -- (2em, 1em);
+              \draw (0, -0.75em) node {\Huge $O$};
+            \end{tikzpicture}
+          & \multirow{5}{*}{\smash{\raisebox{-0.25em}{$\DS\left.\rule[-2.7em]{0pt}{6.5em}\right)$}}}
+        \\\cline{3-4}
+          U_{1} & &
+            \slashes{2em}{1em}{0em}{1.9em}{-0.5em}{0.9em} & \enclosedbylines{\varslashes{2em}{1em}{0.1em}{1.9em}{-0.3em}{0.9em}} & & &
+          &
+        \\\cline{4-5}
+          U_{2} & &
+              \slashes{2em}{1em}{0em}{2.1em}{-0.5em}{0.9em}
+            & \slashes{2em}{1em}{0em}{1.9em}{-0.5em}{0.9em}
+            & \enclosedbylines{\varslashes{2em}{1em}{0.1em}{1.9em}{-0.3em}{0.9em}} & &
+          &
+        \\\cline{5-5}
+          \smash{\text{\raisebox{-0.25em}{$\vdots$}}} & &
+              \slashes{2em}{1em}{0em}{2.1em}{-0.5em}{0.9em}
+            & \slashes{2em}{1em}{0em}{2.1em}{-0.5em}{0.9em}
+            & \slashes{2em}{1em}{0em}{2em}{-0.5em}{0.9em}
+            & \smash{\text{\raisebox{-0.25em}{$\ddots$}}} &
+          &
+        \\\cline{7-7}
+          U_{\infty} & &
+              \slashes{2em}{1em}{0em}{2.1em}{-0.3em}{0.9em}
+            & \slashes{2em}{1em}{0em}{2.1em}{-0.3em}{0.9em}
+            & \slashes{2em}{1em}{0em}{2.1em}{-0.3em}{0.9em}
+            & \slashes{2em}{1em}{0em}{1.9em}{-0.3em}{0.9em}
+            & \leftline{\varslashes{2em}{1em}{0.1em}{2em}{-0.3em}{0.9em}}
+          &
+        \end{array}
+      \end{align*}}
+      \caption{Dulmage--Mendelsohn分解による行列のブロック下三角化}\label{fig:block-lower-triangle}
+    \end{figure}
 \section{非負行列}
   \subsection{既約行列}
     \defpar{既約性}{
