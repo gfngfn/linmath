@@ -171,7 +171,7 @@
           \\\hline
             C & D
           \end{genmat}
-            \holdby{定理~\ref{thm:block-det-ignore-upper-right}}
+            \holdby{定理~\ref{thm:det-mult-homomorphism}}
       \\&=
         1 \cdot \det M
       \\&= \det M
@@ -346,7 +346,38 @@
       であり，これを実際に各 $\sigma \in \Perm{m + n}$ について和をとって求めてみる．
       $\DS \prod_{i = 1}^{m + n} M_{\scriptrange{i \app{\sigma}{i}}} \neq 0$ なる $\sigma \in \Perm{m + n}$ についてのみ考えればよい．
       このような $\sigma$ に対し，$\DS J \in {\Natleq{n} \choose m}$ が存在して $\forallin{j}{\Natleq{n} \setmns J}{\app{\sigma}{j} = j}$
-      を満たす．\REMAINS \NEEDPICTURE
+      を満たす．ここで“順序を保ったまま定義域と値域をそれぞれ $\Natleq{m}$ に修正する写像”を $\fixperm$ と書くことにして
+      $\sigma_{A} \defeq \fixperm \setprnsep{\seqprn{i, k} \in \sigma}{i \in \Natintvl{m + 1}{m + n}}$，
+      $\sigma_{B} \defeq \fixperm \setprnsep{\seqprn{i, k} \in \sigma}{k \in \Natintvl{m + 1}{m + n}}$ とおくと，
+      $\sigma$ の交叉は
+      \begin{enumerate}
+      \item[(1)] $\sigma_{A}$ 内の交叉
+      \item[(2)] $\sigma_{B}$ 内の交叉
+      \item[(3)] $\sigma_{A}$ と $\sigma_{B}$ の交叉
+      \item[(4)] $\sigma_{A}$ と $j \mapsto j$ の交叉
+      \item[(5)] $\sigma_{B}$ と $j \mapsto j$ の交叉
+      \end{enumerate}
+      に分類できるが，このうちまず(1)と(2)の符号はそれぞれ明らかに $\sgn \sigma_{A}$ と $\sgn \sigma_{B}$，
+      (3)は $\card{\sigma_{A}} = \card{\sigma_{B}} = m$ より $m^{2}$ 個の交叉をもつから $\paren{-1}^{m^{2}}$ である．
+      残りの(4)と(5)は厄介に思えるが，これらは互いに同数であり，合計して偶数であるから符号としては必ず $+1$ である．
+      したがって $\sgn \sigma = \sgn \sigma_{A} \cdot \sgn \sigma_{B} \cdot \paren{-1}^{m^{2}}$．
+      \begin{align*}
+        \det M
+        &= \sum_{\sigma \in \Perm{m + n}} \sgn \sigma \prod_{i = 1}^{m + n} M_{\scriptrange{i \app{\sigma}{i}}}
+      \\&= \sum_{\scriptrange{J \in {\Natleq{n} \choose m}}} \sum_{\sigma_{A} \in \Perm{m}} \sum_{\sigma_{B} \in \Perm{m}}
+             \paren{-1}^{m^{2}} \sgn \sigma_{A} \cdot \sgn \sigma_{B}
+             \prod_{i = 1}^{m} A_{\scriptrange{i \app{\sigma_{A}}{i}}} \prod_{i = 1}^{m} B_{\scriptrange{i \app{\sigma_{B}}{i}}}
+          \holdby{$J$ を固定した下で $\sigma \mapsto \paren{\sigma_{A}, \sigma_{B}}$ は全単射}
+      \\  \tag*{\REMAINS：\textcolor{red}{本当はここの $\sigma_{A}$ と $\sigma_{B}$ の記述はおかしい}}
+      \\&= \sum_{\scriptrange{J \in {\Natleq{n} \choose m}}} \paren{-1}^{m^{2}} \det \colsubmatrix{A}{J} \cdot \det \rowsubmatrix{B}{J}
+      \\&= \sum_{\scriptrange{J \in {\Natleq{n} \choose m}}} \paren{-1}^{m} \det \colsubmatrix{A}{J} \cdot \det \rowsubmatrix{B}{J}
+          \holdby{$m^{2} \equiv m \pmod{2}$}
+      \end{align*}
+      が成り立つ．$\det M = \paren{-1}^{m} \det \paren{A B}$ であったから，結局
+      \begin{align*}
+        \det \paren{A B} &= \sum_{\scriptrange{J \in {\Natleq{n} \choose m}}} \det \colsubmatrix{A}{J} \cdot \det \rowsubmatrix{B}{J}
+      \end{align*}
+      が成り立つ．\NEEDPICTURE\qed
     }
   \subsection{階数}
     \defpar{行列の階数}{
@@ -397,7 +428,38 @@
           \end{genmat}
         = m + \rank \paren{A + B}
         \end{align*}
-        \REMAINS \NEEDPICTURE
+        が成り立つ．一方で列階数充満を達成する小行列をとることにより
+        $\DS \rank
+          \begin{genmat}{c|c}
+            I & A
+          \\\hline
+            -I & B
+          \end{genmat}
+        $
+        を“直接的に”考えると，
+        最大を達成するのは左 $m$ 列すべてと，右 $n$ 列のうちから重複なく $\paren{\rank A}$ 列と $\paren{\rank B}$ 列を選んで
+        各列ベクトルが線型独立にできる場合である．
+        仮にこれを超える階数を得たとすると同様の考察を“逆向き”に行なうことにより矛盾が導ける．ゆえに
+        \begin{align*}
+          \rank
+          \begin{genmat}{c|c}
+            I & A
+          \\\hline
+            -I & B
+          \end{genmat}
+          &\leq m + \rank A + \rank B
+        \end{align*}
+        であり，結局
+        \begin{align*}
+          \rank
+          \begin{genmat}{c|c}
+            I & A
+          \\\hline
+            -I & B
+          \end{genmat}
+          &= m + \rank A + \rank B
+        \end{align*}
+        が成り立つ．\NEEDPICTURE\qed
       }
     }
   \subsection{正定値性}
@@ -484,11 +546,15 @@
           \end{genmat}
           &= a y^{2} + 2 y \trsps{\vecc} \vecz + \trsps{\vecz} D \vecz
         \end{align*}
-        \REMAINS
+        \QUESTION
       \end{itemize}
     }
+    \TODO{示せない．}
     \thmpar{}{
       対称行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値であることと $A$ の任意の首座小行列式が正であることは同値．
+    }
+    \proof{}{
+      省略する．
     }
     \thmpar[thm:definite-sym-inverse]{}{
       行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値対称ならば $A^{-1}$ も正定値対称．
@@ -974,8 +1040,31 @@
         }
         \proof{}{上と同様．\qed}
       }
-      任意の $k$ 次元部分空間 $U \in \subspaceof{k}{\setC^{n}, +, \cdot}$ に対し，明らかに
-      \REMAINS
+      $U \in \subspaceof{k}{\setC^{n}, +, \cdot}$ を任意の $k$ 次元部分空間とすると，まず
+      \begin{align*}
+        n + 1
+        = k + \paren{n - k + 1}
+        &= \dim U + \dim W_{n - k + 1}
+      \\&= \dim \paren{U + W_{n - k + 1}} + \dim \paren{U \cap W_{n - k + 1}}
+      \\&\leq n + \dim \paren{U \cap W_{n - k + 1}}
+      \end{align*}
+      より $\dim \paren{U \cap W_{n - k + 1}} \geq 1$ であり，
+      $\paren{U \cap W_{n - k + 1}} \setmns \setprn{\veczero} \neq \varnothing$ が成り立つ．
+      したがって明らかに
+      \begin{align*}
+        \min \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in U \setmns \setprn{\veczero}}
+        &\leq \min \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in \paren{U \cap W_{n - k + 1}} \setmns \setprn{\veczero}}
+      \end{align*}
+      であり，また各 $\vecx \in \paren{U \cap W_{n - k + 1}} \setmns \setprn{\veczero}$ に対して
+      $\vecx \in W_{n - k + 1}$ と副補題より $\lambda_{k} \geq \app{\Rayleigh{A}}{\vecx}$ が成り立つから
+      $\min \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in U \setmns \setprn{\veczero}} \leq \lambda_{k}$．
+      特に $U \defeq V_{k}$ を代入すれば副補題より等号が成立し，ゆえに
+      \begin{align*}
+        \max \setprnsep{\min \setprnsep{\app{\Rayleigh{A}}{\vecx}}{\vecx \in U \setmns \setprn{\veczero}}}{
+          U \in \subspaceof{k}{\setC^{n}, +, \cdot}}
+        &= \lambda_{k}
+      \end{align*}
+      が成り立つ．\qed
     }
     \corpar{最大固有値と最小固有値のRayleigh商による表現}{
       Hermite行列 $A \in \setMatrix{n}{n}{\setC}$
@@ -988,7 +1077,11 @@
       が成り立つ．
     }
 \section{行列の標準形}
-  \plainpar{}{\REMAINS}
+  \TODO{標準形のまとめ}
+  \TODO{特異値標準形}
+  \TODO{Jordan標準形}
+  \TODO{Frobenius標準形}
+  \TODO{多項式行列（重い）}
 \section{グラフと行列}
   \subsection{強連結成分分解}
     \defpar{置換行列}{
@@ -1617,7 +1710,7 @@
       整数正方行列 $Q \in \setMatrix{n}{n}{\setZ}$ に対し，
       $Q$ が単模行列であることと $Q$ が整数正方行列を逆行列にもつことは同値．
     }
-    \proof{}{\REMAINS}
+    \proof{}{省略．}
     \plainpar{}{
       整数行列 $A$ に整数列基本変形を繰り返し適用することは，或る単模行列 $Q$ を右からかけることに相当する．
       というのも，第 $j$ 列を $-1$ 倍する操作を表す $\app{P}{j}$，第 $j$ 列と第 $k$ 列を交換する操作を表す $\app{Q}{j, k}$，
@@ -1645,17 +1738,20 @@
       $\forallin{j}{\Natleq{m}}{\lfland{\beta_{j j} > 0}{\forallin{i}{\Natintvl{j + 1}{m}}{\absprn{\beta_{i j}} < \beta_{i i}}}}$
       を満たす．
     }
-    \proof{}{
-      \REMAINS
-    }
+    \TODO{証明，ラフに}
     \corpar{}{
       任意の単模行列は列基本変形を表す行列の積．
     }
-    \proof{}{
-      \REMAINS
-    }
-    \plainpar{}{\REMAINS}
+    \TODO{証明}
   \subsection{行列式因子}
+    \defpar{行列式因子}{
+      行列 $A$ の $k$ 次小行列式の最大公約数 $\app{g_{k}}{A}$ を，$A$ の $k$ 次の\newword{行列式因子}と呼ぶ．
+    }
+    \lempar{}{
+      行列式因子は，整数列基本変形によって不変である．
+    }
+    \TODO{行列式因子}
+    \TODO{Smith標準形}
 \section{線型計画法}
   \subsection{概要}
     \defpar{線型計画問題}{
@@ -1956,7 +2052,7 @@
       \end{align*}
       と同値変形できるので，この最後の命題を示せばよい．
       \begin{itemize}
-      \item $\theta = 0$ のとき，\REMAINS
+      \item $\theta = 0$ のとき，\QUESTION
       \item $\theta > 0$ のとき，
         $\vecu \geq \veczero$ かつ $\vecu A \geq \theta \vecc$ なる $\vecu \in \setrowvec{\setR}{m}$，および
         $\vecv \geq \veczero$ かつ $A \vecv \leq \theta \vecb$ なる $\vecv \in \setcolvec{\setR}{n}$ に対して
@@ -1966,6 +2062,14 @@
         したがって定理~\ref{thm:weak-duality}：弱双対定理より $\vecc \vecq \leq \vecp \vecb$ が成り立ち，
         これの両辺に $\theta$ を乗じて $\vecc \vecv \leq \vecu \vecb$ を得る．
       \end{itemize}
+      以上より，或る実行可能解 $\vecx$，$\vecy$ が存在して $\vecc \vecx \geq \vecy \vecb$ を満たす．\qed
+    }
+    \TODO{
+      $\theta = 0$ のとき示せない．というか反例があるっぽい？：
+      \begin{align*}
+        \vecu = (1, 0), \vecv = \begin{genmat}{c}1\\0\end{genmat}, A = \begin{genmat}{cc}0&2\\-2&0\end{genmat},
+        \vecb = \begin{genmat}{c}0\\0\end{genmat}, \vecc = (1, 0)
+      \end{align*}
     }
     \thmpar{相補最適性}{
       主問題~\eqref{linprob:P}と双対問題~\eqref{linprob:D}の実行可能解 $\vecx$，$\vecy$ に対し，
@@ -1991,7 +2095,7 @@
       }
     }
   \subsection{行列ゲーム}
-    \plainpar{}{\REMAINS}
+    \TODO{行列ゲームまるごと，鞍点定理など}
 \section{線型制御システムの可制御系}
   \subsection{行列の指数函数}
     \defpar{行列の指数函数}{
@@ -2008,8 +2112,9 @@
         = S \paren{\sum_{k = 1}^{\infty} \frac{1}{k !} \paren{A'}^{k}} S^{-1}
         = S \npe^{A'} S^{-1}
       \end{align*}
-      である．\REMAINS
+      である．
     }
+    \TODO{Jordan細胞の $n$ 乗}
     \defpar{安定性}{
       正方行列 $A \in \setMatrix{n}{n}{\setR}$ のすべての固有値の実部が負であるとき，$A$ は\newword{安定}であるという．
     }
@@ -2272,9 +2377,10 @@
     \plainpar{}{
       行列 $A \in \setMatrix{n}{n}{\setR}$ と行列 $B \in \setMatrix{n}{r}{\setR}$ を係数とする，
       \newword{状態} $\vecx \in \setcolvec{\setR}{n}$ と \newword{入力} $\vecu \in \setcolvec{\setR}{r}$ に関する微分方程式
-      \begin{align*}
+      \begin{align}
         \dif{}{t}\vecx &= A \vecx + B \vecu
-      \end{align*}
+        \label{eq:control-main}
+      \end{align}
       を\newword{線型制御システム}と呼ぶ．このような微分方程式が成立しているもとで，状態 $\vecx$ を望み通りに制御するためには
       どのような入力 $\vecu$ を与えればよいか，ということが線型制御システムについて思案する動機である．
     }
@@ -2344,7 +2450,37 @@
       入力 $\vecv$ を $\vecp^{(2)}$ に直接反映することができないどころか，$\vecp^{(1)}$ を介して制御することもできない．
       このような状況（と正則行列による変換で移り合う状況）の線型制御システムを非可制御というのである．
     }
-    \defpar{可観測性}{
-      $\vecy = C \vecx$
+    \plainpar{}{
+      行列 $C \in \setMatrix{m}{n}{\setR}$，$D \in \setMatrix{m}{r}{\setR}$ を係数として
+      \newword{出力} $\vecy \in \setcolvec{\setR}{m}$ が
+      \begin{align}
+        \vecy = C \vecx + D \vecu
+        \label{eq:control-output}
+      \end{align}
+      を満たすとする．一般に状態 $\vecx$ は直接測定して観測することが不可能なこともあり，何らかの変換を経た $\vecy$ を測定して
+      間接的に状態を知る必要がある．\eqref{eq:control-main}に加えてこれを形式化したのが\eqref{eq:control-output}である．
     }
+    \defpar{可観測性}{
+      \eqref{eq:control-main}，\eqref{eq:control-output}で表される線型制御システムについて，
+      $A \in \setMatrix{n}{n}{\setR}$ と $X \in \setMatrix{m}{n}{\setR}$ に対して
+      \begin{align*}
+        T^{-1} A T
+        &=
+        \begin{genmat}{c|c}
+          A^{(1 1)} & O
+        \\\hline
+          A^{(2 1)} & A^{(2 2)}
+        \end{genmat}
+      &
+        C T
+        &=
+        \begin{genmat}{c|c}
+          C^{(0)} & O
+        \end{genmat}
+      \end{align*}
+      を満たすような正則行列 $T \in \setMatrix{n}{n}{\setR}$ が存在しないとき，$\seqprn{A, C}$ は\newword{可観測}であるという．
+    }
+    \TODO{可制御・可観測の定理を掲げる}
+  \subsection{伝達函数行列}
+    \TODO{伝達函数行列について全部}
 \end{document}
