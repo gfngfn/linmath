@@ -7,7 +7,7 @@
 \begin{document}
 \maketitle
 %
-\setcounter{section}{-1}
+\setcounter{section}{-1}%(nonsemantic)
 \section{はじめに}
   \subsection{概要}
     \plainpar{}{
@@ -1586,19 +1586,64 @@
     整数行列はグラフなどの構造から現れ，これを用いてグラフに関する議論を行列に関する議論に帰着することができる．
     しかし，実数一般に於ける基本変形は整数性を保存しない．ここでは整数性を維持した基本変形について考える．
   }
-  \subsection{単模行列とHermite標準形}
-    \plainpar{}{\REMAINS}
+  \subsection{整数基本変形と単模性}
+    \defpar{整数列基本変形}{
+      整数行列 $A \in \setMatrix{m}{n}{\setZ}$ に対する以下のような操作を\newword{整数列基本変形}と呼ぶ：
+      \begin{itemize}
+      \item 第 $j \in \Natleq{n}$ 列を $-1$ 倍する
+      \item 第 $j \in \Natleq{n}$ 列と第 $k \in \Natleq{n}$ 列を入れ替える
+      \item 第 $j \in \Natleq{n}$ 列に第 $k \in \Natleq{n}$ 列の $c \in \setZ$ 倍を加える
+      \end{itemize}
+    }
     \defpar{単模行列}{
-      整数正方行列 $Q \in \setMatrix{n}{n}{\setZ}$ が $\det Q = 1$ を満たすとき，
+      整数正方行列 $Q \in \setMatrix{n}{n}{\setZ}$ が $\absprn{\det Q} = 1$ を満たすとき，
       $Q$ を\newword{単模行列}あるいは\newword{ユニモジュラ行列}と呼ぶ．
+    }
+    \lempar[lem:product-preserves-unimodularity]{}{
+      単模性は積により保存する．すなわち任意の単模行列 $Q_{1}, Q_{2} \in \setMatrix{n}{n}{\setZ}$ に対して $Q_{1} Q_{2}$ は単模行列である．
+    }
+    \proof{}{
+      $Q_{1}, Q_{2}$ を単模行列とすると
+      \begin{align*}
+        \absprn{\det \paren{Q_{1} Q_{2}}}
+        &= \absprn{\det Q_{1} \cdot \det Q_{2}}
+          \holdby{定理~\ref{thm:det-mult-homomorphism}}
+      \\&= \absprn{\det Q_{1}} \cdot \absprn{\det Q_{2}}
+      = 1
+      \end{align*}
+      より $Q_{1} Q_{2}$ も単模行列．\qed
     }
     \lempar{}{
       整数正方行列 $Q \in \setMatrix{n}{n}{\setZ}$ に対し，
       $Q$ が単模行列であることと $Q$ が整数正方行列を逆行列にもつことは同値．
     }
     \proof{}{\REMAINS}
+    \plainpar{}{
+      整数行列 $A$ に整数列基本変形を繰り返し適用することは，或る単模行列 $Q$ を右からかけることに相当する．
+      というのも，第 $j$ 列を $-1$ 倍する操作を表す $\app{P}{j}$，第 $j$ 列と第 $k$ 列を交換する操作を表す $\app{Q}{j, k}$，
+      第 $j$ 列の $c$ 倍を第 $k$ 列に加える操作を表す $\app{R}{j, k; c}$ \NEEDPICTURE はいずれも単模行列で，
+      これらの積も補題~\ref{lem:product-preserves-unimodularity}より単模行列なためである．
+    }
     \thmpar{Hermite標準形}{
-      \REMAINS
+      $\rank A = m$ なる整数行列 $A \in \setMatrix{m}{n}{\setZ}$ に対し，
+      或る置換行列 $P \in \setMatrix{m}{m}{\setZ}$ と単模行列 $\setMatrix{n}{n}{\setZ}$ が存在して
+      \begin{align*}
+        P A Q &=
+          \begin{genmat}{cccc}
+            \beta_{1 1} & & &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) -- (1em, 1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+          \\
+            \vdots & \ddots & &
+          \\
+            \beta_{m 1} & \cdots & \beta_{m m} & 
+          \end{genmat}
+      \end{align*}
+      の形に下三角化でき，しかも
+      $\forallin{j}{\Natleq{m}}{\lfland{\beta_{j j} > 0}{\forallin{i}{\Natintvl{j + 1}{m}}{\absprn{\beta_{i j}} < \beta_{i i}}}}$
+      を満たす．
     }
     \proof{}{
       \REMAINS
@@ -1653,7 +1698,7 @@
     }
     \thmpar[thm:weak-duality]{弱双対定理}{
       $\vecx \in \setMatrix{n}{1}{K}$ が\eqref{linprob:P}の実行可能解，
-      $\vecy \in \setMatrix{1}{m}{K}$ が\eqref{linprob:D}の実行可能解であるとき，
+      $\vecy \in \setMatrix{1}{m}{K}$ が\eqref{linprob:D}の実行可能解ならば，
       $\vecc \vecx \leq \vecy \vecb$ が成り立つ．
     }
     \proof{}{
@@ -1661,15 +1706,15 @@
     }
     \thmpar[thm:farkas-lemma]{Farkasの補題}{
       以下が成り立つ：
-      \begin{multline*}
-        \forallin{A}{\setMatrix{m}{n}{K}}{\forallin[2]{\vecb}{\setMatrix{m}{1}{K} \setmns \setprn{\veczero}}{
+      \begin{align*}
+        \forallin{A}{\setMatrix{m}{n}{K}}{\forallin[3=\hspace{-10em}]{\vecb}{\setMatrix{m}{1}{K} \setmns \setprn{\veczero}}{
           \lflimpleqv{
             \existsin{\vecx}{\setMatrix{n}{1}{K}}{\lfland{A \vecx = \vecb}{\vecx \geq \veczero}}
           }{
             \forallin{\vecy}{\setMatrix{1}{m}{K}}{\lflimpl{\vecy A \geq \veczero}{\vecy \vecb \geq 0}}
           }
         }}
-      \end{multline*}
+      \end{align*}
     }
     \proof{}{
       \subproof{$\limpl$}{
@@ -1944,5 +1989,362 @@
         よって $\vecx_{j} > 0$ とすると $\paren{\vecy A - \vecc}_{j} = 0$，すなわち $\paren{\vecy A}_{j} = \vecc_{j}$．
         同様に $\vecy \paren{A \vecx - \vecb} = 0$ からも $\vecy_{i} > 0$ ならば $\paren{A \vecx}_{i} = \vecb_{i}$ が成り立つ．\qed
       }
+    }
+  \subsection{行列ゲーム}
+    \plainpar{}{\REMAINS}
+\section{線型制御システムの可制御系}
+  \subsection{行列の指数函数}
+    \defpar{行列の指数函数}{
+      正方行列 $A$ に対して
+      $\DS \npe^{A} \defeq \sum_{k = 1}^{\infty} \frac{1}{k !} A^{k}$
+      とする．
+    }
+    \plainpar{}{
+      $A$ と $A$ のJordan標準形 $A' = S^{-1} A S$ に対して
+      \begin{align*}
+        \npe^{A}
+        &= \sum_{k = 1}^{\infty} \frac{1}{k !} \paren{S A' S^{-1}}^{k}
+        = \sum_{k = 1}^{\infty} \frac{1}{k !} \paren{S \paren{A'}^{k} S^{-1}}
+        = S \paren{\sum_{k = 1}^{\infty} \frac{1}{k !} \paren{A'}^{k}} S^{-1}
+        = S \npe^{A'} S^{-1}
+      \end{align*}
+      である．\REMAINS
+    }
+    \defpar{安定性}{
+      正方行列 $A \in \setMatrix{n}{n}{\setR}$ のすべての固有値の実部が負であるとき，$A$ は\newword{安定}であるという．
+    }
+    \thmpar{Lyapunov不等式}{
+      正方行列 $A \in \setMatrix{n}{n}{\setR}$ に対し，$A$ が安定であることと，
+      或る正定値対称行列 $Y \in \setMatrix{n}{n}{\setR}$ が存在して $Y A + \trsps{A} Y$ を負定値対称にすることは同値．
+    }
+    \proof{}{
+      \subproof{$\backlimpl$}{
+        $\lambda \in \setC$ を $A$ の固有値とし，$\vecv \in \setcolvec{\setC}{n} \setmns \setprn{\veczero}$ を
+        $\lambda$ に対応する固有ベクトルのひとつとすると $A \vecv = \lambda \vecv$ であり，
+        これの両辺の共軛転置をとって $\conjtrsps{\vecv} \trsps{A} = \conj{\lambda} \conjtrsps{\vecv}$
+        である．このとき，仮定の $Y$ をとると
+        \begin{align*}
+          0
+          &> \conjtrsps{\vecv} \paren{Y A + \trsps{A} Y} \vecv
+            \holdby{$Y A + \trsps{A} Y$ は不定値}
+        \\&= \conjtrsps{\vecv} Y A \vecv + \conjtrsps{\vecv} \trsps{A} Y \vecv
+        \\&= \conjtrsps{\vecv} Y \paren{\lambda \vecv} + \paren{\conj{\lambda} \conjtrsps{\vecv}} Y \vecv
+        \\&= \paren{\lambda + \conj{\lambda}} \conjtrsps{\vecv} Y \vecv
+        \end{align*}
+        より $\paren{\lambda + \conj{\lambda}} \conjtrsps{\vecv} Y \vecv < 0$ であるが，
+        $Y$ は仮定より正定値であり $\vecv \neq \veczero$ であるから $\conjtrsps{\vecv} Y \vecv > 0$，
+        したがって $2 \Re \lambda = \lambda + \conj{\lambda} < 0$．
+        ゆえに $\Re \lambda < 0$ であり，$\lambda$ は任意であったから $A$ は安定．\qed
+      }
+      \subproof{$\limpl$}{
+        $A$ を安定な行列とする．正定値対称行列のひとつ $Q \in \setMatrix{n}{n}{\setR}$ を任意にとって
+        $\DS Y \defeq \int_{0}^{+\infty} \npe^{t \trsps{A}} Q \npe^{A t} \ordd t$ とおくと
+        \begin{align*}
+          Y A + \trsps{A} Y
+          &= \int_{0}^{+\infty} \dif{}{t}\paren{\npe^{t \trsps{A}} Q \npe^{t A}} \ordd t
+            \holdby{成分ごとのいわゆる部分積分}
+        \\&= \sqbracket{\npe^{t \trsps{A}} Q \npe^{t A}}_{t = 0}^{+\infty}
+          = 0 - I Q I
+          = -Q
+        \end{align*}
+        より $Y A + \trsps{A} Y$ は負定値対称．\qed
+      }
+    }
+    \defpar{Sylvester方程式}{
+      行列 $A \in \setMatrix{m}{m}{\setR}$，$B \in \setMatrix{n}{n}{\setR}$，$C \in \setMatrix{m}{n}{\setR}$
+      を係数とする，$X \in \setMatrix{m}{n}{\setR}$ に関する方程式
+      \begin{align*}
+        A X - X \trsps{B} = C
+      \end{align*}
+      を\newword{Sylvester方程式}と呼ぶ．
+    }
+    \plainpar{}{
+      Sylvester方程式は，制約が高々 $m n$ 個，変数が $m n$ 個なので，制約がすべて“互いに独立”であれば解けることが期待される．
+      $X$ と $C$ を
+      \begin{align*}
+        \vecx &\defeq
+          \begin{genmat}{@{}c@{}}
+            \expandV{\colvec{X}{1}}
+          \\\hline
+            \vdots
+          \\\hline
+            \expandV{\colvec{X}{n}}
+          \end{genmat}
+      &
+        \vecc &\defeq
+          \begin{genmat}{@{}c@{}}
+            \expandV{\colvec{C}{1}}
+          \\\hline
+            \vdots
+          \\\hline
+            \expandV{\colvec{C}{n}}
+          \end{genmat}
+      \end{align*}
+      という成分をすべて縦に並べた形に書き直すと，Sylvester方程式はこれらを使って
+      \begin{align*}
+        \paren{I_{n} \otimes A - B \otimes I_{m}} \vecx &= \vecc
+      \end{align*}
+      と同値変形できる．ここで $\otimes$ はKronecker積：
+      \begin{align*}
+        S \otimes T &\defeq
+          \begin{genmat}{c|c|c}
+            S_{1 1} T & \cdots & S_{1 n} T
+          \\\hline
+            \vdots & \ddots & \vdots
+          \\\hline
+            S_{n 1} T & \cdots & S_{n n} T
+          \end{genmat}
+      \end{align*}
+      である．ここでは具体的には
+      \begin{align*}
+        I_{n} \otimes A
+        &=
+          \begin{genmat}{cccc}
+            \multicolumn{1}{c|}{A} & & &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) -- (1em, 1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+          \\\cline{1-2}
+            & \multicolumn{1}{|c|}{A} & &
+          \\\cline{2-2}
+             & & \ddots &
+          \\\cline{4-4}
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) -- (-1em, -1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+            & & & \multicolumn{1}{|c}{A}
+          \end{genmat}
+      &
+        B \otimes I_{m}
+        &=
+          \begin{genmat}{c|c|c}
+            B_{1 1} I_{m} & \cdots & B_{1 n} I_{m}
+          \\\hline
+            \vdots & \ddots & \vdots
+          \\\hline
+            B_{n 1} I_{m} & \cdots & B_{n n} I_{m}
+          \end{genmat}
+      \end{align*}
+      となる．
+      これにより $D \defeq I_{n} \otimes A - B \otimes I_{m}$ とおくことにより $D \vecx = \vecc$ という普通の線型方程式に帰着されたので，
+      $D$ が正則であるときに $\vecx = D^{-1} \vecc$ と過不足なく求められる．では $D$ はいかなる時に正則かということを考える．
+      $A$ の固有値 $\lambda$ とそれに対応する固有ベクトルのひとつを $\vecu$，および $B$ の固有値 $\mu$ とそれに対応する固有ベクトルのひとつを $\vecv$ とすると，
+      \begin{align*}
+        \paren{I_{n} \otimes A} \paren{\vecv \otimes \vecu}
+        &=
+          \begin{genmat}{ccc}
+            \multicolumn{1}{c|}{A} & &
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) -- (1em, 1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+          \\\cline{1-1}
+             & \ddots &
+          \\\cline{3-3}
+              \begin{tikzpicture}
+                \path[use as bounding box] (0, 0) -- (-1em, -1em);
+                \draw (0, 0) node {\Huge $O$};
+              \end{tikzpicture}
+            & & \multicolumn{1}{|c}{A}
+          \end{genmat}
+          \begin{genmat}{@{}c@{}}
+            \vecv_{1} \vecu
+          \\\hline
+            \vdots
+          \\\hline
+            \vecv_{n} \vecu
+          \end{genmat}
+        =
+          \begin{genmat}{@{}c@{}}
+            A \paren{\vecv_{1} \vecu}
+          \\\hline
+            \vdots
+          \\\hline
+            A \paren{\vecv_{n} \vecu}
+          \end{genmat}
+        =
+          \begin{genmat}{@{}c@{}}
+            \vecv_{1} \lambda \vecu
+          \\\hline
+            \vdots
+          \\\hline
+            \vecv_{n} \lambda \vecu
+          \end{genmat}
+        =
+          \lambda \paren{\vecv \otimes \vecu}
+      \end{align*}
+      が成り立ち，一方
+      \begin{align*}
+        \paren{B \otimes I_{m}} \paren{\vecv \otimes \vecu}
+        &=
+          \begin{genmat}{c@{}c@{}c|c|c@{}c@{}c}
+            B_{1 1} & & & & B_{1 n} & &
+          \\
+            & \ddots & & \expandH{\cdots} & & \ddots &
+          \\
+            & & B_{1 1} & & & & B_{1 n}
+          \\\hline
+            & \expandV{\vdots} & & \ddots & & \vdots &
+          \\\hline
+            B_{n 1} & & & & B_{n n} & &
+          \\
+            & \ddots & & \expandH{\cdots} & & \ddots &
+          \\
+            & & B_{n 1} & & & & B_{n n}
+          \end{genmat}
+          \begin{genmat}{@{}c@{}}
+            \vecv_{1} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \vecv_{1} \vecu_{m}
+          \\\hline
+            \expandV{\vdots}
+          \\\hline
+            \vecv_{n} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \vecv_{n} \vecu_{m}
+          \end{genmat}
+        =
+          \begin{genmat}{@{}c@{}}
+            \sum_{i = 1}^{n} B_{1 i} \vecv_{i} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \sum_{i = 1}^{n} B_{n i} \vecv_{i} \vecu_{m}
+          \\\hline
+            \expandV{\vdots}
+          \\\hline
+            \sum_{i = 1}^{n} B_{1 i} \vecv_{i} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \sum_{i = 1}^{n} B_{n i} \vecv_{i} \vecu_{m}
+          \end{genmat}
+      \\&=
+          \begin{genmat}{@{}c@{}}
+            \paren{B \vecv}_{1} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \paren{B \vecv}_{n} \vecu_{m}
+          \\\hline
+            \expandV{\vdots}
+          \\\hline
+            \paren{B \vecv}_{1} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \paren{B \vecv}_{n} \vecu_{m}
+          \end{genmat}
+        =
+          \begin{genmat}{@{}c@{}}
+            \paren{\mu \vecv}_{1} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \paren{\mu \vecv}_{n} \vecu_{m}
+          \\\hline
+            \expandV{\vdots}
+          \\\hline
+            \paren{\mu \vecv}_{1} \vecu_{1}
+          \\
+            \vdots
+          \\
+            \paren{\mu \vecv}_{n} \vecu_{m}
+          \end{genmat}
+        =
+          \mu \paren{\vecv \otimes \vecu}
+      \end{align*}
+      も成り立つから
+      \begin{align*}
+        D \paren{\vecv \otimes \vecu}
+        = \paren{I_{n} \otimes A - B \otimes I_{m}} \paren{\vecv \otimes \vecu}
+        &= \paren{\lambda - \mu} \paren{\vecv \otimes \vecu}
+      \end{align*}
+      であり，$\lambda - \mu$ は $D$ の固有値である．
+    }
+  \subsection{線型制御システム}
+    \plainpar{}{
+      行列 $A \in \setMatrix{n}{n}{\setR}$ と行列 $B \in \setMatrix{n}{r}{\setR}$ を係数とする，
+      \newword{状態} $\vecx \in \setcolvec{\setR}{n}$ と \newword{入力} $\vecu \in \setcolvec{\setR}{r}$ に関する微分方程式
+      \begin{align*}
+        \dif{}{t}\vecx &= A \vecx + B \vecu
+      \end{align*}
+      を\newword{線型制御システム}と呼ぶ．このような微分方程式が成立しているもとで，状態 $\vecx$ を望み通りに制御するためには
+      どのような入力 $\vecu$ を与えればよいか，ということが線型制御システムについて思案する動機である．
+    }
+    \defpar{可制御性}{
+      行列 $A \in \setMatrix{n}{n}{\setR}$，行列 $B \in \setMatrix{n}{r}{\setR}$ に対し，
+      \begin{align}
+        T^{-1} A T
+        &=
+        \begin{genmat}{c|c}
+          A^{(1 1)} & A^{(1 2)}
+        \\\hline
+          O & A^{(2 2)}
+        \end{genmat}
+      &
+        T^{-1} B
+        &=
+        \begin{genmat}{c}
+          B^{(1)}
+        \\\hline
+          O
+        \end{genmat}
+        \label{eq:uncontrollable}
+      \end{align}
+      の形を満たすような正則行列 $T \in \setMatrix{n}{n}{\setR}$ が存在しないとき，
+      $\seqprn{A, B}$ は\newword{可制御}であるという．
+    }
+    \plainpar{}{
+      可制御でない場合はどのような状態かというと，\eqref{eq:uncontrollable}を満たすような正則行列 $T$ が存在するのでこれをとり，
+      $\vecp \defeq T^{-1} \vecx$，$\vecv \defeq T^{-1} \vecu$ と変数をおき直すと
+      \begin{align*}
+        \dif{}{t}\vecp &= \paren{T^{-1} A T} \vecp + \paren{T^{-1} B} \vecv
+      \end{align*}
+      すなわち
+      \begin{align*}
+        \dif{}{t}
+        \begin{genmat}{@{}c@{}}
+          \vecp^{(1)}
+        \\\hline
+          \vecp^{(2)}
+        \end{genmat}
+        &=
+          \begin{genmat}{c|c}
+            A^{(1 1)} & A^{(1 2)}
+          \\\hline
+            O & A^{(2 2)}
+          \end{genmat}
+          \begin{genmat}{@{}c@{}}
+            \vecp^{(1)}
+          \\\hline
+            \vecp^{(2)}
+          \end{genmat}
+          +
+          \begin{genmat}{c}
+            B^{(1)}
+          \\\hline
+            O
+          \end{genmat}
+          \vecv
+        =
+          \begin{genmat}{c}
+            A^{(1 1)} \vecp^{(1)} + A^{(12)} \vecp^{(2)} + B^{(1)} \vecv
+          \\\hline
+            A^{(2 2)} \vecp^{(2)}
+          \end{genmat}
+      \end{align*}
+      である．式を見れば明らかなように，このシステムでは $\DS \dif{}{t}\vecp^{(2)}$ が $\vecp^{(2)}$ にのみ依存するので，
+      入力 $\vecv$ を $\vecp^{(2)}$ に直接反映することができないどころか，$\vecp^{(1)}$ を介して制御することもできない．
+      このような状況（と正則行列による変換で移り合う状況）の線型制御システムを非可制御というのである．
+    }
+    \defpar{可観測性}{
+      $\vecy = C \vecx$
     }
 \end{document}
