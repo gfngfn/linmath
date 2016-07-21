@@ -536,7 +536,6 @@
       \end{itemize}
       以上より，$A$ が正定値対称ならば $\det A > 0$ が成り立つ．\qed
     }
-    \TODO{示せない．}
     \thmpar{}{
       対称行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値であることと $A$ の任意の首座小行列式が正であることは同値．
     }
@@ -544,11 +543,11 @@
       省略する．
     }
     \thmpar[thm:definite-sym-inverse]{}{
-      行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値対称ならば $A^{-1}$ も正定値対称．
+      行列 $A \in \setMatrix{n}{n}{\setR}$ に対し，$A$ が正定値対称ならば $A^{-1}$ も正定値対称．
     }
     \proof{}{
       $A$ を正定値対称とすると，$A$ は正則であるから逆行列 $A^{-1}$ をもつ．
-      $\vecx \in K^{m} \setmns \setprn{\veczero}$ とすると
+      $\vecx \in \setcolvec{\setR}{n} \setmns \setprn{\veczero}$ とすると
       \begin{align*}
         \trsps{\vecx} A \vecx
         &= \trsps{\vecx} A^{-1} A A^{-1} \vecx
@@ -560,7 +559,7 @@
       より明らか．\qed
     }
     \thmpar{}{
-      行列 $A \in \setMatrix{n}{n}{K}$ が正定値対称ならば，$\DS \det A \leq \prod_{i = 1}^{n} A_{i i}$ が成り立つ．
+      行列 $A \in \setMatrix{n}{n}{\setR}$ が正定値対称ならば，$\DS \det A \leq \prod_{i = 1}^{n} A_{i i}$ が成り立つ．
     }
     \proof{}{
       $A$ の大きさ $n$ に関する帰納法による．
@@ -574,7 +573,7 @@
             \vecc & \expandHV{D}
           \end{genmat}
         $
-        とする．仮に $D$ が正定値でないとすると，或る $\vecx \in K^{n - 1} \setmns \setprn{\veczero}$ が存在して
+        とする．仮に $D$ が正定値でないとすると，或る $\vecx \in \setcolvec{\setR}{n - 1} \setmns \setprn{\veczero}$ が存在して
         $\trsps{\vecx} D \vecx \leq 0$ を満たすが，この $\vecx$ を用いると
         \begin{align*}
           \begin{genmat}{c|c}
@@ -627,7 +626,7 @@
 \section{固有値と固有ベクトル}
   \subsection{Schur標準形}
     \defpar{共軛転置行列，正規行列，ユニタリ行列，Hermite行列}{
-      行列 $A \in \setMatrix{m}{n}{\setC}$ に対し，$\paren{\conjtrsps{A}}_{i j} \defeq \conj{A_{j i}}$ で
+      複素行列 $A \in \setMatrix{m}{n}{\setC}$ に対し，$\paren{\conjtrsps{A}}_{i j} \defeq \conj{A_{j i}}$ で
       定義される $\conjtrsps{A} \in \setMatrix{n}{m}{\setC}$ を $A$ の\newword{共軛転置行列}と呼ぶ．
       $A \conjtrsps{A} = \conjtrsps{A} A$ なる正方行列 $A$ を\newword{正規行列}，
       $A \conjtrsps{A} = I$ なる正方行列 $A$ を\newword{ユニタリ行列}，
@@ -1066,8 +1065,9 @@
 \section{行列の標準形}
   \subsection{標準形のまとめ}
     \plainpar{}{
-      ここまでには掲載していないものも含め，本文書で挙げる標準形の一覧を以下に掲げる：
-      \begin{center}
+      ここまでには掲載していないものも含め，本文書で挙げる標準形の一覧を表~\ref{table:standard-form}に掲げる．
+      \begin{table}[tbp]
+      \centering
         \begin{tabular}{cccc}
         \hlinevar{2pt}
           線型写像の型 & 許容する変換 & 標準形 & 応用例
@@ -1088,10 +1088,87 @@
             & \newword{特異値標準形} &
         \\\hlinevar{2pt}
         \end{tabular}
-      \end{center}
+        \caption{標準形のまとめ}\label{table:standard-form}
+      \end{table}
     }
-  \TODO{標準形のまとめ}
-  \TODO{特異値標準形}
+    \defpar{Sylvester標準形}{
+      Hermite行列 $A \in \setMatrix{n}{n}{\setC}$ に対して
+      正則行列 $S \in \setMatrix{n}{n}{\setC}$ を用いて変形される
+      \begin{align*}
+        A' = \conjtrsps{S} A S
+        &=
+        \begin{genmat}{@{}c@{}|c}
+          \begin{array}{c|c}
+            I_{s} & O
+          \\\hline
+            O & -I_{t}
+          \end{array}
+          & O
+        \\\hline
+          O & O
+        \end{genmat}
+      \end{align*}
+      の形を $A$ の\newword{Sylvester標準形}と呼ぶ．なお，この $s$ と $t$ は $s + t = \rank A$ を満たす．
+    }
+    \defpar{特異値標準形}{
+      行列 $A \in \setMatrix{m}{n}{\setC}$ に対し，ユニタリ行列 $P \in \setMatrix{m}{m}{\setC}$ と $Q \in \setMatrix{n}{n}{\setC}$ を
+      用いて変形される
+      \begin{align*}
+        A' = P A Q
+        &=
+          \begin{genmat}{@{}c@{}|c}
+            \begin{array}{ccc}
+              \sigma_{1} & &
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (1em, 1em);
+                  \draw (0, 0) node {\LARGE $O$};
+                \end{tikzpicture}
+            \\
+              & \ddots &
+            \\
+                \begin{tikzpicture}
+                  \path[use as bounding box] (0, 0) rectangle (-1em, -1em);
+                  \draw (0, 0) node {\LARGE $O$};
+                \end{tikzpicture}
+              & & \sigma_{r}
+            \end{array}
+            & O
+          \\\hline
+            O & O
+          \end{genmat}
+      \end{align*}
+      の形を $A$ の特異値標準形と呼ぶ．$\sigma_{1}, \ldots, \sigma_{r}$ を $A$ の\newword{特異値}と呼び，
+      これらは $\sigma_{1} \geq \cdots \geq \sigma_{r}$ となるように $P$ と $Q$ を選んで並べ替えられる．
+    }
+    \lempar{}{
+      $A \in \setMatrix{m}{n}{\setC}$ の $\sigma_{1} \geq \cdots \geq \sigma_{r}$ なる特異値 $\sigma_{1}, \ldots, \sigma_{r}$ に対して
+      \begin{align*}
+        \sigma_{k} &=
+          \max \setprnsep{\min \setprnsep{\frac{\norm{A \vecx}}{\norm{\vecx}}}{\vecx \in W \setmns \setprn{\veczero}}}{
+            W \in \subspaceof{k}{\setC^{n}, +, \cdot}}
+      \end{align*}
+      が成り立つ．
+    }
+    \proof{}{
+      $H \defeq \conjtrsps{A} A$ とおくと，任意の $\vecx \in \setcolvec{\setC}{n}$ に対して
+      $\conjtrsps{\vecx} H \vecx = \norm{A \vecx}^{2} \geq 0$ であるから $H$ は半正定値．よって対角化
+      \begin{align*}
+        Q^{-1} H Q &=
+          \begin{genmat}{@{}c@{}|c}
+            \begin{array}{ccc}
+              \lambda_{1} & &
+            \\
+              & \ddots &
+            \\
+              & & \lambda_{r}
+            \end{array}
+            & O
+          \\\hline
+            O & O
+          \end{genmat}
+      \end{align*}
+      に対して $\forallin{k}{\Natleq{r}}{\lambda_{k} \geq 0}$ が成り立つ．
+    }
   \TODO{Jordan標準形}
   \TODO{Frobenius標準形}
   \TODO{多項式行列（重い）}
@@ -2065,7 +2142,21 @@
       \end{align*}
       と同値変形できるので，この最後の命題を示せばよい．
       \begin{itemize}
-      \item $\theta = 0$ のとき，\QUESTION
+      \item $\theta = 0$ のとき，
+        仮定より\eqref{linprob:P}と\eqref{linprob:D}は共に実行可能であるからそれぞれに実行可能解 $\vecx$，$\vecy$ が存在し，
+        これらをひとつずつとって
+        \begin{align*}
+          \vecc \vecv
+          &\leq \vecy A \vecv
+            \holdby{$\vecy A \geq \vecc$ および $\vecv \geq \veczero$}
+        \\&\leq \veczero
+            \holdby{$\vecy \geq \veczero$ および $A \vecv \leq \veczero$}
+        \\&\leq \vecu A \vecx
+            \holdby{$\vecu A \geq \veczero$ および $\vecx \geq \veczero$}
+        \\&\leq \vecu \vecb
+            \holdby{$\vecu \geq \veczero$ および $A \vecx \leq \vecb$}
+        \end{align*}
+        であるから $\vecc \vecv \leq \vecu \vecb$ が成り立つ．
       \item $\theta > 0$ のとき，
         $\vecu \geq \veczero$ かつ $\vecu A \geq \theta \vecc$ なる $\vecu \in \setrowvec{\setR}{m}$，および
         $\vecv \geq \veczero$ かつ $A \vecv \leq \theta \vecb$ なる $\vecv \in \setcolvec{\setR}{n}$ に対して
@@ -2076,13 +2167,6 @@
         これの両辺に $\theta$ を乗じて $\vecc \vecv \leq \vecu \vecb$ を得る．
       \end{itemize}
       以上より，或る実行可能解 $\vecx$，$\vecy$ が存在して $\vecc \vecx \geq \vecy \vecb$ を満たす．\qed
-    }
-    \TODO{
-      $\theta = 0$ のとき示せない．というか反例があるっぽい？：
-      \begin{align*}
-        \vecu = (1, 0), \vecv = \begin{genmat}{c}1\\0\end{genmat}, A = \begin{genmat}{cc}0&2\\-2&0\end{genmat},
-        \vecb = \begin{genmat}{c}0\\0\end{genmat}, \vecc = (1, 0)
-      \end{align*}
     }
     \thmpar{相補最適性}{
       主問題~\eqref{linprob:P}と双対問題~\eqref{linprob:D}の実行可能解 $\vecx$，$\vecy$ に対し，
@@ -2108,7 +2192,318 @@
       }
     }
   \subsection{行列ゲーム}
-    \TODO{行列ゲームまるごと，鞍点定理など}
+    \plainpar{}{
+      対戦者 X と Y がとれる手の有限集合をそれぞれ $U$，$V$ とし，自分の選択した手 $i \in U$ と相手の選択した手 $j \in V$ に依存して
+      X の利得 $A_{i j} \in \setR$ が決まるとする．このとき Y の利得は $-A_{i j}$ とする．すなわち\newword{零和}である．
+      手を選ぶ際に，相手の選んだ手を見ることはできず，双方が選んで初めて照合する．
+      ここでは X と Y が共に一定の確率の割り振りで各回独立に手を選ぶ戦略である\newword{混合戦略}を考える．
+      X が手 $i \in U$ を選ぶ確率を $\vecp_{i}$，Y が手 $j \in V$ を選ぶ確率を $\vecq_{j}$ として，
+      $\vecp \geq \trsps{\veczero}$，$\vecp \vecone = 1$，$\vecq \geq \veczero$，$\trsps{\vecone} \vecq = 1$
+      なるベクトル $\vecp$，$\vecq$ を考える．
+      この戦略の下で，X の利得の期待値は $\vecp A \vecq$ である．X にとってはこれを大きくすることが望ましいわけである．
+      X と Y のとれる混合戦略全体からなる集合をそれぞれ
+      \begin{align*}
+        P &\defeq \setprnsep{\vecp \in \setrowvec{\setR}{m}}{\lfland{\vecp \geq \trsps{\veczero}}{\vecp \vecone = 1}}
+      \\
+        Q &\defeq \setprnsep{\vecq \in \setcolvec{\setR}{n}}{\lfland{\vecq \geq \veczero}{\trsps{\vecone} \vecq = 1}}
+      \end{align*}
+      とおいておく．
+    }
+    \thmpar{鞍点定理}{
+      $A \in \setMatrix{m}{n}{\setR}$ に対して，以下が成り立つ：
+      \begin{align*}
+        \max \setprnsep{\min \setprnsep{\vecp A \vecq}{\vecq \in Q}}{\vecp \in P}
+        &=
+        \min \setprnsep{\max \setprnsep{\vecp A \vecq}{\vecp \in P}}{\vecq \in Q}
+      \end{align*}
+    }
+    \proof{}{
+      $\vecp$ を固定すると $\min \setprnsep{\vecp A \vecq}{\vecq \in Q}$ は $\vecq$ に関する線型計画問題：
+      \begin{align*}
+          \text{\parbox{10em}{
+            \Minimize{\paren{\vecp A} \vecq}{
+              \trsps{\vecone} \vecq &= 1
+            | \vecq &\geq \veczero
+            }{}}}
+        &\quad\cong\quad
+          \text{\parbox{10em}{\Minimize{\paren{\vecp A} \vecq
+          }{
+            \trsps{\vecone} \vecq &\leq 1
+          | \trsps{\vecone} \vecq &\geq 1
+          | \vecq &\geq \veczero
+          }{}}}
+      \\&\quad\cong\quad
+          \text{\parbox{18em}{\Minimize{
+            \paren{\vecp A} \vecq
+          }{
+            \begin{genmat}{c}
+              \expandH{\trsps{\vecone}}
+            \\\hline
+              \expandH{{-}\trsps{\vecone}}
+            \end{genmat}
+            \vecq
+          &\leq
+            \begin{genmat}{@{}c@{}}
+              1
+            \\
+              -1
+            \end{genmat}
+          | \vecq &\geq \veczero
+          }{}}}
+      \end{align*}
+      と看なせる．したがって定理~\ref{thm:strong-duality}：強双対定理より，双対問題：
+      \begin{align*}
+          \text{\parbox{18em}{\Maximize{
+            \vecz
+            \begin{genmat}{@{}c@{}}
+              1
+            \\
+              -1
+            \end{genmat}
+          }{
+            \vecz
+            \begin{genmat}{c}
+              \expandH{\trsps{\vecone}}
+            \\\hline
+              \expandH{{-}\trsps{\vecone}}
+            \end{genmat}
+            &\leq \vecp A
+          | \vecz &\geq \veczero
+          }{}}}
+        &\quad\cong\quad
+          \text{\parbox{15em}{\Maximize{
+            z_{1} - z_{2}
+          }{
+            \paren{z_{1} - z_{2}} \trsps{\vecone} &\leq \vecp A
+          | z_{1} &\geq 0
+          | z_{2} &\geq 0
+          }{}}}
+      \\&\quad\cong\quad
+          \text{\parbox{10em}{\Maximize{
+            z
+          }{
+            z \trsps{\vecone} &\leq \vecp A
+          }{}}}
+      \end{align*}
+      を考えると
+      $\min \setprnsep{\vecp A \vecq}{\vecq \in Q} = \max \setprnsep{z \in \setR}{z \trsps{\vecone} \leq \vecp A}$
+      が成り立つ．よって
+      \begin{align}
+        \max \setprnsep{\min \setprnsep{\vecp A \vecq}{\vecq \in Q}}{\vecp \in P}
+        &= \max \setprnsep{\max \setprnsep{z \in \setR}{z \trsps{\vecone} \leq \vecp A}}{\vecp \in P}
+          \notag
+      \\&= \max \setprnsep{z \in \setR}{\lfland{\vecp \in P}{z \trsps{\vecone} - \vecp A \leq \trsps{\veczero}}}
+          \label{eq:saddle-point-1}
+      \end{align}
+      である．さて，再び $\max \setprnsep{z \in \setR}{\lfland{\vecp \in P}{z \trsps{\vecone} - \vecp A \leq \trsps{\veczero}}}$ は
+      線型計画問題：
+      \begin{align*}
+          &
+          \text{\parbox[c]{14em}{\Maximize{
+            z
+          }{
+            z \trsps{\vecone} - \vecp A &\leq \trsps{\veczero}
+          | \vecp \vecone &= 1
+          | \vecp &\geq \trsps{\veczero}
+          }{}}}
+        \quad\cong\quad
+          \text{\parbox[c]{24em}{\Maximize{
+            z_{1} - z_{2}
+          }{
+            \begin{genmat}{@{}cc@{}}
+              z_{1} & z_{2}
+            \end{genmat}
+            \begin{genmat}{c}
+              \expandH{\trsps{\vecone}}
+            \\\hline
+              \expandH{{-}\trsps{\vecone}}
+            \end{genmat}
+            - \vecp A &\leq \trsps{\veczero}
+          | \vecp
+            \begin{genmat}{@{}c|c@{}}
+              \expandV{\vecone} & \expandV{{-}\vecone}
+            \end{genmat}
+             &\leq
+             \begin{genmat}{@{}cc@{}}
+               1 & -1
+             \end{genmat}
+          | z_{1} &\geq 0
+          | z_{2} &\geq 0
+          | \vecp &\geq \trsps{\veczero}
+        }{}}}
+      \\&\quad\cong\quad
+          \text{\parbox[c]{24em}{\Maximize{
+            \begin{genmat}{@{}cc|c}
+              z_{1} & z_{2} & \expandH{\vecp}
+            \end{genmat}
+            \begin{genmat}{@{}c@{}}
+              1
+            \\
+              -1
+            \\\hline
+              \expandV{\veczero}
+            \end{genmat}
+          }{
+            \begin{genmat}{@{}cc|c}
+              z_{1} & z_{2} & \expandH{\vecp}
+            \end{genmat}
+            \begin{genmat}{c|c|c}
+              0 & 0 & \expandH{\trsps{\vecone}}
+            \\\hline
+              0 & 0 & \expandH{{-}\trsps{\vecone}}
+            \\\hline
+              \vecone & -\vecone & \expandHV{{-}A}
+            \end{genmat}
+            &\leq
+            \begin{genmat}{@{}cc|c}
+              1 & -1 & \expandH{\trsps{\veczero}}
+            \end{genmat}
+          | \begin{genmat}{@{}cc|c}
+              z_{1} & z_{2} & \expandH{\vecp}
+            \end{genmat}
+            &\geq \trsps{\veczero}
+        }{}}}
+      \end{align*}
+      と看なせるから，これの双対問題：
+      \begin{align*}
+        &
+          \text{\parbox[c]{23em}{\Minimize{
+            \begin{genmat}{@{}cc|c}
+              1 & -1 & \expandH{\trsps{\veczero}}
+            \end{genmat}
+            \begin{genmat}{@{}c@{}}
+              w_{1}
+            \\
+              w_{2}
+            \\\hline
+              \expandV{\vecq}
+            \end{genmat}
+          }{
+            \begin{genmat}{c|c|c}
+              0 & 0 & \expandH{\trsps{\vecone}}
+            \\\hline
+              0 & 0 & \expandH{{-}\trsps{\vecone}}
+            \\\hline
+              \vecone & {-}\vecone & \expandHV{{-}A}
+            \end{genmat}
+            \begin{genmat}{@{}c@{}}
+              w_{1}
+            \\
+              w_{2}
+            \\\hline
+              \expandV{\vecq}
+            \end{genmat}
+            &\leq
+            \begin{genmat}{@{}c@{}}
+              1
+            \\
+              -1
+            \\\hline
+              \expandV{\veczero}
+            \end{genmat}
+          }{}}}
+      \\&\quad\cong\quad
+          \text{\parbox[c]{18em}{\Minimize{
+            w_{1} - w_{2}
+          }{
+            \trsps{\vecone} \vecq &\leq 1
+          | -\trsps{\vecone} \vecq &\leq -1
+          | w_{1} \vecone - w_{2} \vecone - A \vecq &\leq \veczero
+          | w_{1} &\geq 0
+          | w_{2} &\geq 0
+          | \vecq &\geq \veczero
+          }{}}}
+        \quad\cong\quad
+          \text{\parbox[c]{14em}{\Minimize{
+            w
+          }{
+            \trsps{\vecone} \vecq =\leq 1
+          | w \vecone - A \vecq &\leq \veczero
+          | \vecq &\geq \veczero
+          }{}}}
+      \end{align*}
+      に変形でき，
+      \begin{align}
+        \max \setprnsep{z \in \setR}{\lfland{\vecp \in P}{z \trsps{\vecone} - \vecp A \leq \trsps{\veczero}}}
+        &= \min \setprnsep{w \in \setR}{\lfland{\vecq \in Q}{w \vecone - A \vecq \leq \veczero}}
+          \notag
+      \\&= \min \setprnsep{\setprnsep{w \in \setR}{w \vecone - A \vecq \leq \veczero}}{\vecq \in Q}
+          \label{eq:saddle-point-2}
+      \end{align}
+      が成り立つ．ここでさらに $\vecq$ を固定した下で $\min \setprnsep{w \in \setR}{w \vecone - A \vecq \leq \veczero}$ は線型計画問題：
+      \begin{align*}
+          \text{\parbox[c]{11em}{\Minimize{
+            w
+          }{
+            w \vecone &\leq A \vecq
+          }{}}}
+        &\quad\cong\quad
+          \text{\parbox[c]{14em}{\Minimize{
+            w_{1} - w_{2}
+          }{
+            w_{1} \vecone - w_{2} \vecone &\leq A \vecq
+          }{}}}
+      \\&\quad\cong\quad
+          \text{\parbox[c]{10em}{\Minimize{
+            \begin{genmat}{@{}cc@{}}
+              1 & -1
+            \end{genmat}
+            \begin{genmat}{@{}c@{}}
+              w_{1}
+            \\
+              w_{2}
+            \end{genmat}
+          }{
+            \begin{genmat}{c|c}
+              \expandV{\vecone} & \expandV{{-}\vecone}
+            \end{genmat}
+            &\leq A \vecq
+          |
+            \begin{genmat}{@{}c@{}}
+              w_{1}
+            \\
+              w_{2}
+            \end{genmat}
+            &\geq \veczero
+          }{}}}
+      \end{align*}
+      と看なせるから，これの双対問題：
+      \begin{align*}
+          \text{\parbox[c]{18em}{\Maximize{
+            \vecp \paren{A \vecq}
+          }{
+            \vecp
+            \begin{genmat}{@{}c|c@{}}
+              \expandV{\vecone} & \expandV{{-}\vecone}
+            \end{genmat}
+            &\leq
+            \begin{genmat}{@{}cc@{}}
+              1 & -1
+            \end{genmat}
+          | \vecp &\geq \trsps{\veczero}
+          }{}}}
+        &\quad\cong\quad
+          \text{\parbox[c]{10em}{\Maximize{
+            \vecp A \vecq
+          }{
+            \vecp \vecone &= 1
+          | \vecp &\geq \trsps{\veczero}
+          }{}}}
+      \end{align*}
+      へと変形でき，したがって
+      \begin{align}
+        \min \setprnsep{w \in \setR}{w \vecone - A \vecq \leq \veczero}
+        &= \max \setprnsep{\vecp A \vecq}{\vecp \in P}
+        \label{eq:saddle-point-3}
+      \end{align}
+      が成り立つ．以上の\eqref{eq:saddle-point-1}，\eqref{eq:saddle-point-2}，\eqref{eq:saddle-point-3}より
+      \begin{align*}
+        \max \setprnsep{\min \setprnsep{\vecp A \vecq}{\vecq \in Q}}{\vecp \in P}
+        &=
+        \min \setprnsep{\max \setprnsep{\vecp A \vecq}{\vecp \in P}}{\vecq \in Q}
+      \end{align*}
+      である．\qed
+    }
 \section{線型制御システムの可制御系}
   \subsection{行列の指数函数}
     \defpar{行列の指数函数}{

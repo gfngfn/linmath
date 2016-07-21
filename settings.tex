@@ -35,3 +35,14 @@
 \setsectiontheme{strongline}
 %
 \setlength{\parskip}{1em}
+\makeatletter
+  \def\@listi{%
+    \leftmargin=\leftmargini\relax
+    \topsep=0.5em\relax
+    \partopsep=0em\relax
+    \parsep=0.5em\relax
+    \itemsep=0.5em\relax
+  }
+  \let\@listI=\@listi
+  \@listi
+\makeatother
