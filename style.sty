@@ -10,6 +10,13 @@
 }
 \let\DS\displaystyle
 \newenvironment{genmat}[1]{\left(\begin{array}{#1}}{\end{array}\right)}
+\newlength{\gfncmd@arrayrulewidth}
+\def\hlinevar#1{%
+  \noalign{\global\setlength{\gfncmd@arrayrulewidth}{\arrayrulewidth}}%
+  \noalign{\global\setlength{\arrayrulewidth}{#1}}%
+  \hline
+  \noalign{\global\setlength{\arrayrulewidth}{\gfncmd@arrayrulewidth}}%
+}
 %
 \def\npe{\mathrm{e}}
 \def\cofactor#1{\Tilde{#1}}

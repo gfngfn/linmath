@@ -464,12 +464,13 @@
     }
   \subsection{正定値性}
     \defpar{正定値性，半正定値性}{
-      正方行列 $A \in \setMatrix{n}{n}{K}$ が $\forallin{\vecx}{K^{n} \setmns \setprn{\veczero}}{\trsps{\vecx} A \vecx > 0}$ を満たすとき，
-      $A$ は\newword{正定値}であるといい，また $A$ が $\forallin{\vecx}{K^{n}}{\trsps{\vecx} A \vecx \geq 0}$ を満たすとき，
+      正方行列 $A \in \setMatrix{n}{n}{\setR}$ が
+      $\forallin{\vecx}{\setcolvec{\setR}{n} \setmns \setprn{\veczero}}{\trsps{\vecx} A \vecx > 0}$ を満たすとき，
+      $A$ は\newword{正定値}であるといい，また $A$ が $\forallin{\vecx}{\setcolvec{\setR}{n}}{\trsps{\vecx} A \vecx \geq 0}$ を満たすとき，
       $A$ は\newword{半正定値}であるという．
     }
     \lempar[lem:definite-sym-positive-det]{}{
-      正方行列 $A \in \setMatrix{n}{n}{K}$ に対し，$A$ が正定値対称ならば $\det A > 0$ である．
+      正方行列 $A \in \setMatrix{n}{n}{\setR}$ に対し，$A$ が正定値対称ならば $\det A > 0$ である．
     }
     \proof{}{
       $A$ の大きさ $n$ に関する帰納法による．
@@ -505,34 +506,12 @@
           = a
         \end{align*}
         であるから $a > 0$．また定理~\ref{thm:block-fundamental}より
-        $\DS \det A = a \cdot \det \paren{D - \frac{1}{a} \vecc \trsps{\vecc}}$ が成り立つ．ここで
+        $\DS \det A = a \cdot \det \paren{D - \frac{1}{a} \vecc \trsps{\vecc}}$ が成り立つ．
+        ここで任意に $\vecz \in \setcolvec{\setR}{n - 1} \setmns \setprn{\veczero}$ とすると
         \begin{align*}
-          A' \defeq
+          0 &<
           \begin{genmat}{c|c}
-            a & \trsps{\veczero}
-          \\\hline
-            \veczero & \DS\expandHV{D - \frac{1}{a} \vecc \trsps{\vecc}}
-          \end{genmat}
-        \end{align*}
-        とすると $\det A = \det A'$．このとき
-        \begin{align*}
-          \begin{genmat}{c|c}
-            y & \expandH{\trsps{\vecz}}
-          \end{genmat}
-          \begin{genmat}{c|c}
-            a & \trsps{\veczero}
-          \\\hline
-            \veczero & \DS\expandHV{D - \frac{1}{a} \vecc \trsps{\vecc}}
-          \end{genmat}
-          \begin{genmat}{@{}c@{}}
-            y
-          \\\hline
-            \expandV{\vecz}
-          \end{genmat}
-          &= a y^{2} + \trsps{\vecz} D \vecz - \frac{1}{a} \paren{\trsps{\vecc} \vecz}^{2}
-        \\
-          \begin{genmat}{c|c}
-            y & \expandH{\trsps{\vecz}}
+            \DS - \frac{1}{a} \trsps{\vecc} \vecz & \expandH{\trsps{\vecz}}
           \end{genmat}
           \begin{genmat}{c|c}
             a & \trsps{\vecc}
@@ -540,14 +519,22 @@
             \vecc & \expandHV{D}
           \end{genmat}
           \begin{genmat}{@{}c@{}}
-            y
+            \DS - \frac{1}{a} \trsps{\vecc} \vecz
           \\\hline
             \expandV{\vecz}
           \end{genmat}
-          &= a y^{2} + 2 y \trsps{\vecc} \vecz + \trsps{\vecz} D \vecz
+            \holdby{$A$ は正定値}
+        \\&= a \paren{-\frac{1}{a} \trsps{\vecc} \vecz}^{2}
+              + 2 \paren{-\frac{1}{a} \trsps{\vecc} \vecz} \trsps{\vecc} \vecz + \trsps{\vecz} D \vecz
+        \\&= \frac{1}{a} \paren{\trsps{\vecc} \vecz}^{2} - \frac{2}{a} \paren{\trsps{\vecc} \vecz}^{2} + \trsps{\vecz} D \vecz
+        \\&= \trsps{\vecz} D \vecz - \frac{1}{a} \paren{\trsps{\vecc} \vecz}^{2}
+        \\&= \trsps{\vecz} \paren{D - \frac{1}{a} \vecc \trsps{\vecc}} \vecz
         \end{align*}
-        \QUESTION
+        であるから，$\DS D - \frac{1}{a} \vecc \trsps{\vecc}$ は正定値．
+        帰納法の仮定より $\DS \det \paren{D - \frac{1}{a} \vecc \trsps{\vecc}} > 0$ が成り立ち，ゆえに
+        $\det A = a \cdot \det \paren{D - \frac{1}{a} \vecc \trsps{\vecc}} > 0$ である．
       \end{itemize}
+      以上より，$A$ が正定値対称ならば $\det A > 0$ が成り立つ．\qed
     }
     \TODO{示せない．}
     \thmpar{}{
@@ -1077,6 +1064,32 @@
       が成り立つ．
     }
 \section{行列の標準形}
+  \subsection{標準形のまとめ}
+    \plainpar{}{
+      ここまでには掲載していないものも含め，本文書で挙げる標準形の一覧を以下に掲げる：
+      \begin{center}
+        \begin{tabular}{cccc}
+        \hlinevar{2pt}
+          線型写像の型 & 許容する変換 & 標準形 & 応用例
+        \\\hlinevar{1pt}
+          $\doms{V}{V}$ & \begin{tabular}{c}\newword{相似変換}：\\正則行列 $S$ を用いて\\$A \mapsto S^{-1} A S$\end{tabular}
+            & \begin{tabular}{c}\newword{Frobenius標準形}\\\newword{Jordan標準形}\end{tabular} & 常微分方程式
+        \\\hline
+          $\doms{V}{V}$ & \begin{tabular}{c}\newword{ユニタリ相似変換}：\\ユニタリ行列 $Q$ を用いて\\$A \mapsto Q^{-1} A Q$\end{tabular}
+            & \begin{tabular}{c}\newword{Schur標準形}\\（特に正規行列対角化）\end{tabular} &
+        \\\hline
+          $\doms{V}{V^{*}}$ & \begin{tabular}{c}\newword{合同変換}：\\正則行列 $S$ を用いて\\$A \mapsto \conjtrsps{S} A S$\end{tabular}
+            & \newword{Sylvester標準形} & $2$ 次形式
+        \\\hline
+          $\doms{V}{U}$ & \begin{tabular}{c}\newword{同値変換}：\\正則行列 $S$，$T$ を用いて\\$A \mapsto S A T$\end{tabular}
+            & \newword{階数標準形} & 線型方程式
+        \\\hline
+          $\doms{V}{U}$ & \begin{tabular}{c}ユニタリ同値変換：\\ユニタリ行列 $P$，$Q$ を用いて\\$A \mapsto P A Q$\end{tabular}
+            & \newword{特異値標準形} &
+        \\\hlinevar{2pt}
+        \end{tabular}
+      \end{center}
+    }
   \TODO{標準形のまとめ}
   \TODO{特異値標準形}
   \TODO{Jordan標準形}
@@ -1252,7 +1265,7 @@
       に対し，以下がそれぞれ成り立つ：
       \begin{thmenum}
       \thmenumitem\label{lem:dm-decomp-fundamental|1}
-        $\forallin{k}{\Natleq{b}}{\card{V_{k}} = \card{U_{k}}}$
+        $\forallin{k}{\Natleq{b}}{\card{U_{k}} = \card{V_{k}}}$
       \thmenumitem\label{lem:dm-decomp-fundamental|2}
         $\lflor{\card{U_{0}} > \card{V_{0}}}{\card{U_{0}} = \card{V_{0}} = 0}$
       \end{thmenum}
